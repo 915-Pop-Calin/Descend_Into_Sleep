@@ -1,33 +1,34 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
 Patch Notes 0.2.0
-I will start with the most important feature of the new patch - the full change of engine used to write the game, as I have moved on from Python to C# to improve the time in which the game runs,
-and as well to have a possibility to create a graphical user interface if I ever decide to using Unity. In refractoring the code, which took me a long time, I managed to fix some bugs
-caused by, frankly, my lack of attention, but I also had to give up on Texttable, as I didn't find a proper replacement for it in C#.
+I will start with the most important feature of the new patch - the full change of engine used to write the game, as I have moved on from Python to C# to improve the time in which the game runs, and as well to have a possibility to create a graphical user interface if I ever decide to using Unity. In refractoring the code, which took me a long time, I managed to fix some bugs caused by, frankly, my lack of attention, but I also had to give up on Texttable, as I didn't find a proper replacement for it in C#.
+
 Next up, I'll present a new feature - explore - which helps you find mobs at any levels in case you get stuck; however, you now require a certain level to proceed to a boss
 the mechanic of leveling was changed from raw leveling to experience points - so you have to fight several mobs to proceed to a boss but you get stuck a lot harder
 this new mechanic of leveling has allowed us to change from 7 previous available levels for our human player to 34 - that means, more abilities! (well, not really)
-now, instead of creating an object of the class ability and applying it whenever you cast an ability, you have all of them as a player and you just call them, so each human player has
-their own abilities and now you can level them up for better effects (usually linear, but sometimes exponential)
-Regarding abilities, you have to make a decision now at level 4 to choose the school you want to follow for the rest of the game, and you are going to learn abilities specific to that school
-for the rest of the game, as well
+now, instead of creating an object of the class ability and applying it whenever you cast an ability, you have all of them as a player and you just call them, so each human player has their own abilities and now you can level them up for better effects (usually linear, but sometimes exponential)
+
+Regarding abilities, you have to make a decision now at level 4 to choose the school you want to follow for the rest of the game, and you are going to learn abilities specific to that school for the rest of the game, as well
+
 The schools you can choose from are:
+
 Self-harm or Warlock, based on damaging oneself and going a tank build in order to deal a lot of damage  - the more health you are missing, the more damage you are dealing
 it has abilities which allows him to abuse the fact that it has a lot of armour and a lot of HP, with the ultimate being the cherry on top
+
 Nature or Druid, based on acting both as a tank and as a damage dealer, like a jack of all trades - not too tanky, but not too much damage either; the ultimate shapeshifts yourself into
 a mob which has increased attack and defense points scaling with your attack and defense points
+
 Fire or Mage, based on damaging the hero over a few turns and reducing his defense points
 it has abilities which do not have really an immediate effect, but overall, they are better than pure attacks with the ultimate being one of the best scaling abilities in the game as of now
+
 The mobs you have to fight to advance in level become progressively stronger the higher level you are up to the point they are near unbeatable (blame the terrible game designer for that).
-I am more than open to change the numbers and balance them accordingly in order for the game to be beatable. The mobs also act as a sneak peek to the main boss of that level as they use
-almost the same mechanics and you need to tread on them carefully.
+I am more than open to change the numbers and balance them accordingly in order for the game to be beatable. The mobs also act as a sneak peek to the main boss of that level as they use almost the same mechanics and you need to tread on them carefully.
+
 Due to me adding so many new levels, I was required to make the bosses stronger so now even the first boss can be quite a challenge for someone who does not know the fight.
-I've also added difficulties for the game, which only changes how much stronger you become as levels pass by - for example, by playing with the impossible difficulty, you do not gain
-any innate attack, armour or health when leveling up - so you are stuck with 20 health for the rest of the game - the mode lives up to its name, really (but I really need to tweak it anyway).
-As I haven't as of yet reached the last level, it might be quite buggy due to it running differently than the rest of the levels - but it might not be an issue because I don't think it's
-reachable with the current numbers and I am working 24/7 to make the game playable.
-For my next update, I will try making Weapons and/or Abilities Singletons so I do not create a new instance every time I need them - I just need to figure out how to save them in files - and 
-tweak numbers so the game is beatable.
+I've also added difficulties for the game, which only changes how much stronger you become as levels pass by - for example, by playing with the impossible difficulty, you do not gain any innate attack, armour or health when leveling up - so you are stuck with 20 health for the rest of the game - the mode lives up to its name, really (but I really need to tweak it anyway).
+
+As I haven't as of yet reached the last level, it might be quite buggy due to it running differently than the rest of the levels - but it might not be an issue because I don't think it's reachable with the current numbers and I am working 24/7 to make the game playable.
+For my next update, I will try making Weapons and/or Abilities Singletons so I do not create a new instance every time I need them - I just need to figure out how to save them in files - and tweak numbers so the game is beatable.
 
 
 Patch Notes 0.1.6
