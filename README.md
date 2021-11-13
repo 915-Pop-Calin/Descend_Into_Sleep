@@ -13,13 +13,12 @@ Regarding abilities, you have to make a decision now at level 4 to choose the sc
 
 The schools you can choose from are:
 
-Self-harm or Warlock, based on damaging oneself and going a tank build in order to deal a lot of damage  - the more health you are missing, the more damage you are dealing
-it has abilities which allows him to abuse the fact that it has a lot of armour and a lot of HP, with the ultimate being the cherry on top
+<i>Self-harm</i> or <i>Warlock</i>, based on damaging oneself and going a tank build in order to deal a lot of damage  - the more health you are missing, the more damage you are dealing
+it has abilities which allows them to abuse the fact that it has a lot of armour and a lot of HP, with the ultimate being the cherry on top
 
-Nature or Druid, based on acting both as a tank and as a damage dealer, like a jack of all trades - not too tanky, but not too much damage either; the ultimate shapeshifts yourself into
-a mob which has increased attack and defense points scaling with your attack and defense points
+<i>Nature</i> or <i>Druid</i>, based on acting both as a tank and as a damage dealer, like a jack of all trades - not too tanky, but not too much damage either; the ultimate shapeshifts yourself into a mob which has increased attack and defense points scaling with your attack and defense points
 
-Fire or Mage, based on damaging the hero over a few turns and reducing his defense points
+<i>Fire</i> or <i>Mage</i>, based on damaging the hero over a few turns and reducing his defense points
 it has abilities which do not have really an immediate effect, but overall, they are better than pure attacks with the ultimate being one of the best scaling abilities in the game as of now
 
 The mobs you have to fight to advance in level become progressively stronger the higher level you are up to the point they are near unbeatable (blame the terrible game designer for that).
@@ -34,7 +33,7 @@ For my next update, I will try making Weapons and/or Abilities Singletons so I d
 
 <b>Patch Notes 0.1.6</b>
 - Small bugfixes regarding the last fight, now fixed
-- TacosWhisper's effect damage buffed, now deals twice the damage on its fourth shot
+- <i>TacosWhisper's</i> effect damage buffed, now deals twice the damage on its fourth shot
 
 <b>Patch Notes 0.1.4</b>
 - You can now have up until 10 save files, compared to one
@@ -44,13 +43,13 @@ For my next update, I will try making Weapons and/or Abilities Singletons so I d
 - Specifications to the functions and classes coming soon
 
 <b>Patch Notes 0.1.3</b>
-- DoubleEdgedSword's attack nerfed from 35 to 20
-- Xalatath's attack nerfed from 15 to 10
+- <i>DoubleEdgedSword's</i> attack nerfed from 35 to 20
+- <i>Xalatath's</i> attack nerfed from 15 to 10
 - Sell values now nerfed - you only gain 75% gold back instead of 100% gold when selling an item
 - Added some QoL features for the last level
-- Chance of Fire Deflector deflecting DOT effects lowered from 25% to 10%
-- Added missing description to CCImmunity and TrueDamage
-- TwoHandedMace's attack nerfed from 75 to 45, TwoHandedMace's cost nerfed to 750 gold and it can be bought from the shop only from level 3
+- Chance of <i>Fire Deflector</i> deflecting DOT effects lowered from 25% to 10%
+- Added missing description to <i>CCImmunity</i> and <i>TrueDamage</i>
+- <i>TwoHandedMace's</i> attack nerfed from 75 to 45, <i>TwoHandedMace's</i> cost nerfed to 750 gold and it can be bought from the shop only from level 3
 
 <b>Patch Notes 0.1.2</b>
 - Inventory is now printed through a texttable! (Easier to see)
@@ -60,15 +59,15 @@ For my next update, I will try making Weapons and/or Abilities Singletons so I d
 - Fixed some typos when using human abilities
 
 <b>Patch Notes 0.1.1</b>
-- Removed Experience Potion
-- Changed Drops after Spaghetti Monster to GrainOfSalt instead of Experience Potion
+- Removed <i>Experience Potion</i>
+- Changed Drops after <i>Spaghetti Monster</i> to <i>GrainOfSalt</i> instead of <i>Experience Potion</i>
 - Items in shop no longer disappear after buying them
 - Fixed a bug where Max Health would not save along with the rest of your character
 - Buffed initial abilities so they're more useful; from linear growth, they went to exponential growth
-- Added description to TwoHandedMace, which was missing
-- DoubleEdgedSword's attack nerfed from 50 to 35
-- RadusBiceps's attack buffed from 50 to 75
-- TwoHandedMace attack buffed from 50 to 75
-- Added description to FireDeflector, which was missing
+- Added description to <i>TwoHandedMace</i>, which was missing
+- <i>DoubleEdgedSword's</i> attack nerfed from 50 to 35
+- <i>RadusBiceps's</i> attack buffed from 50 to 75
+- <i>TwoHandedMace's</i> attack buffed from 50 to 75
+- Added description to <i>FireDeflector</i>, which was missing
 - Fixed a bug where DOT effects would carry from a fight to another one
-- Nerfed Grain Of Salt healing per level from 10 to 7.5.
+- Nerfed <i>Grain Of Salt</i> healing per level from 10 to 7.5.
