@@ -1,6 +1,7 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
-Patch Notes 0.2.0
+<b>Patch Notes 0.2.0</b>
+
 I will start with the most important feature of the new patch - the full change of engine used to write the game, as I have moved on from Python to C# to improve the time in which the game runs, and as well to have a possibility to create a graphical user interface if I ever decide to using Unity. In refractoring the code, which took me a long time, I managed to fix some bugs caused by, frankly, my lack of attention, but I also had to give up on Texttable, as I didn't find a proper replacement for it in C#.
 
 Next up, I'll present a new feature - explore - which helps you find mobs at any levels in case you get stuck; however, you now require a certain level to proceed to a boss
@@ -31,18 +32,18 @@ As I haven't as of yet reached the last level, it might be quite buggy due to it
 For my next update, I will try making Weapons and/or Abilities Singletons so I do not create a new instance every time I need them - I just need to figure out how to save them in files - and tweak numbers so the game is beatable.
 
 
-Patch Notes 0.1.6
+<b>Patch Notes 0.1.6</b>
 - Small bugfixes regarding the last fight, now fixed
 - TacosWhisper's effect damage buffed, now deals twice the damage on its fourth shot
 
-Patch Notes 0.1.4
+<b>Patch Notes 0.1.4</b>
 - You can now have up until 10 save files, compared to one
 - You can see the state of each save file, so you know where to load
 - Save files are now encrypted and are harder to modify by hand
 - Items no longer have IDs, as they do not need it
 - Specifications to the functions and classes coming soon
 
-Patch Notes 0.1.3
+<b>Patch Notes 0.1.3</b>
 - DoubleEdgedSword's attack nerfed from 35 to 20
 - Xalatath's attack nerfed from 15 to 10
 - Sell values now nerfed - you only gain 75% gold back instead of 100% gold when selling an item
@@ -51,14 +52,14 @@ Patch Notes 0.1.3
 - Added missing description to CCImmunity and TrueDamage
 - TwoHandedMace's attack nerfed from 75 to 45, TwoHandedMace's cost nerfed to 750 gold and it can be bought from the shop only from level 3
 
-Patch Notes 0.1.2
+<b>Patch Notes 0.1.2</b>
 - Inventory is now printed through a texttable! (Easier to see)
 - Out of combat options are now split into Game Options, Player Options and Shop Options
 - Added a new option for Player Options: drop current item
 - Added the possibility to not wear any armour or weapon at a given time
 - Fixed some typos when using human abilities
 
-Patch Notes 0.1.1
+<b>Patch Notes 0.1.1</b>
 - Removed Experience Potion
 - Changed Drops after Spaghetti Monster to GrainOfSalt instead of Experience Potion
 - Items in shop no longer disappear after buying them
