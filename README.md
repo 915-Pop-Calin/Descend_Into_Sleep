@@ -9,6 +9,8 @@ the mechanic of leveling was changed from raw leveling to experience points - so
 this new mechanic of leveling has allowed us to change from 7 previous available levels for our human player to 34 - that means, more abilities! (well, not really)
 now, instead of creating an object of the class ability and applying it whenever you cast an ability, you have all of them as a player and you just call them, so each human player has their own abilities and now you can level them up for better effects (usually linear, but sometimes exponential)
 
+<i>Experience Points</i> are gained similar to <i>Gold</i> after a fight, and as Side Enemies are easier to kill and more abundant, you earn both less <i>Gold</i> and less <i>Experience</i> from killing them to maintain balance
+
 Regarding abilities, you have to make a decision now at level 4 to choose the school you want to follow for the rest of the game, and you are going to learn abilities specific to that school for the rest of the game, as well
 
 The schools you can choose from are:
