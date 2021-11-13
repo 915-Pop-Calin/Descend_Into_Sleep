@@ -1,3 +1,5 @@
+Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
+
 Patch Notes 0.2.0
 I will start with the most important feature of the new patch - the full change of engine used to write the game, as I have moved on from Python to C# to improve the time in which the game runs,
 and as well to have a possibility to create a graphical user interface if I ever decide to using Unity. In refractoring the code, which took me a long time, I managed to fix some bugs
