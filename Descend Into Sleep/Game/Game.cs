@@ -54,6 +54,7 @@ namespace ConsoleApp12.Game
             var name = Console.ReadLine();
             Console.WriteLine("Choose the difficulty you want to play on: easy, medium, hard, impossible:\n");
             var difficulty = Console.ReadLine();
+            difficulty = difficulty.ToLower();
             var humanPlayer = new HumanPlayer(name, difficulty, new ToyKnife(), new Bandage());
             Player = humanPlayer;
             
@@ -63,6 +64,8 @@ namespace ConsoleApp12.Game
         {
             Console.WriteLine("Do you want to load your save file? Y/N\n");
             var decision = Console.ReadLine();
+            decision = decision.ToUpper();
+            
             switch (decision)
             {
                 case "Y":

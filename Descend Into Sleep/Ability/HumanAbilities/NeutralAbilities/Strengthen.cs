@@ -8,7 +8,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public Strengthen() : base("Strengthen")
         {
-            Description = "Your attack and defense are increased for 3 turns";
+            Description = "Your attack and defense are increased for 3 turns\n";
             ManaCost = 15;
             TurnsUntilDecast = 3;
             ScalingPerLevel = 2.5;

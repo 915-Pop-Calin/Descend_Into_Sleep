@@ -373,7 +373,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var toStr = "";
             foreach (var ability in RespectiveAbilities)
             {
-                toStr += ability.Value.GetName() + ":" + ability.Value.GetDescription();
+                toStr += ability.Value.GetName() + ":" + ability.Value.GetDescription() + "\n";
             }
             return toStr;
         }

@@ -129,7 +129,7 @@ namespace ConsoleApp12.Shop
             {
                 var itemType = option.Key;
                 var item = (Item)Activator.CreateInstance(itemType);
-                toStr += item.GetName() + " cost: " + option.Value + " gold\n";
+                toStr += item + " cost: " + option.Value + " gold\n";
             }
             Console.WriteLine(toStr);
             

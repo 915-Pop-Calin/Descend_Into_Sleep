@@ -35,9 +35,10 @@ namespace ConsoleApp12.CombatSystem
             {
                 PrintMenu();
                 var currentCommand = Console.ReadLine();
+                currentCommand = currentCommand.ToLower();
                 switch (currentCommand)
                 {
-                    case "Actions":
+                    case "actions":
                         PrintActions();
                         var chosenAction = Console.ReadLine();
                         if (Player.GetRespectiveAbilities().ContainsKey(chosenAction))
@@ -82,15 +83,15 @@ namespace ConsoleApp12.CombatSystem
                             Console.WriteLine("Invalid Action!\n");
                         }
                         break;
-                    case "Attack":
+                    case "attack":
                         var toStr = Player.Hit(secondCharacter, ListOfTurns, TurnCounter);
                         Console.WriteLine(toStr);
                         invalidInput = false;
                         break;
-                    case "Check Stats":
+                    case "check Stats":
                         Console.WriteLine(secondCharacter);
                         break;
-                    case "Equip Item":
+                    case "equip Item":
                         try
                         {
                             Console.WriteLine(humanPlayer.ShowInventory());

@@ -26,7 +26,7 @@ namespace ConsoleApp12.Ability
         
         public string GetDescription()
         {
-            return Description + "\n level:" + Level.ToString() + "\n mana cost: " + ManaCost.ToString() + "\n";
+            return Description + "level:" + Level.ToString() + "\nmana cost: " + ManaCost.ToString() + "\n";
         }
 
         public void LevelUp()

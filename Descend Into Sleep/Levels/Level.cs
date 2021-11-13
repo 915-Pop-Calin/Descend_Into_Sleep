@@ -170,18 +170,19 @@ namespace ConsoleApp12.Levels
         {
             PrintGameOptions();
             var gameChoice = Console.ReadLine();
+            gameChoice = gameChoice.ToLower();
             switch (gameChoice)
             {
-                case "Proceed":
+                case "proceed":
                     return 2;
-                case "Back":
+                case "back":
                     break;
-                case "Explore":
+                case "explore":
                     return Explore();
-                case "Save":
+                case "save":
                     Save();
                     break;
-                case "Exit":
+                case "exit":
                     Exit = true;
                     return 0;
                 default:
@@ -195,24 +196,25 @@ namespace ConsoleApp12.Levels
         {
             PrintPlayerOptions();
             var playerChoice = Console.ReadLine();
+            playerChoice = playerChoice.ToLower();
             switch (playerChoice)
             {
-                case "Equip Item":
+                case "equip item":
                     EquipItem();
                     break;
-                case "Drop Item":
+                case "drop item":
                     DropItem();
                     break;
-                case "Check Stats":
+                case "check stats":
                     CheckStats();
                     break;
-                case "Drop Current Item":
+                case "drop current item":
                     DropCurrentItem();
                     break;
-                case "See Abilities":
+                case "see abilities":
                     SeeAbilities();
                     break;
-                case "Back":
+                case "back":
                     ;
                     break;
                 default:
@@ -225,15 +227,16 @@ namespace ConsoleApp12.Levels
         {
             PrintShopOptions();
             var shopChoice = Console.ReadLine();
+            shopChoice = shopChoice.ToLower();
             switch (shopChoice)
             {
-                case "Buy":
+                case "buy":
                     BuyItem();
                     break;
-                case "Sell":
+                case "sell":
                     SellItem();
                     break;
-                case "Back":
+                case "back":
                     ;
                     break;
                 default:
@@ -256,11 +259,12 @@ namespace ConsoleApp12.Levels
             {
                 PrintMenu();
                 var gameChoice = Console.ReadLine();
+                gameChoice = gameChoice.ToLower();
                 try
                 {
                     switch (gameChoice)
                     {
-                        case "Game Options":
+                        case "game options":
                             var finalResult = GameOptions();
                             if (finalResult == 0)
                                 Exit = true;
@@ -279,10 +283,10 @@ namespace ConsoleApp12.Levels
                             }
 
                             break;
-                        case "Player Options":
+                        case "player options":
                             PlayerOptions();
                             break;
-                        case "Shop Options":
+                        case "shop options":
                             ShopOptions();
                             break;
                         default:

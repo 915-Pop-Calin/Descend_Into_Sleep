@@ -12,7 +12,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         
         public UndyingWill() : base("Undying Will")
         {
-            Description = "";
+            Description = "your attack damage is greatly increased, but you die after 3 turns\n";
             ManaCost = 75;
             TurnsUntilDecast = 3;
             AttackValuesQueue = new Queue<double>();
