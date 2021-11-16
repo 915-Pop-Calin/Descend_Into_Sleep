@@ -47,20 +47,20 @@ namespace ConsoleApp12.Levels
             return genocideCombat.Combat();
         }
         
-        public override int PlayOut()
+        public override void PlayOut()
         {
             if (Player.IsCheater())
             {
                 Console.WriteLine("Level cannot be played because you cheated!\n");
-                return -2;
+                Environment.Exit(0);
             }
 
             StartUp();
             var finalDecision = TheDecision();
             if (finalDecision == "spare")
-                return SpareEnding();
+                SpareEnding();
             else
-                return DestroyEnding();
+                DestroyEnding();
         }
 
         private void StartUp()
@@ -101,7 +101,7 @@ namespace ConsoleApp12.Levels
             return "";
         }
 
-        private int SpareEnding()
+        private void SpareEnding()
         {
             Console.WriteLine("A strange figure appears from the shadows.\n");
             Console.WriteLine("This is the end.\n");
@@ -113,16 +113,16 @@ namespace ConsoleApp12.Levels
             {
                 Console.WriteLine("GOOD ENDING");
                 DeleteSaveFiles();
+                // Environment.Exit(0);
             }
             else
             {
                 Console.WriteLine("BAD ENDING");
-                return -1;
+                Environment.Exit(0);
             }
-            return 1;
         }
 
-        private int DestroyEnding()
+        private void DestroyEnding()
         {
             Console.WriteLine("Very Well.\n");
             var firstPastSelf = PastSelves[0];
@@ -140,7 +140,7 @@ namespace ConsoleApp12.Levels
                 }
             }
             Console.WriteLine("BAD ENDING");
-            return 1;
+            Environment.Exit(0);
         }
     }
 }

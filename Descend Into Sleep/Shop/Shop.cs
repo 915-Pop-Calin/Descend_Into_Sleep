@@ -156,7 +156,7 @@ namespace ConsoleApp12.Shop
             {
                 var itemType = itemTypePair.Key;
                 var item = (Item) Activator.CreateInstance(itemType);
-                if (item.GetName() == itemName)
+                if (item.GetName().ToLower() == itemName)
                     return itemTypePair;
             }
             return null;
@@ -166,17 +166,47 @@ namespace ConsoleApp12.Shop
         {
             PrintOptions();
             Console.WriteLine("The item you want to buy:\n");
+            
             var choice = Console.ReadLine();
-            var itemPair = SearchItemByName(choice);
+            choice = choice.ToLower();
+            var splitChoice = choice.Split('x');
+            
+            if (splitChoice.Length != 1 && splitChoice.Length != 2)
+                throw new InvalidBuyingStatementException(choice);
+
+            int numberOfBuys;
+            string itemChoice;
+            if (splitChoice.Length == 1)
+            {
+                itemChoice = splitChoice[0].Trim();
+                numberOfBuys = 1;
+            }
+            else
+            {
+                itemChoice = splitChoice[0].Trim();
+                var isParseable = int.TryParse(splitChoice[1].Trim(), out numberOfBuys);
+                if (!isParseable)
+                    throw new InvalidInputTypeException(typeof(int), typeof(string));
+            }
+
+            var itemPair = SearchItemByName(itemChoice);
             if (itemPair is null)
                 throw new NotFoundItemException();
+            
             var itemPairNotNull = (KeyValuePair<Type, int>) itemPair;
+            
             var itemType = itemPairNotNull.Key;
             var item = (Item) Activator.CreateInstance(itemType);
             var itemCost = itemPairNotNull.Value;
-            HumanPlayer.BuyItem(itemCost, item);
-            var writtenLine = "You have bought " + item.GetName() + "!\n";
-            Console.WriteLine(writtenLine);
+            
+            for (int i = 0; i < numberOfBuys; i++)
+            {
+                HumanPlayer.BuyItem(itemCost, item);
+                var writtenLine = "You have bought " + item.GetName() + "!\n";
+                Console.WriteLine(writtenLine);
+            }
+
+            
         }
 
         public void SellItem()

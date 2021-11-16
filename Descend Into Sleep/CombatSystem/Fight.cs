@@ -70,21 +70,12 @@ namespace ConsoleApp12.CombatSystem
         
         private void PlayerTurn()
         {
-            var verdict = HumanCombat.DotCheck(ComputerPlayer);
-            if (verdict == -1)
+            if (!HumanCombat.DotCheck(ComputerPlayer) || !HumanCombat.CheckUndos(ComputerPlayer))
             {
-                CombatDone = true;
-                var dotDeathStr = ComputerPlayer.GetName() + " has won!\n";
-                Console.WriteLine(dotDeathStr);
-                Environment.Exit(0);
+                ComputerWin();
                 return;
             }
-
-            if (!HumanCombat.CheckUndos(ComputerPlayer))
-            {
-                Environment.Exit(0);
-            }
-
+            
             if (!HumanCombat.CheckStun())
             {
                 if (!CombatDone)
@@ -92,15 +83,7 @@ namespace ConsoleApp12.CombatSystem
                     HumanCombat.CombatTurn(ComputerPlayer);
                     if (ComputerPlayer.GetHealthPoints() <= 0)
                     {
-                        var goldAndExperience = PostCombatGains();
-                        
-                        var winningStr = HumanPlayer.GetName() + " has won!\n";
-                        Console.WriteLine(winningStr);
-                        
-                        HumanCombat.FightEnd(ComputerPlayer);
-                        ComputerCombat.FightEnd(HumanPlayer);
-                        HumanCombat.PostCombat(goldAndExperience.Value, goldAndExperience.Key);
-                        CombatDone = true;
+                        HumanWin();
                     }
                 }
             }
@@ -108,26 +91,37 @@ namespace ConsoleApp12.CombatSystem
             TurnCounter++;
         }
 
+        private void HumanWin()
+        {
+            CombatDone = true;
+            Console.WriteLine(HumanPlayer.GetName() + " has won!\n");
+            ComputerCombat.FightEnd(HumanPlayer);
+            HumanCombat.FightEnd(ComputerPlayer);
+            var goldAndExperience = PostCombatGains();
+            HumanCombat.PostCombat(goldAndExperience.Value, goldAndExperience.Key);
+        }
+
+        private void ComputerWin()
+        {
+            Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
+            ComputerCombat.FightEnd(HumanPlayer);
+            HumanCombat.FightEnd(ComputerPlayer);
+            Environment.Exit(0);
+        }
         private void ComputerTurn()
         {
             if (HumanPlayer.GetHealthPoints() <= 0)
             {
-                Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
-                ComputerCombat.FightEnd(HumanPlayer);
-                HumanCombat.FightEnd(ComputerPlayer);
-                Environment.Exit(0);
+                ComputerWin();
                 return;
             }
-
-            var dotVerdict = ComputerCombat.DotCheck(HumanPlayer);
-            if (dotVerdict == -1)
+            
+            if (!ComputerCombat.DotCheck(HumanPlayer) || !ComputerCombat.CheckUndos(HumanPlayer))
             {
-                CombatDone = true;
-                Console.WriteLine(HumanPlayer.GetName() + " has won!\n");
+                HumanWin();
                 return;
             }
-
-            ComputerCombat.CheckUndos(HumanPlayer);
+            
             if (!ComputerCombat.CheckStun())
             {
                 if (!CombatDone)
@@ -135,11 +129,7 @@ namespace ConsoleApp12.CombatSystem
                     ComputerCombat.CombatTurn(HumanPlayer);
                     if (HumanPlayer.GetHealthPoints() <= 0 || HumanPlayer.GetSanity() <= 0)
                     {
-                        Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
-                        ComputerCombat.FightEnd(HumanPlayer);
-                        HumanCombat.FightEnd(ComputerPlayer);
-                        CombatDone = true;
-                        Environment.Exit(0);
+                        ComputerWin();
                     }
                 }
             }

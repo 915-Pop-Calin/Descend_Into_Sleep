@@ -66,7 +66,7 @@ namespace ConsoleApp12.CombatSystem
             }
         }
 
-        public int DotCheck(Character secondCharacter)
+        public bool DotCheck(Character secondCharacter)
         {
             var dotEffects = Player.GetDotEffects();
             var toStr = "";
@@ -86,8 +86,8 @@ namespace ConsoleApp12.CombatSystem
             }
             Console.WriteLine(toStr);
             if (Player.GetHealthPoints() <= 0)
-                return -1;
-            return 0;
+                return false;
+            return true;
         }
 
         public abstract void CombatTurn(Character secondCharacter);

@@ -71,15 +71,11 @@ namespace ConsoleApp12.Levels
                 PrintAllSaveFiles();
                 Console.WriteLine("Choose the number of the Save File to Save On:\n");
                 var readLine = Console.ReadLine();
+                
                 int saveNumber;
-                try
-                {
-                    saveNumber = Convert.ToInt32(readLine);
-                }
-                catch (FormatException)
-                {
+                var isParseable = int.TryParse(readLine.Trim(), out saveNumber);
+                if (!isParseable)
                     throw new InvalidInputTypeException(typeof(int), readLine.GetType());
-                }
                 if (saveNumber < 0 || saveNumber > 9)
                     throw new InvalidSaveFileException();
                 ListOfSaveFiles[saveNumber].SaveInfo(Player, Number);
@@ -312,7 +308,7 @@ namespace ConsoleApp12.Levels
                 Passed = true;
         }
 
-        public virtual int PlayOut()
+        public virtual void PlayOut()
         {
             while (!Passed)
             {
@@ -326,7 +322,6 @@ namespace ConsoleApp12.Levels
                     InCombat = true;
                 }
             }
-            return 0;
         }
 
         private void PrintAllSaveFiles()

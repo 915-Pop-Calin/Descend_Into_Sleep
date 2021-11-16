@@ -89,6 +89,11 @@ namespace ConsoleApp12.Game
                         Console.WriteLine(emptySaveFileException.Message);
                         StartCharacter();
                     }
+                    catch (InvalidInputTypeException invalidInputTypeException)
+                    {
+                        Console.WriteLine(invalidInputTypeException.Message);
+                        StartCharacter();
+                    }
                     break;
                 case 1:
                     StartCharacter();
@@ -97,19 +102,18 @@ namespace ConsoleApp12.Game
             PlayGame();
         }
 
-        private int PlayLevel()
+        private void PlayLevel()
         {
             var currentLevelType = Levels[Level - 1];
             var currentLevel = (Level) Activator.CreateInstance(currentLevelType, Player);
-            return currentLevel.PlayOut();
+            currentLevel.PlayOut();
         }
 
         private void PlayGame()
         {
-            var playedOut = 0;
-            while (playedOut != -1 && Level != 8)
+            while (Level != 8)
             {
-                playedOut = PlayLevel();
+                PlayLevel();
                 Level++;
                 if (Level == 7 && Player.IsCheater())
                 {
@@ -133,15 +137,11 @@ namespace ConsoleApp12.Game
             PrintAllSaveFiles();
             Console.WriteLine("Choose the number of the Save File to load:");
             var readLine = Console.ReadLine();;
+
             int choice;
-            try
-            {
-                choice = Convert.ToInt32(readLine);
-            }
-            catch (FormatException)
-            {
+            var isParseable = int.TryParse(readLine.Trim(), out choice);
+            if (!isParseable)
                 throw new InvalidInputTypeException(typeof(int), readLine.GetType());
-            }
             
             if (choice < 0 || choice >= 10)
                 throw new InvalidSaveFileException();
