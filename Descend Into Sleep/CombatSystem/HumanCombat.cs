@@ -33,12 +33,20 @@ namespace ConsoleApp12.CombatSystem
         private void Action(Character secondCharacter)
         {
             var actions = GetActions();
-            var choice = ConsoleHelper.MultipleChoice(15, actions);
-            var chosenAbilityKey = actions[choice];
-            try{
-                    var toStrCast = Player.Cast(chosenAbilityKey, secondCharacter, ListOfTurns, TurnCounter);
-                    Console.WriteLine(toStrCast);
-                    InvalidInput = false;
+
+            try
+            {
+                if (actions.Length == 0)
+                    throw new NoAbilitiesException();
+                var choice = ConsoleHelper.MultipleChoice(15, actions);
+                var chosenAbilityKey = actions[choice];
+                var toStrCast = Player.Cast(chosenAbilityKey, secondCharacter, ListOfTurns, TurnCounter);
+                Console.WriteLine(toStrCast);
+                InvalidInput = false;
+            }
+            catch (NoAbilitiesException noAbilitiesException)
+            {
+                Console.WriteLine(noAbilitiesException.Message);
             }
             catch (StunException stunException)
             {
