@@ -1,5 +1,16 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
+
+<b>Mini-Patch: Patch 0.2.0.1</b>
+
+- Fixed <i>Undying Will</i> having no description
+- Fixed items showing without any description in the shop
+- Fixed items showing ugly in shop due to newlines
+- Fixed abilities not costing mana when cast by the <i>HumanPlayer</i>
+- Made the menu traversable by arrows instead of having to type out the commands
+- <i>HumanPlayer</i> casts abilities differently compared to usual mobs now
+- Class <i>ConsoleHelper</i> helps us with the arrow traversal
+
 <b>Patch Notes 0.2.0</b>
 
 I will start with the most important feature of the new patch - the full change of engine used to write the game, as I have moved on from Python to C# to improve the time in which the game runs, and as well to have a possibility to create a graphical user interface if I ever decide to using Unity. In refractoring the code, which took me a long time, I managed to fix some bugs caused by, frankly, my lack of attention, but I also had to give up on Texttable, as I didn't find a proper replacement for it in C#.
