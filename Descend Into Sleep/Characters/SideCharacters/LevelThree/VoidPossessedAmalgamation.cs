@@ -8,7 +8,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelThree
         public VoidPossessedAmalgamation() : base("Void Possessed Amalgamation", 15, 50, new NoWeapon(),
             new BootsOfDodge(), 50)
         {
-            
+            Level = 3;
         }
     }
 }

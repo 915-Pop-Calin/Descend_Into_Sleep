@@ -8,6 +8,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         public Tem() : base("Tem", 1, 75, new Eclipse(), new Cloth(), 100, "Comes from Temmie Village\n")
         {
+            Level = 1;
             var doNothingAbility = new DoNothing();
             AddAbility(doNothingAbility);
             var healTemAbility = new HealTem();

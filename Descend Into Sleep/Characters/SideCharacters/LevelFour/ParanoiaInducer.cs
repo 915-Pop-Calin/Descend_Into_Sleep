@@ -8,7 +8,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFour
         public ParanoiaInducer() : base("Paranoia Inducer", 30, 30, new TacosWhisper(), new Scales(),
             75)
         {
-            
+            Level = 4;
         }
     }
 }

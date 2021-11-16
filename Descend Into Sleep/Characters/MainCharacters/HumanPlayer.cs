@@ -20,7 +20,6 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class HumanPlayer: Character
     {
-        protected int Level;
         protected double ExperiencePoints;
         protected List<Item> Inventory;
         protected Dictionary<int, KeyValuePair<Ability.Ability, int>> AbilitiesToLearn;
@@ -331,12 +330,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             currentLifeSteal -= lifeStealRemoved;
             Weapon.SetLifeSteal(currentLifeSteal);
         }
-
-        public int GetLevel()
-        {
-            return Level;
-        }
-
+        
         public string ShowInventory()
         {
             var toStr = "";

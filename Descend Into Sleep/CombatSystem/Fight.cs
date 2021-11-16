@@ -13,7 +13,6 @@ namespace ConsoleApp12.CombatSystem
         private int Turn;
         private bool CombatDone;
         private int TurnCounter;
-        private bool Dead;
         private HumanCombat HumanCombat;
         private Combat ComputerCombat;
         private readonly int GoldDivider;
@@ -26,7 +25,6 @@ namespace ConsoleApp12.CombatSystem
             Turn = 0;
             CombatDone = false;
             TurnCounter = 0;
-            Dead = false;
             HumanCombat = new HumanCombat(HumanPlayer);
             if (ComputerPlayer is SideEnemy sideEnemy)
             {
@@ -54,7 +52,7 @@ namespace ConsoleApp12.CombatSystem
 
         private KeyValuePair<int, int> PostCombatGains()
         {
-            int gameLevel = HumanPlayer.GetLevel() / 5 + 1;
+            int gameLevel = ComputerPlayer.GetLevel();
             int minimumGoldToGain = 10 * (TurnCounter + 1) * gameLevel + 100;
             int maximumGoldToGain = 10 * (TurnCounter + 1) * gameLevel + 200;
             var randomObject = new Random();
@@ -75,23 +73,21 @@ namespace ConsoleApp12.CombatSystem
             var verdict = HumanCombat.DotCheck(ComputerPlayer);
             if (verdict == -1)
             {
-                Dead = true;
                 CombatDone = true;
                 var dotDeathStr = ComputerPlayer.GetName() + " has won!\n";
                 Console.WriteLine(dotDeathStr);
+                Environment.Exit(0);
                 return;
             }
 
             if (!HumanCombat.CheckUndos(ComputerPlayer))
             {
-                Dead = true;
-                CombatDone = true;
-                return;
+                Environment.Exit(0);
             }
 
             if (!HumanCombat.CheckStun())
             {
-                if (!Dead && !CombatDone)
+                if (!CombatDone)
                 {
                     HumanCombat.CombatTurn(ComputerPlayer);
                     if (ComputerPlayer.GetHealthPoints() <= 0)
@@ -119,8 +115,7 @@ namespace ConsoleApp12.CombatSystem
                 Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
                 ComputerCombat.FightEnd(HumanPlayer);
                 HumanCombat.FightEnd(ComputerPlayer);
-                Dead = true;
-                CombatDone = true;
+                Environment.Exit(0);
                 return;
             }
 
@@ -143,9 +138,8 @@ namespace ConsoleApp12.CombatSystem
                         Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
                         ComputerCombat.FightEnd(HumanPlayer);
                         HumanCombat.FightEnd(ComputerPlayer);
-                        Dead = true;
                         CombatDone = true;
-                        return;
+                        Environment.Exit(0);
                     }
                 }
             }
@@ -163,11 +157,6 @@ namespace ConsoleApp12.CombatSystem
                 else
                     ComputerTurn();
             }
-        }
-
-        public bool IsDead()
-        {
-            return Dead;
         }
     }
 }

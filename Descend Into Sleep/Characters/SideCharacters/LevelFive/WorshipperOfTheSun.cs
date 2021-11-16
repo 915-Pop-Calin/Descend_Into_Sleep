@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFive
     {
         public WorshipperOfTheSun() : base("Worshipper Of The Sun", 60, 60, new NoWeapon(), new NoArmour(), 150)
         {
-            
+            Level = 5;
         }
     }
 }

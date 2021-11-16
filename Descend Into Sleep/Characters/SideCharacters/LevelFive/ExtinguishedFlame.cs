@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFive
     {
         public ExtinguishedFlame() : base("Extinguished Flame", 15, 50, new InfinityEdge(), new NinjaYoroi(), 100)
         {
-            
+            Level = 5;
         }
     }
 }

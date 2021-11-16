@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSix
     {
         public TentacledAvatar() : base("Tentacled Avatar", 30, 40, new Xalatath(), new NoArmour(), 100)
         {
-            
+            Level = 6;
         }
     }
 }

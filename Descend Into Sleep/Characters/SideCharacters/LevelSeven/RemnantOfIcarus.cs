@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSeven
     {
         public RemnantOfIcarus() : base("Remnant of Icarus", 75, 50, new Dreams(), new Bandage(), 100)
         {
-            
+            Level = 7;
         }
     }
 }

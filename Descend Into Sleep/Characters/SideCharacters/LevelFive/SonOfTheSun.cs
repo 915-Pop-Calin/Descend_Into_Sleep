@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFive
     {
         public SonOfTheSun() : base("Son Of The Sun", 30, 30, new NoWeapon(), new NoArmour(), 200)
         {
-            
+            Level = 5;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelThree
     {
         public VoidCorruptedCyclope() : base("Void Corrupted Cyclope", 30, 5, new NoWeapon(), new NoArmour(), 30)
         {
-            
+            Level = 3;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelTwo
     {
         public Amalgamation() : base("Amalgamation", 1, 50, new NoWeapon(), new Cloth(), 50)
         {
-            
+            Level = 2;
         }        
     }
 }

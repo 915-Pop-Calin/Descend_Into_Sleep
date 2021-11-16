@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFive
     {
         public BurningCitizen() : base("Burning Citizen", 40, 20, new RadusBiceps(), new EyeOfSauron(), 100)
         {
-            
+            Level = 5;
         }
     }
 }

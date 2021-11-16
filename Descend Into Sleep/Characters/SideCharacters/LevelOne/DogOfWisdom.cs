@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
     {
         public DogOfWisdom() : base("Dog of Wisdom", 3, 3, new ToyKnife(), new Bandage(), 25)
         {
-            
+            Level = 1;
         }
     }
 }

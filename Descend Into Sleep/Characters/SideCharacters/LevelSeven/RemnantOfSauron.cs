@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSeven
     {
         public RemnantOfSauron() : base("Remnant of Sauron", 75, 75, new NoWeapon(), new NoArmour(), 100)
         {
-            
+            Level = 7;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelTwo
     {
         public PoisonousHare() : base("Poisonous Hare", 20, 5, new Eclipse(), new NoArmour(), 15)
         {
-            
+            Level = 2;
         }
     }
 }

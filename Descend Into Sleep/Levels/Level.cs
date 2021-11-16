@@ -19,12 +19,10 @@ namespace ConsoleApp12.Levels
         protected Shop.Shop Shop;
         protected HumanPlayer Player;
         protected Cheats Cheats;
-        protected bool Dead;
         protected bool Passed;
         protected bool InCombat;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
-        protected bool Exit;
-        
+
         public Level(int levelNumber, HumanPlayer humanPlayer)
         {
             Number = levelNumber;
@@ -33,7 +31,6 @@ namespace ConsoleApp12.Levels
             Shop = null;
             Player = humanPlayer;
             Cheats = new Cheats(Player);
-            Dead = false;
             Passed = false;
             InCombat = false;
             
@@ -42,8 +39,7 @@ namespace ConsoleApp12.Levels
             {
                 ListOfSaveFiles.Add(new SaveFile.SaveFile(i));
             }
-
-            Exit = false;
+            
         }
         
         private void PrintShopOptions()
@@ -51,7 +47,7 @@ namespace ConsoleApp12.Levels
             Console.WriteLine("Buy\nSell\nBack\n");
         }
 
-        private int Explore()
+        private void Explore()
         {
             var choice = 0;
             var randomObject = new Random();
@@ -63,7 +59,7 @@ namespace ConsoleApp12.Levels
             }
             var randomSideBoss = randomObject.Next(0, SideEnemies.Count);
             var foundEnemy = (SideEnemy)Activator.CreateInstance(SideEnemies[randomSideBoss]);
-            return SideBossFight(foundEnemy);
+            SideBossFight(foundEnemy);
         }
 
         private void Save()
@@ -157,13 +153,14 @@ namespace ConsoleApp12.Levels
                 case 0:
                     return 2;
                 case 1:
-                    return Explore();
+                    Explore();
+                    break;
                 case 2:
                     Save();
                     break;
                 case 3:
-                    Exit = true;
-                    return 0;
+                    Environment.Exit(0);
+                    break;
                 case 4:
                     break;
             }
@@ -222,7 +219,7 @@ namespace ConsoleApp12.Levels
         private void OutOfCombat()
         {
             string decision = null;
-            while (decision != "Proceed" && !Exit)
+            while (decision != "Proceed")
             {
 
                 var choice = ConsoleHelper.MultipleChoice(20,"game options", "player options", "shop options");
@@ -232,8 +229,6 @@ namespace ConsoleApp12.Levels
                     {
                         case 0:
                             var finalResult = GameOptions();
-                            if (finalResult == 0)
-                                Exit = true;
                             if (finalResult == 2)
                             {
                                 if (Player.GetLevel() < 5 * Number - 1)
@@ -241,13 +236,6 @@ namespace ConsoleApp12.Levels
                                 else
                                     decision = "Proceed";
                             }
-
-                            if (finalResult == -1)
-                            {
-                                Exit = true;
-                                Dead = true;
-                            }
-
                             break;
                         case 1:
                             PlayerOptions();
@@ -308,51 +296,36 @@ namespace ConsoleApp12.Levels
             Combat(mainEnemy);
         }
 
-        private int SideBossFight(SideEnemy sideEnemy)
+        private void SideBossFight(SideEnemy sideEnemy)
         {
             var toStr = sideEnemy.GetName() + " APPEARS INTO THE FRAY!\n";
             Console.WriteLine(toStr);
-            return Combat(sideEnemy);
+            Combat(sideEnemy);
         }
 
-        private int Combat(Character enemy)
+        private void Combat(Character enemy)
         {
             var combat = new Fight(Player, enemy);
             combat.Brawl();
-            if (combat.IsDead())
-            {
-                Dead = true;
-                return -1;
-            }
-
             var mainEnemyName = ((Character) Activator.CreateInstance(MainEnemy)).GetName();
             if (enemy.GetName() == mainEnemyName)
                 Passed = true;
-            return 1;
         }
 
         public virtual int PlayOut()
         {
-            while (!Dead && !Passed)
+            while (!Passed)
             {
                 if (InCombat)
                 {
-                    if (Exit)
-                        return -1;
-                    else
-                        BossFight();
+                    BossFight();
                 }
                 else
                 {
                     OutOfCombat();
-                    if (Exit)
-                        return -1;
                     InCombat = true;
                 }
             }
-
-            if (Dead)
-                return -1;
             return 0;
         }
 

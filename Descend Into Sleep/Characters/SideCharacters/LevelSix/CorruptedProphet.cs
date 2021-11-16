@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSix
     {
         public CorruptedProphet() : base("Corrupted Prophet", 60, -20, new BoilingBlood(), new LastStand(), 100)
         {
-            
+            Level = 6;
         }
     }
 }

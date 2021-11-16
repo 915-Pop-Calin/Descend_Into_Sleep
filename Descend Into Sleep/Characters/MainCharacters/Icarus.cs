@@ -9,6 +9,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         public Icarus() : base("Icarus", 0, 100, new IcarusesTouch(), new SteelPlateau(), 200,
             "The corrupted mythological figure by flying too close to the sun.\n")
         {
+            Level = 5;
             var burnAbility = new Burn();
             var burningWillAbility = new BurningWill();
             AddAbility(burnAbility);

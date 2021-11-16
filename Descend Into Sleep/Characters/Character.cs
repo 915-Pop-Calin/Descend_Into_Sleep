@@ -21,6 +21,7 @@ namespace ConsoleApp12.Characters
         protected double Health;
         protected double MaximumHealth;
         protected string Description;
+        protected int Level;
         protected Dictionary<string, Ability.Ability> RespectiveAbilities;
         protected int Stunned;
         protected List<DotEffect> DotEffects;
@@ -59,6 +60,10 @@ namespace ConsoleApp12.Characters
             ManaRegenerationRate = 0.03125;
         }
 
+        public int GetLevel()
+        {
+            return Level;
+        }
         public string GetName()
         {
             return Name;

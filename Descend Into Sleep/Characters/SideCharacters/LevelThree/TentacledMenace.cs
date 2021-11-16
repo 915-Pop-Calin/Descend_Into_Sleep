@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelThree
     {
         public TentacledMenace() : base("Tentacled Menace", 30, 10, new TankBuster(), new LastStand(), 30)
         {
-            
+            Level = 3;
         }
     }
 }

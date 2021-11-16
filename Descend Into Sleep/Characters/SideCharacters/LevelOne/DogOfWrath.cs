@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
     {
         public DogOfWrath() : base("Dog Of Wrath", 10, -3, new Eclipse(), new NoArmour(), 15)
         {
-            
+            Level = 1;
         }
     }
 }

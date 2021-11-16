@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSix
     {
         public VoidInfusedOrc() : base("Void Infused Orc", 40, 40, new GiantSlayer(), new Bandage(), 50)
         {
-            
+            Level = 6;
         }
     }
 }

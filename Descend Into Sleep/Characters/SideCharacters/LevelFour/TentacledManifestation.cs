@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFour
     {
         public TentacledManifestation() : base("Tentacled Manifestation", 50, 50, new NoWeapon(), new NoArmour(), 100)
         {
-            
+            Level = 4;
         }
     }
 }

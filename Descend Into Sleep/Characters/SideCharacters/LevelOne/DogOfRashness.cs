@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
     {
         public DogOfRashness(): base("Dog Of Rashness", 7, 1, new Eclipse(), new Bandage(), 15)
         {
-            
+            Level = 1;
         }
     }
 }

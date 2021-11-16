@@ -8,6 +8,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         public SpaghettiMonster(): base("Spaghetti Monster", 1, 300, new Words(), new TemArmour(), 100, "Represents the Developer\n")
         {
+            Level = 2;
             var entangleAbility = new Entangle();
             var defensiveStanceAbility = new DefensiveStance();
             AddAbility(entangleAbility);

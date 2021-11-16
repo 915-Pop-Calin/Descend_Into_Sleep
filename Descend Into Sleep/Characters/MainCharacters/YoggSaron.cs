@@ -12,12 +12,13 @@ namespace ConsoleApp12.Characters.MainCharacters
         public YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, new BoilingBlood(), new BootsOfDodge(),
             int.MaxValue, "The God Of Death.\n")
         {
+            Level = 3;
             DiscourageCounter = 3;
         }
 
         public override void DecreaseAttackValue(double attackValue)
         {
-            if (attackValue == int.MaxValue)
+            if (attackValue - Attack < 0.0001)
             {
                 Attack = 0;
                 if (DiscourageCounter > 0)

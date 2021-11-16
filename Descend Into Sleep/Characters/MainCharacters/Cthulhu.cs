@@ -9,6 +9,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         public Cthulhu() : base("Cthulhu", 7.5, 100, new Dreams(), new Scales(), 200,
             "The God which preys on your sanity.\n")
         {
+            Level = 4;
             var tripleHitAbility = new TripleHit();
             var madnessHitAbility = new MadnessHit();
             AddAbility(tripleHitAbility);

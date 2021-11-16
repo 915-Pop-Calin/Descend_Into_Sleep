@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSeven
     {
         public RemnantOfYogg() : base("Remnant of Yogg", 15, 200, new GiantSlayer(), new NoArmour(), 100)
         {
-            
+            Level = 7;
         }
     }
 }

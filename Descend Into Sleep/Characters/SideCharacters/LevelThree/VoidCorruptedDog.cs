@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelThree
     {
         public VoidCorruptedDog() : base("Void Corrupted Dog", 10, 50, new Xalatath(), new BootsOfDodge(), 50)
         {
-            
+            Level = 3;
         }
     }
 }

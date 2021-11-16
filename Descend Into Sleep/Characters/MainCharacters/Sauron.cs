@@ -8,6 +8,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         public Sauron() : base("Sauron", 2, 200, new TheRing(), new EyeOfSauron(), 200, "The creator of the Ring.\n")
         {
+            Level = 6;
             var powerOfTheRingAbility = new PowerOfTheRing();
             var powerOfTheEyeAbility = new PowerOfTheEye();
             AddAbility(powerOfTheRingAbility);

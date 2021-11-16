@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelTwo
     {
         public Cyclope() : base("Cyclope", 15, -5, new NoWeapon(), new NoArmour(), 20)
         {
-            
+            Level = 2;
         }
     }
 }

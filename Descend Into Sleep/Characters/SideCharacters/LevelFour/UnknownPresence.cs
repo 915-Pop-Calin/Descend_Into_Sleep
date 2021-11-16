@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelFour
     {
         public UnknownPresence() : base("Unknown Presence", 30, 30, new GiantSlayer(), new Scales(), 60)
         {
-            
+            Level = 4;
         }
     }
 }

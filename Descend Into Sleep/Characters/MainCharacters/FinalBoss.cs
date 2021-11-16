@@ -14,6 +14,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         public FinalBoss() : base("???????", 75, 10000, new Dreams(), new Bandage(), 10000, "Mysterious Presence.\n")
         {
+            Level = 7;
             PhaseNumber = 1;
             AttackType = "sanity";
             DialogueLines = new Queue<string>();
