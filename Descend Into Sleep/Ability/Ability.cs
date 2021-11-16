@@ -85,7 +85,7 @@ namespace ConsoleApp12.Ability
             var casterName = caster.GetName();
             var casterManaLeft = caster.GetMana();
             var toStr = casterName + " has used " + ManaCost + " mana to cast " + Name + "!\n";
-            toStr += casterName + " is left with " + casterManaLeft + " mana!\n";
+            toStr += casterName + " is left with " + Math.Round(casterManaLeft, 2) + " mana!\n";
             return toStr;
         }
         

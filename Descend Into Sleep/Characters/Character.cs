@@ -294,15 +294,16 @@ namespace ConsoleApp12.Characters
                     {
                         dealtDamage = CriticalHit(opponent);
                         var enemyHealthPoints = opponent.GetHealthPoints();
-                        toStr = "CRITICAL HIT! " + dealtDamage + " damage done to " + opponent.GetName() +
+                        toStr = "CRITICAL HIT! " + Math.Round(dealtDamage, 2) + " damage done to " + opponent.GetName() +
                                 "!\n";
-                        toStr += opponent.GetName() + " is left with " + enemyHealthPoints + " health!\n";
+                        toStr += opponent.GetName() + " is left with " + Math.Round(enemyHealthPoints, 2) + " health!\n";
                     }
                     else
                     {
                         dealtDamage = NormalHit(opponent);
-                        toStr = dealtDamage + " damage done to " + opponent.GetName() + "!\n";
-                        toStr += opponent.GetName() + " is left with " + opponent.GetHealthPoints() +
+                        var enemyHealthPoints = opponent.GetHealthPoints();
+                        toStr = Math.Round(dealtDamage, 2) + " damage done to " + opponent.GetName() + "!\n";
+                        toStr += opponent.GetName() + " is left with " + Math.Round(enemyHealthPoints, 2) +
                                 " health!\n";
                     }
                 }
@@ -310,7 +311,7 @@ namespace ConsoleApp12.Characters
             var regeneratedMana = ManaRegenerationRate * TotalMana;
             GainMana(regeneratedMana);
             toStr += Name + " has regenerated " + regeneratedMana + " of his mana!\n";
-            toStr += Name + " now has " + Mana + " mana!\n";
+            toStr += Name + " now has " + Math.Round(Mana, 2) + " mana!\n";
             if (Weapon.HasEffect())
                 toStr += Weapon.Effect(dealtDamage, this, opponent);
             if (Weapon.GetLifeSteal() != 0)

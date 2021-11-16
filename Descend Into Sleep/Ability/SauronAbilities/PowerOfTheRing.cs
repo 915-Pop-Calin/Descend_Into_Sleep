@@ -29,6 +29,7 @@ namespace ConsoleApp12.Ability.SauronAbilities
             DefenseGainedQueue.Enqueue(increasedDefenseValue);
             caster.IncreaseAttackValue(increasedAttackValue);
             caster.IncreaseDefenseValue(increasedDefenseValue);
+            
             var toStr = caster + "'s defense and attack were multiplied by 5!\n";
             toStr += casterName + " gained " + increasedAttackValue + " attack and " + increasedDefenseValue +
                      " defense!\n";

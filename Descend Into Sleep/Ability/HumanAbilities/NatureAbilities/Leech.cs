@@ -28,7 +28,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             caster.IncreaseDefenseValue(armourLeeched);
             opponent.DecreaseDefenseValue(armourLeeched);
             ArmourLeechedQueue.Enqueue(armourLeeched);
-            toStr += casterName + " has leeched " + armourLeeched + " armour from " + opponentName +
+            toStr += casterName + " has leeched " + Math.Round(armourLeeched, 2) + " armour from " + opponentName +
                      " for " + TurnsUntilDecast + " turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;

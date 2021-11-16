@@ -23,7 +23,7 @@ namespace ConsoleApp12.Ability.YoggSaronAbilities
             var sanityReduced = randomObject.Next(MinimumSanityReduced, MaximumSanityReduced);
             opponent.ReduceSanity(sanityReduced);
             var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
-            toStr += opponentName + " has " + opponent.GetSanity() + " left!\n";
+            toStr += opponentName + " has " + Math.Round(opponent.GetSanity(), 2) + " left!\n";
             return toStr;
         }
 

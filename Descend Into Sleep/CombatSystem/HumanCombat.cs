@@ -18,7 +18,7 @@ namespace ConsoleApp12.CombatSystem
         {
             var abilities = Player.GetRespectiveAbilities();
             var length = abilities.Count;
-            var abilitiesString = new String[length];
+            var abilitiesString = new String[length + 1];
             var currentPosition = 0;
             
             foreach (var ability in Player.GetRespectiveAbilities())
@@ -27,10 +27,11 @@ namespace ConsoleApp12.CombatSystem
                 currentPosition += 1;
             }
 
+            abilitiesString[length] = "back"; 
             return abilitiesString;
         }
 
-        private void Action(Character secondCharacter)
+        private bool Action(Character secondCharacter)
         {
             var actions = GetActions();
 
@@ -39,15 +40,15 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 var choice = ConsoleHelper.MultipleChoice(15, actions);
+                if (choice == actions.Length - 1)
+                    return false;
                 var chosenAbilityKey = actions[choice];
                 var toStrCast = Player.Cast(chosenAbilityKey, secondCharacter, ListOfTurns, TurnCounter);
                 Console.WriteLine(toStrCast);
                 InvalidInput = false;
+                return true;
             }
-            catch (NoAbilitiesException noAbilitiesException)
-            {
-                Console.WriteLine(noAbilitiesException.Message);
-            }
+
             catch (StunException stunException)
             {
                 Console.WriteLine(stunException.Message);
@@ -76,25 +77,35 @@ namespace ConsoleApp12.CombatSystem
             {
                 Console.WriteLine(emptyQueueException.Message);
             }
+            return false;
         }
 
         public override void CombatTurn(Character secondCharacter)
         {
             var humanPlayer = (HumanPlayer) Player;
-            var choice = ConsoleHelper.MultipleChoice(20, "actions", "attack", "check stats", "equip item");
+
             InvalidInput = true;
 
             while (InvalidInput)
             {
+                var choice = ConsoleHelper.MultipleChoice(20, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
                     case 0:
-                        Action(secondCharacter);
-                        break;
-                    case 1:
                         var toStr = Player.Hit(secondCharacter, ListOfTurns, TurnCounter);
                         Console.WriteLine(toStr);
                         InvalidInput = false;
+                        break;
+                    case 1:
+                        try
+                        {
+                            if (Action(secondCharacter))
+                                InvalidInput = false;
+                        }
+                        catch (NoAbilitiesException noAbilitiesException)
+                        {
+                            Console.WriteLine(noAbilitiesException.Message);
+                        }
                         break;
                     case 2:
                         Console.WriteLine(secondCharacter);
