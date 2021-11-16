@@ -10,6 +10,12 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Made the menu traversable by arrows instead of having to type out the commands
 - <i>HumanPlayer</i> casts abilities differently compared to usual mobs now
 - Class <i>ConsoleHelper</i> helps us with the arrow traversal
+- Fixed a bug which crashed your game when you tried to use <i>Actions</i> in a <i>Fight</i>, but you had no <i>Actions</i>
+- Fixed a bug where <i>Checking Stats</i> would skip a turn
+- Now when checking stats, you can see your <i>Max Health</i> and your <i>Current Health</i>, both rounded up to 2 digits
+- Fixed a bug where you couldn't back away after choosing <i>Actions</i> in <i>Combat</i>
+- Made all numbers look nicer by rounding them up to <i>2 decimals</i>
+- Fixed a bug where if you tried to do an <i>Action</i> in a fight, but you had none, it would be stuck in an endless loop
 
 <b>Patch Notes 0.2.0</b>
 
