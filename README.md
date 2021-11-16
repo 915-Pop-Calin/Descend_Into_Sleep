@@ -19,6 +19,7 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Now game exits on <i>Environment.Exit(0)</i> (there might appear bugs in this domain - just contact me with the Exceptions stack, in that case)
 - Each Character now has a <i>Level</i>
 - You gain <i>Gold</i> and <i>Experience</i> at the end of a <i>Fight</i> depending on your enemy's <i>Level</i>
+- Fixed a bug which wouldn't grant you <i>Experience</i> and <i>Gold</i> if you killed an enemy during its turn
 
 <b>Patch Notes 0.2.0</b>
 
