@@ -594,7 +594,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         public override string ToString()
         {
-            var toStr = Name + ": " + Health + " HEALTH, " + Mana + " MANA, " +
+            var toStr = Name + ": " + Math.Round(Health, 2) + "/" + MaximumHealth +" HEALTH, " + Mana + " MANA, " +
                         Defense+ " DEFENSE,";
             toStr += Attack + " ATTACK, " + Gold + " GOLD, " + Level + " LEVEL\n";
             toStr += Weapon.ToString();
