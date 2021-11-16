@@ -98,7 +98,6 @@ namespace ConsoleApp12.CombatSystem
                         break;
                     case 2:
                         Console.WriteLine(secondCharacter);
-                        InvalidInput = false;
                         break;
                     case 3:
                         try
