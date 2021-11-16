@@ -7,6 +7,7 @@ using ConsoleApp12.Characters.SideCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game;
+using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.Levels
 {
@@ -44,22 +45,7 @@ namespace ConsoleApp12.Levels
 
             Exit = false;
         }
-
-        private void PrintMenu()
-        {
-            Console.WriteLine("Game Options\nPlayer Options\nShop Options\n");
-        }
-
-        private void PrintGameOptions()
-        {
-            Console.WriteLine("Proceed\nExplore\nSave\nExit\nBack\n");
-        }
-
-        private void PrintPlayerOptions()
-        {
-            Console.WriteLine("Equip Item\nDrop Item\nCheck Stats\nDrop Current Item\nSee Abilities\nBack\n");
-        }
-
+        
         private void PrintShopOptions()
         {
             Console.WriteLine("Buy\nSell\nBack\n");
@@ -134,18 +120,15 @@ namespace ConsoleApp12.Levels
 
         private void DropCurrentItem()
         {
-            Console.WriteLine("Do you want to drop your weapon or your armour?W/A\n");
-            var droppingChoice = Console.ReadLine();
-            switch (droppingChoice)
+            Console.WriteLine("What do you want to drop?");
+            int choice = ConsoleHelper.MultipleChoice(50,"drop current weapon", "drop current armour");
+            switch (choice)
             {
-                case "w":
+                case 0:
                     Player.MoveWeaponToInventory();
                     break;
-                case "a":
+                case 1:
                     Player.MoveArmourToInventory();
-                    break;
-                default:
-                    Console.WriteLine("Invalid Input!\n");
                     break;
             }
         }
@@ -168,25 +151,20 @@ namespace ConsoleApp12.Levels
         // returns 2 if we want to proceed, 0 if we want to exit
         private int GameOptions()
         {
-            PrintGameOptions();
-            var gameChoice = Console.ReadLine();
-            gameChoice = gameChoice.ToLower();
-            switch (gameChoice)
+            int choice = ConsoleHelper.MultipleChoice(20,"proceed", "explore", "save", "exit", "back");
+            switch (choice)
             {
-                case "proceed":
+                case 0:
                     return 2;
-                case "back":
-                    break;
-                case "explore":
+                case 1:
                     return Explore();
-                case "save":
+                case 2:
                     Save();
                     break;
-                case "exit":
+                case 3:
                     Exit = true;
                     return 0;
-                default:
-                    Console.WriteLine("Invalid Command!\n");
+                case 4:
                     break;
             }
             return 1;
@@ -194,53 +172,42 @@ namespace ConsoleApp12.Levels
 
         private void PlayerOptions()
         {
-            PrintPlayerOptions();
-            var playerChoice = Console.ReadLine();
-            playerChoice = playerChoice.ToLower();
-            switch (playerChoice)
+            int choice = ConsoleHelper.MultipleChoice(20,"equip item", "drop item", "check stats", "drop current item",
+                "see abilities", "back");
+            switch (choice)
             {
-                case "equip item":
+                case 0:
                     EquipItem();
                     break;
-                case "drop item":
+                case 1:
                     DropItem();
                     break;
-                case "check stats":
+                case 2:
                     CheckStats();
                     break;
-                case "drop current item":
+                case 3:
                     DropCurrentItem();
                     break;
-                case "see abilities":
+                case 4:
                     SeeAbilities();
                     break;
-                case "back":
-                    ;
-                    break;
-                default:
-                    Console.WriteLine("Invalid Command!\n");
+                case 5:
                     break;
             }
         }
 
         private void ShopOptions()
         {
-            PrintShopOptions();
-            var shopChoice = Console.ReadLine();
-            shopChoice = shopChoice.ToLower();
-            switch (shopChoice)
+            int choice = ConsoleHelper.MultipleChoice(20, "buy", "sell", "back");
+            switch (choice)
             {
-                case "buy":
+                case 0:
                     BuyItem();
                     break;
-                case "sell":
+                case 1:
                     SellItem();
                     break;
-                case "back":
-                    ;
-                    break;
-                default:
-                    Console.WriteLine("Invalid Command!\n");
+                case 2:
                     break;
             }
         }
@@ -257,14 +224,13 @@ namespace ConsoleApp12.Levels
             string decision = null;
             while (decision != "Proceed" && !Exit)
             {
-                PrintMenu();
-                var gameChoice = Console.ReadLine();
-                gameChoice = gameChoice.ToLower();
+
+                var choice = ConsoleHelper.MultipleChoice(20,"game options", "player options", "shop options");
                 try
                 {
-                    switch (gameChoice)
+                    switch (choice)
                     {
-                        case "game options":
+                        case 0:
                             var finalResult = GameOptions();
                             if (finalResult == 0)
                                 Exit = true;
@@ -283,17 +249,11 @@ namespace ConsoleApp12.Levels
                             }
 
                             break;
-                        case "player options":
+                        case 1:
                             PlayerOptions();
                             break;
-                        case "shop options":
+                        case 2:
                             ShopOptions();
-                            break;
-                        default:
-                            if (Cheats.ListOfCheats.ContainsKey(gameChoice))
-                                Cheat(gameChoice);
-                            else
-                                Console.WriteLine("Invalid Command!\n");
                             break;
                     }
                 }

@@ -29,7 +29,7 @@ namespace ConsoleApp12.Ability
             return Description + "level:" + Level.ToString() + "\nmana cost: " + ManaCost.ToString() + "\n";
         }
 
-        public void LevelUp()
+        private void LevelUp()
         {
             Level++;
         }

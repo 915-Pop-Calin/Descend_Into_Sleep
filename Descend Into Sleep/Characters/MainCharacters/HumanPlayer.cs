@@ -9,6 +9,7 @@ using ConsoleApp12.Ability.HumanAbilities.NatureAbilities;
 using ConsoleApp12.Ability.HumanAbilities.NeutralAbilities;
 using ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons;
@@ -265,7 +266,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return false;
         }
 
-        private void LevelUp(string alreadyChosenSchool = null)
+        public void LevelUp(string alreadyChosenSchool = null)
         {
             if (Level >= 35)
                 throw new MaximumLevelException();
@@ -405,7 +406,16 @@ namespace ConsoleApp12.Characters.MainCharacters
             Gold += cost;
             
         }
-        
+
+        public override string Cast(string abilityName, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        {
+            var abilityManaCost = RespectiveAbilities[abilityName].GetManaCost();
+            if (Mana < abilityManaCost)
+                throw new InsufficientManaException(Mana, abilityManaCost, Name, abilityName);
+            Mana -= abilityManaCost;
+            return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+        }
+
         private Character CreateCharacterCopy(string copyName, string copyDescription)
         {
             var chara = new Character(copyName, InnateAttack, InnateDefense, Weapon, Armour, MaximumHealth, copyDescription);
@@ -433,23 +443,19 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         public void ChooseSchool(string alreadyChosenSchool = null)
         {
-            
-            bool valid = false;
-            var choice = "";
+            String schoolChoice;
             if (alreadyChosenSchool is not null)
-                choice = alreadyChosenSchool;
+                schoolChoice = alreadyChosenSchool;
+            
             else
             {
-                while (!valid)
-                {
-                    Console.WriteLine("Choose a school to be a part of: fire, self-harm, nature\n");
-                    choice = Console.ReadLine();
-                    if (choice == "fire" || choice == "self-harm" || choice == "nature")
-                        valid = true;
-                }
+                var schools = new String[3] {"fire", "self-harm", "nature"};
+                Console.WriteLine("Choose a school to be a part of");
+                    var choice = ConsoleHelper.MultipleChoice(20, "fire", "self-harm", "nature");
+                    schoolChoice = schools[choice];
             }
 
-            switch (choice)
+            switch (schoolChoice)
                 {
                     case "fire":
                         SetUpFire();

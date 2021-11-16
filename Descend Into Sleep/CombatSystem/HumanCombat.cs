@@ -2,96 +2,97 @@
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
     public class HumanCombat: Combat
     {
+        private bool InvalidInput;
         public HumanCombat(HumanPlayer humanPlayer): base(humanPlayer)
         {
             ;
         }
-
-        private void PrintMenu()
+        
+        private String[] GetActions()
         {
-            Console.WriteLine("Attack\nCheck Stats\nEquip Item\nActions\n");
-        }
-
-        private void PrintActions()
-        {
-            var toStr = "";
+            var abilities = Player.GetRespectiveAbilities();
+            var length = abilities.Count;
+            var abilitiesString = new String[length];
+            var currentPosition = 0;
+            
             foreach (var ability in Player.GetRespectiveAbilities())
             {
-                toStr += ability.Key + "\n";
+                abilitiesString[currentPosition] = ability.Key;
+                currentPosition += 1;
             }
-            Console.WriteLine(toStr);
+
+            return abilitiesString;
+        }
+
+        private void Action(Character secondCharacter)
+        {
+            var actions = GetActions();
+            var choice = ConsoleHelper.MultipleChoice(15, actions);
+            var chosenAbilityKey = actions[choice];
+            try{
+                    var toStrCast = Player.Cast(chosenAbilityKey, secondCharacter, ListOfTurns, TurnCounter);
+                    Console.WriteLine(toStrCast);
+                    InvalidInput = false;
+            }
+            catch (StunException stunException)
+            {
+                Console.WriteLine(stunException.Message);
+            }
+            catch (CooldownException cooldownException)
+            {
+                Console.WriteLine(cooldownException.Message);
+            }
+            catch (NegativeAttackException negativeAttackException)
+            {
+                Console.WriteLine(negativeAttackException.Message);
+            }
+            catch (InsufficientManaException insufficientManaException)
+            {
+                Console.WriteLine(insufficientManaException.Message);
+            }
+            catch (InexistentDecastException inexistentDecastException)
+            {
+                Console.WriteLine(inexistentDecastException.Message);
+            }
+            catch (SchoolException schoolException)
+            {
+                Console.WriteLine(schoolException.Message);
+            }
+            catch (EmptyQueueException emptyQueueException)
+            {
+                Console.WriteLine(emptyQueueException.Message);
+            }
         }
 
         public override void CombatTurn(Character secondCharacter)
         {
-            var invalidInput = true;
             var humanPlayer = (HumanPlayer) Player;
-            while (invalidInput)
+            var choice = ConsoleHelper.MultipleChoice(20, "actions", "attack", "check stats", "equip item");
+            InvalidInput = true;
+
+            while (InvalidInput)
             {
-                PrintMenu();
-                var currentCommand = Console.ReadLine();
-                currentCommand = currentCommand.ToLower();
-                switch (currentCommand)
+                switch (choice)
                 {
-                    case "actions":
-                        PrintActions();
-                        var chosenAction = Console.ReadLine();
-                        if (Player.GetRespectiveAbilities().ContainsKey(chosenAction))
-                        {
-                            try
-                            {
-                                var toStrCast = Player.Cast(chosenAction, secondCharacter, ListOfTurns, TurnCounter);
-                                Console.WriteLine(toStrCast);
-                                invalidInput = false;
-                            }
-                            catch (StunException stunException)
-                            {
-                                Console.WriteLine(stunException.Message);
-                            }
-                            catch (CooldownException cooldownException)
-                            {
-                                Console.WriteLine(cooldownException.Message);
-                            }
-                            catch (NegativeAttackException negativeAttackException)
-                            {
-                                Console.WriteLine(negativeAttackException.Message);
-                            }
-                            catch (InsufficientManaException insufficientManaException)
-                            {
-                                Console.WriteLine(insufficientManaException.Message);
-                            }
-                            catch (InexistentDecastException inexistentDecastException)
-                            {
-                                Console.WriteLine(inexistentDecastException.Message);
-                            }
-                            catch (SchoolException schoolException)
-                            {
-                                Console.WriteLine(schoolException.Message);
-                            }
-                            catch (EmptyQueueException emptyQueueException)
-                            {
-                                Console.WriteLine(emptyQueueException.Message);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid Action!\n");
-                        }
+                    case 0:
+                        Action(secondCharacter);
                         break;
-                    case "attack":
+                    case 1:
                         var toStr = Player.Hit(secondCharacter, ListOfTurns, TurnCounter);
                         Console.WriteLine(toStr);
-                        invalidInput = false;
+                        InvalidInput = false;
                         break;
-                    case "check Stats":
+                    case 2:
                         Console.WriteLine(secondCharacter);
+                        InvalidInput = false;
                         break;
-                    case "equip Item":
+                    case 3:
                         try
                         {
                             Console.WriteLine(humanPlayer.ShowInventory());
@@ -99,15 +100,13 @@ namespace ConsoleApp12.CombatSystem
                             var toStrEquip = Console.ReadLine();
                             var toStrEquipped = humanPlayer.UseItem(toStrEquip);
                             Console.WriteLine(toStrEquipped);
-                            invalidInput = false;
+                            InvalidInput = false;
                         }
                         catch (InvalidItemException invalidItemException)
                         {
                             Console.WriteLine(invalidItemException.Message);
                         }
-                        break;
-                    default:
-                        Console.WriteLine("Invalid Command!\n");
+
                         break;
                 }
             }

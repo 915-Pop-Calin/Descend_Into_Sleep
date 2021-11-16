@@ -5,6 +5,7 @@ using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons.LevelOne;
 using ConsoleApp12.Levels;
@@ -51,24 +52,28 @@ namespace ConsoleApp12.Game
         private void StartCharacter()
         {
             Console.WriteLine("The name you want to use from now on is:\n");
+            
             var name = Console.ReadLine();
-            Console.WriteLine("Choose the difficulty you want to play on: easy, medium, hard, impossible:\n");
-            var difficulty = Console.ReadLine();
-            difficulty = difficulty.ToLower();
+            
+            var difficulties = new String[] {"easy", "medium", "hard", "impossible"};
+            Console.WriteLine("Choose the difficulty you want to play on");
+            
+            var choice = ConsoleHelper.MultipleChoice(20,difficulties);
+            var difficulty = difficulties[choice];
             var humanPlayer = new HumanPlayer(name, difficulty, new ToyKnife(), new Bandage());
+            
             Player = humanPlayer;
             
         }
 
         public void StartGame()
         {
-            Console.WriteLine("Do you want to load your save file? Y/N\n");
-            var decision = Console.ReadLine();
-            decision = decision.ToUpper();
-            
+            Console.WriteLine("Do you want to load your save file?");
+            var decision = ConsoleHelper.MultipleChoice(20,"yes", "no");
+
             switch (decision)
             {
-                case "Y":
+                case 0:
                     try
                     {
                         Player = new HumanPlayer("filler", "filler", new ToyKnife(), new Bandage());
@@ -85,7 +90,7 @@ namespace ConsoleApp12.Game
                         StartCharacter();
                     }
                     break;
-                default:
+                case 1:
                     StartCharacter();
                     break;
             }
