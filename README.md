@@ -16,6 +16,9 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Fixed a bug where you couldn't back away after choosing <i>Actions</i> in <i>Combat</i>
 - Made all numbers look nicer by rounding them up to <i>2 decimals</i>
 - Fixed a bug where if you tried to do an <i>Action</i> in a fight, but you had none, it would be stuck in an endless loop
+- Now game exits on <i>Environment.Exit(0)</i> (there might appear bugs in this domain - just contact me with the Exceptions stack, in that case)
+- Each Character now has a <i>Level</i>
+- You gain <i>Gold</i> and <i>Experience</i> at the end of a <i>Fight</i> depending on your enemy's <i>Level</i>
 
 <b>Patch Notes 0.2.0</b>
 
