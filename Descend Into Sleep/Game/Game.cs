@@ -9,13 +9,13 @@ using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons.LevelOne;
 using ConsoleApp12.Levels;
+using ConsoleApp12.SaveFile;
 
 namespace ConsoleApp12.Game
 {
     public class Game
     {
         protected HumanPlayer Player;
-        protected bool Dead;
         protected Character Enemy;
         protected Combat _Combat;
         protected bool InCombat;
@@ -27,7 +27,6 @@ namespace ConsoleApp12.Game
         public Game()
         {
             Player = null;
-            Dead = false;
             Enemy = null;
             _Combat = null;
             InCombat = true;
@@ -40,12 +39,8 @@ namespace ConsoleApp12.Game
             Levels.Add(new LevelFive(Player).GetType());
             Levels.Add(new LevelSix(Player).GetType());
             Levels.Add(new LevelSeven(Player).GetType());
-
-            ListOfSaveFiles = new List<SaveFile.SaveFile>();
-            for (int i = 0; i <= 9; i++)
-                ListOfSaveFiles.Add(new SaveFile.SaveFile(i));
- 
             
+            ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
             Level = 1;
         }
 
@@ -134,6 +129,10 @@ namespace ConsoleApp12.Game
 
         private void Load()
         {
+            FileHelper.CheckSaveDirectory();
+            for (int i = 0; i <= 9; i++)
+                FileHelper.CheckSaveFile(i);
+            
             PrintAllSaveFiles();
             Console.WriteLine("Choose the number of the Save File to load:");
             var readLine = Console.ReadLine();;

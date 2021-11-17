@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
 
@@ -9,22 +11,17 @@ namespace ConsoleApp12.SaveFile
         private int Number;
         private string Name;
         private bool Corrupted;
-        private bool Unopenable;
-        
-        public SaveFile(int number)
+
+        private SaveFile(int number)
         {
             Number = number;
-            Name = "SaveFiles" + "\\" + "savefile" + Number + ".json";
-            Unopenable = false;
+            
+            Name = FileHelper.GetSaveFilePath(number);
             Corrupted = false;
             try
             {
                 HumanJSONSave.Load(Name);
                 
-            }
-            catch (UnopenableSaveFileException)
-            {
-                Unopenable = true;
             }
             catch (CorruptedSaveFileException)
             {
@@ -34,8 +31,6 @@ namespace ConsoleApp12.SaveFile
 
         public Tuple<HumanPlayer, int, DateTime> LoadInfo()
         {
-            if (Unopenable)
-                throw new UnopenableSaveFileException(Number);
             if (Corrupted)
                 throw new CorruptedSaveFileException(Number);
             var loadedInformation = HumanJSONSave.Load(Name);
@@ -44,8 +39,6 @@ namespace ConsoleApp12.SaveFile
         
         public void SaveInfo(HumanPlayer humanPlayer, int GameLevel)
         {
-            if (Unopenable)
-                throw new UnopenableSaveFileException(Number);
             var humanJSON = new HumanJSONSave(humanPlayer, GameLevel);
             humanJSON.Save(Name);
         }
@@ -53,8 +46,6 @@ namespace ConsoleApp12.SaveFile
         public override string ToString()
         {
             var header = "Save File " + Number;
-            if (Unopenable)
-                return header + ": Unopenable. Check for its existence and for access to it\n";
             if (Corrupted)
                 return header + ": Corrupted. Please erase its contents\n";
             var information = LoadInfo();
@@ -67,5 +58,13 @@ namespace ConsoleApp12.SaveFile
             return header + ":\n" + character + "Game Level: " + gameLevel +
                    "\nSave Date: " + saveDate + "\n"; 
         }
+
+        public static List<SaveFile> saveFiles = new List<SaveFile>()
+        {
+            new SaveFile(0), new SaveFile(1), new SaveFile(2), new SaveFile(3),
+            new SaveFile(4), new SaveFile(5), new SaveFile(6), new SaveFile(7),
+            new SaveFile(8), new SaveFile(9)
+        };
+
     }
 }

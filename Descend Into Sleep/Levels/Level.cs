@@ -8,6 +8,7 @@ using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game;
 using ConsoleApp12.Game.keysWork;
+using ConsoleApp12.SaveFile;
 
 namespace ConsoleApp12.Levels
 {
@@ -33,20 +34,11 @@ namespace ConsoleApp12.Levels
             Cheats = new Cheats(Player);
             Passed = false;
             InCombat = false;
-            
-            ListOfSaveFiles = new List<SaveFile.SaveFile>();
-            for (int i = 0; i <= 9; i++)
-            {
-                ListOfSaveFiles.Add(new SaveFile.SaveFile(i));
-            }
-            
+
+            ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
+
         }
         
-        private void PrintShopOptions()
-        {
-            Console.WriteLine("Buy\nSell\nBack\n");
-        }
-
         private void Explore()
         {
             var choice = 0;
@@ -68,6 +60,10 @@ namespace ConsoleApp12.Levels
                 Console.WriteLine("Game cannot be saved because you cheated!\n");
             else
             {
+                FileHelper.CheckSaveDirectory();
+                for (int i = 0; i <= 9; i++)
+                    FileHelper.CheckSaveFile(i);
+                
                 PrintAllSaveFiles();
                 Console.WriteLine("Choose the number of the Save File to Save On:\n");
                 var readLine = Console.ReadLine();
