@@ -1,7 +1,7 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
 
-<b>Mini-Patch: Patch 0.2.0.1</b>
+<b>Patch Notes 0.3.0</b>
 
 - Fixed <i>Undying Will</i> having no description
 - Fixed items showing without any description in the shop
@@ -20,6 +20,9 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Each Character now has a <i>Level</i>
 - You gain <i>Gold</i> and <i>Experience</i> at the end of a <i>Fight</i> depending on your enemy's <i>Level</i>
 - Fixed a bug which wouldn't grant you <i>Experience</i> and <i>Gold</i> if you killed an enemy during its turn
+- Made the Game playable on <i>MacOS</i> and <i>Unix Distributions</i> as well, hopefully (I cannot test that)
+- <i>SaveFiles</i> are now singletons and have their constructor private
+- Added class <i>FileHelper</i> which helps us check whether our app directory exists and our whether our save files exist 
 
 <b>Patch Notes 0.2.0</b>
 
