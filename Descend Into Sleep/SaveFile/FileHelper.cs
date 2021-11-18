@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp12.SaveFile
 {
@@ -7,16 +8,16 @@ namespace ConsoleApp12.SaveFile
     {
         private static string GetPathToFile()
         {
-            var operatingSystem = Environment.OSVersion.Platform;
+            var operatingSystem = FindOperatingSystem();
+            var username = Environment.UserName;
             switch (operatingSystem)
             {
-                case PlatformID.Win32NT:
-                    var username = Environment.UserName;
+                case "Windows":
                     return "C:\\Users\\" + username + "\\AppData\\Local\\";
-                case PlatformID.Unix:
-                    return "~/Library/Application Support/";
-                case PlatformID.MacOSX:
-                    return "~/.local/share/";
+                case "Linux":
+                    return "Users/" + username + "/Library/Application Support/";
+                case "MacOS":
+                    return "home/" + username + "/.local/share/";
                 default:
                     Console.WriteLine(operatingSystem + " is not currently supported");
                     Environment.Exit(0);
@@ -27,10 +28,21 @@ namespace ConsoleApp12.SaveFile
 
         private static bool IsUnix()
         {
-            var operatingSystem = Environment.OSVersion.Platform;
-            if (operatingSystem == PlatformID.Win32NT)
+            var operatingSystem = FindOperatingSystem();
+            if (operatingSystem == "Windows")
                 return false;
             return true;
+        }
+
+        private static string FindOperatingSystem()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return "Windows";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return "MacOS";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return "Linux";
+            return "None";
         }
         
         public static void CheckSaveDirectory()
