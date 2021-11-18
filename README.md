@@ -23,6 +23,8 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Made the Game playable on <i>MacOS</i> and <i>Unix Distributions</i> as well, hopefully (I cannot test that)
 - <i>SaveFiles</i> are now singletons and have their constructor private
 - Added class <i>FileHelper</i> which helps us check whether our app directory exists and our whether our save files exist 
+- Fixed a bug where Save File wouldn't close after opening due to the stream not closing
+- All Items are now Singletons! I might have missed a few here and there new()s, so be quick to remind me if I did
 
 <b>Patch Notes 0.2.0</b>
 
