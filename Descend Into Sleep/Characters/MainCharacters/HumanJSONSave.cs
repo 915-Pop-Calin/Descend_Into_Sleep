@@ -34,21 +34,20 @@ namespace ConsoleApp12.Characters.MainCharacters
         
         public double TotalMana { get; set; }
         
-        public List<string> InventoryOfTypes { get; set; }
+        public List<int> Inventory { get; set; }
 
         public double Gold { get; set; }
         public string School { get; set; }
         public string Difficulty { get; set; }
-        public string WeaponType { get; set; }
+        public int Weapon { get; set; }
         
-        public double WeaponAttackValue { get; set;  }
-        public string ArmourType { get; set; }
+        public int Armour { get; set; }
 
         public string[] PastSelvesNames { get; set; }
         public double[] PastSelvesInnateAttack { get; set; }
         public double[] PastSelvesInnateDefense { get; set; }
-        public string[] PastSelvesWeaponType { get; set; }
-        public string[] PastSelvesArmourType { get; set; }
+        public int[] PastSelvesWeapons { get; set; }
+        public int[] PastSelvesArmours { get; set; }
         public double[] PastSelvesMaxHealth { get; set; }
         public string[] PastSelvesDescription { get; set; }
         
@@ -73,8 +72,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             PastSelvesNames = new string[3];
             PastSelvesInnateAttack = new double[3];
             PastSelvesInnateDefense = new double[3];
-            PastSelvesWeaponType = new string[3];
-            PastSelvesArmourType = new string[3];
+            PastSelvesWeapons = new int[3];
+            PastSelvesArmours = new int[3];
             PastSelvesMaxHealth = new double[3];
             PastSelvesDescription = new string[3];
             
@@ -111,19 +110,18 @@ namespace ConsoleApp12.Characters.MainCharacters
             ExperiencePoints = humanPlayer.GetExperiencePoints();
 
             var inventory = humanPlayer.GetInventory();
-            InventoryOfTypes = new List<string>();
+            Inventory = new List<int>();
             foreach (var item in inventory)
             {
                 if (item != null)
-                    InventoryOfTypes.Add(item.GetType().ToString());
+                    Inventory.Add(AllItems.FindIdForItem(item));
             }
 
             Gold = humanPlayer.GetGold();
             School = humanPlayer.GetSchool();
             Difficulty = humanPlayer.GetDifficulty();
-            WeaponType = humanPlayer.GetWeapon().GetType().ToString();
-            WeaponAttackValue = humanPlayer.GetWeapon().GetAttackValue();
-            ArmourType = humanPlayer.GetArmour().GetType().ToString();
+            Weapon = AllItems.FindIdForItem(humanPlayer.GetWeapon());
+            Armour = AllItems.FindIdForItem(humanPlayer.GetArmour());
 
             InnateAttack = humanPlayer.GetInnateAttack();
             InnateDefense = humanPlayer.GetInnateDefense();
@@ -143,8 +141,8 @@ namespace ConsoleApp12.Characters.MainCharacters
                 PastSelvesNames[index] = null;
                 PastSelvesInnateAttack[index] = -1;
                 PastSelvesInnateDefense[index] = -1;
-                PastSelvesWeaponType[index] = null;
-                PastSelvesArmourType[index] = null;
+                PastSelvesWeapons[index] = -1;
+                PastSelvesArmours[index] = -1;
                 PastSelvesMaxHealth[index] = -1;
                 PastSelvesDescription[index] = null;
             }
@@ -154,8 +152,8 @@ namespace ConsoleApp12.Characters.MainCharacters
                 PastSelvesNames[index] = pastSelf.GetName();
                 PastSelvesInnateAttack[index] = pastSelf.GetInnateAttack();
                 PastSelvesInnateDefense[index] = pastSelf.GetInnateDefense();
-                PastSelvesWeaponType[index] = pastSelf.GetWeapon().GetType().ToString();
-                PastSelvesArmourType[index] = pastSelf.GetArmour().GetType().ToString();
+                PastSelvesWeapons[index] = AllItems.FindIdForItem(pastSelf.GetWeapon());
+                PastSelvesArmours[index] = AllItems.FindIdForItem(pastSelf.GetArmour());
                 PastSelvesMaxHealth[index] = pastSelf.GetMaximumHealthPoints();
                 PastSelvesDescription[index] = pastSelf.GetDescription();
             }
@@ -192,12 +190,11 @@ namespace ConsoleApp12.Characters.MainCharacters
                 throw new CorruptedSaveFileException(filename);
             }
 
-            var weaponType = Type.GetType(saveDetails.WeaponType);
-            var currentWeapon = (Weapon) Activator.CreateInstance(weaponType);
-            currentWeapon.SetAttackValue(saveDetails.WeaponAttackValue);
+            var weaponId = saveDetails.Weapon;
+            var currentWeapon = (Weapon) AllItems.Items[weaponId];
 
-            var armourType = Type.GetType(saveDetails.ArmourType);
-            var currentArmour = (Armour) Activator.CreateInstance(armourType);
+            var armourId = saveDetails.Armour;
+            var currentArmour = (Armour) AllItems.Items[armourId];
 
             var currentPlayer = new HumanPlayer(saveDetails.Name, saveDetails.Difficulty, currentWeapon, currentArmour);
             if (saveDetails.School is null)
@@ -215,11 +212,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             currentPlayer.SetInnateMaximumHealth(saveDetails.MaximumHealth);
             currentPlayer.SetHealthPoints(saveDetails.Health);
             
-            foreach (var itemString in saveDetails.InventoryOfTypes)
+            foreach (var itemId in saveDetails.Inventory)
             {
-                var itemType = Type.GetType(itemString);
-                var inventoryItem = (Item) Activator.CreateInstance(itemType);
-                currentPlayer.PickUp(inventoryItem);
+                var item = AllItems.Items[itemId];
+                currentPlayer.PickUp(item);
             }
             
             
@@ -249,11 +245,8 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             if (saveDetails.PastSelvesNames[index] is null)
                 return null;
-            var weaponType = Type.GetType(saveDetails.PastSelvesWeaponType[index]);
-            var weapon = (Weapon) Activator.CreateInstance(weaponType);
-
-            var armourType = Type.GetType(saveDetails.PastSelvesArmourType[index]);
-            var armour = (Armour) Activator.CreateInstance(armourType);
+            var weapon = (Weapon) AllItems.Items[saveDetails.PastSelvesWeapons[index]];
+            var armour = (Armour) AllItems.Items[saveDetails.PastSelvesArmours[index]];
 
             var name = saveDetails.PastSelvesNames[index];
             var innateAttack = saveDetails.PastSelvesInnateAttack[index];

@@ -35,6 +35,9 @@ namespace ConsoleApp12.Levels
             Passed = false;
             InCombat = false;
 
+            FileHelper.CheckSaveDirectory();
+            for (int i = 0; i <= 9; i++)
+                FileHelper.CheckSaveFile(i);
             ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
 
         }

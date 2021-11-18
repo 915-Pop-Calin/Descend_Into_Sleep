@@ -24,10 +24,10 @@ namespace ConsoleApp12.Shop
     {
         private HumanPlayer HumanPlayer;
         private int Level;
-        private List<KeyValuePair<Type, int>> UniversalOptions;
-        private Dictionary<int, List<KeyValuePair<Type, int>>> ShopOptions;
-        private List<KeyValuePair<Type, int>> TotalOptions;
-        private List<KeyValuePair<Type, int>> AllItems;
+        private List<KeyValuePair<Item, int>> UniversalOptions;
+        private Dictionary<int, List<KeyValuePair<Item, int>>> ShopOptions;
+        private List<KeyValuePair<Item, int>> TotalOptions;
+        private List<KeyValuePair<Item, int>> AllItems;
         private readonly double ReturnRate;
 
         public Shop(HumanPlayer humanPlayer, int level)
@@ -35,63 +35,77 @@ namespace ConsoleApp12.Shop
             HumanPlayer = humanPlayer;
             Level = level;
 
-            UniversalOptions = new List<KeyValuePair<Type, int>>();
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new HealthPotion().GetType(), 10));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new GrainOfSalt().GetType(), 50));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new DefensePotion().GetType(), 100));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new OffensePotion().GetType(), 100));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new SanityPotion().GetType(), 200));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new ManaPotion().GetType(), 20));
-            UniversalOptions.Add(new KeyValuePair<Type, int>(new ManaElixir().GetType(), 100));
-            ShopOptions = new Dictionary<int, List<KeyValuePair<Type, int>>>();
-
-            var levelTwoItems = new List<KeyValuePair<Type, int>>();
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new TemArmour().GetType(), 150));
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new Cloth().GetType(), 100));
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new Eclipse().GetType(), 150));
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new Words().GetType(), 50));
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new ToyKnife().GetType(), 50));
-            levelTwoItems.Add(new KeyValuePair<Type, int>(new Bandage().GetType(), 0));
-            ShopOptions.Add(2, levelTwoItems);
-
-            var levelThreeItems = new List<KeyValuePair<Type, int>>();
-            levelThreeItems.Add(new KeyValuePair<Type, int>(new SteelPlateau().GetType(), 800));
-            levelThreeItems.Add(new KeyValuePair<Type, int>(new TacosWhisper().GetType(), 1000));
-            levelThreeItems.Add(new KeyValuePair<Type, int>(new TitansFindings().GetType(), 1000));
-            levelThreeItems.Add(new KeyValuePair<Type, int>(new DoubleEdgedSword().GetType(), 800));
-            levelThreeItems.Add(new KeyValuePair<Type, int>(new TwoHandedMace().GetType(), 750));
-            ShopOptions.Add(3, levelThreeItems);
-
-            var levelFourItems = new List<KeyValuePair<Type, int>>();
-            levelFourItems.Add(new KeyValuePair<Type, int>(new BootsOfDodge().GetType(), 1500));
-            levelFourItems.Add(new KeyValuePair<Type, int>(new BoilingBlood().GetType(), 1500));
-            levelFourItems.Add(new KeyValuePair<Type, int>(new TankBuster().GetType(), 1500));
-            levelFourItems.Add(new KeyValuePair<Type, int>(new LanguageHacker().GetType(), 1800));
-            levelFourItems.Add(new KeyValuePair<Type, int>(new Xalatath().GetType(), 1800));
-            levelFourItems.Add(new KeyValuePair<Type, int>(new LastStand().GetType(), 1800));
-            ShopOptions.Add(4, levelFourItems);
-
-            var levelFiveItems = new List<KeyValuePair<Type, int>>();
-            levelFiveItems.Add(new KeyValuePair<Type, int>(new Scales().GetType(), 1000));
-            levelFiveItems.Add(new KeyValuePair<Type, int>(new IcarusesTouch().GetType(), 3600));
-            levelFiveItems.Add(new KeyValuePair<Type, int>(new TidalArmour().GetType(), 2800));
-            levelFiveItems.Add(new KeyValuePair<Type, int>(new FireDeflector().GetType(), 3200));
-            levelFiveItems.Add(new KeyValuePair<Type, int>(new GiantSlayer().GetType(), 3600));
-            ShopOptions.Add(5, levelFiveItems);
+            UniversalOptions = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.HealthPotion, 10),
+                KeyValuePair.Create<Item, int>(Items.AllItems.GrainOfSalt, 50),
+                KeyValuePair.Create<Item, int>(Items.AllItems.DefensePotion, 100),
+                KeyValuePair.Create<Item, int>(Items.AllItems.OffensePotion, 100),
+                KeyValuePair.Create<Item, int>(Items.AllItems.SanityPotion, 200),
+                KeyValuePair.Create<Item, int>(Items.AllItems.ManaPotion, 20),
+                KeyValuePair.Create<Item, int>(Items.AllItems.ManaElixir, 100)
+            };
             
-            var levelSixItems = new List<KeyValuePair<Type, int>>();
-            levelSixItems.Add(new KeyValuePair<Type, int>(new EyeOfSauron().GetType(), 5000));
-            levelSixItems.Add(new KeyValuePair<Type, int>(new InfinityEdge().GetType(), 2500));
-            levelSixItems.Add(new KeyValuePair<Type, int>(new RadusBiceps().GetType(), 3700));
-            levelSixItems.Add(new KeyValuePair<Type, int>(new NinjaYoroi().GetType(), 5000));
-            ShopOptions.Add(6, levelSixItems);
+            var levelTwoItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.TemArmour, 150),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Cloth, 100),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Eclipse, 150),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Words, 50),
+                KeyValuePair.Create<Item, int>(Items.AllItems.ToyKnife, 50),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Bandage, 0)
+            };
             
-            var levelSevenItems = new List<KeyValuePair<Type, int>>();
-            levelSevenItems.Add(new KeyValuePair<Type, int>(new TheRing().GetType(), 9000));
-            levelSevenItems.Add(new KeyValuePair<Type, int>(new Dreams().GetType(), 2400));
-            ShopOptions.Add(7, levelSevenItems);
+            var levelThreeItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.SteelPlateau, 800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TacosWhisper, 1000),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TitansFindings, 1000),
+                KeyValuePair.Create<Item, int>(Items.AllItems.DoubleEdgedSword, 800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TwoHandedMace, 750)
+            };
             
-            TotalOptions = new List<KeyValuePair<Type, int>>();
+            var levelFourItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.BootsOfDodge, 1500),
+                KeyValuePair.Create<Item, int>(Items.AllItems.BoilingBlood, 1500),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TankBuster, 1500),
+                KeyValuePair.Create<Item, int>(Items.AllItems.LanguageHacker, 1800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Xalatath, 1800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.LastStand, 1800)
+            };
+            
+            var levelFiveItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.Scales, 1000),
+                KeyValuePair.Create<Item, int>(Items.AllItems.IcarusesTouch, 3600),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TidalArmour, 2800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.FireDeflector, 3200),
+                KeyValuePair.Create<Item, int>(Items.AllItems.GiantSlayer, 3600)
+            };
+            
+            var levelSixItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.EyeOfSauron, 5000),
+                KeyValuePair.Create<Item, int>(Items.AllItems.InfinityEdge, 2500),
+                KeyValuePair.Create<Item, int>(Items.AllItems.RadusBiceps, 3700),
+                KeyValuePair.Create<Item, int>(Items.AllItems.NinjaYoroi, 5000)
+            };
+            
+            var levelSevenItems = new List<KeyValuePair<Item, int>>()
+            {
+                KeyValuePair.Create<Item, int>(Items.AllItems.TheRing, 9000),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Dreams, 2400)
+            };
+
+            ShopOptions = new Dictionary<int, List<KeyValuePair<Item, int>>>()
+            {
+                {2, levelTwoItems}, {3, levelThreeItems}, {4, levelFourItems}, {5, levelFiveItems},
+                {6, levelSixItems}, {7, levelSevenItems}
+            };
+
+            
+            TotalOptions = new List<KeyValuePair<Item, int>>();
 
             foreach (var option in UniversalOptions)
             {
@@ -106,7 +120,7 @@ namespace ConsoleApp12.Shop
                 }
             }
 
-            AllItems = new List<KeyValuePair<Type, int>>();
+            AllItems = new List<KeyValuePair<Item, int>>();
             for (int i = 2; i < 8; i++)
             {
                 foreach (var item in ShopOptions[i])
@@ -128,8 +142,7 @@ namespace ConsoleApp12.Shop
             foreach (var option in TotalOptions)
             {
                 var itemType = option.Key;
-                var item = (Item)Activator.CreateInstance(itemType);
-                toStr += item + " cost: " + option.Value + " gold\n";
+                toStr += itemType + " cost: " + option.Value + " gold\n";
             }
             Console.WriteLine(toStr);
             
@@ -150,14 +163,13 @@ namespace ConsoleApp12.Shop
             Console.WriteLine(toStr);
         }
 
-        private KeyValuePair<Type, int>? SearchItemByName(string itemName)
+        private KeyValuePair<Item, int>? SearchItemByName(string itemName)
         {
-            foreach (var itemTypePair in TotalOptions)
+            foreach (var itemPair in TotalOptions)
             {
-                var itemType = itemTypePair.Key;
-                var item = (Item) Activator.CreateInstance(itemType);
+                var item = itemPair.Key;
                 if (item.GetName().ToLower() == itemName)
-                    return itemTypePair;
+                    return itemPair;
             }
             return null;
         }
@@ -193,10 +205,9 @@ namespace ConsoleApp12.Shop
             if (itemPair is null)
                 throw new NotFoundItemException();
             
-            var itemPairNotNull = (KeyValuePair<Type, int>) itemPair;
+            var itemPairNotNull = (KeyValuePair<Item, int>) itemPair;
             
-            var itemType = itemPairNotNull.Key;
-            var item = (Item) Activator.CreateInstance(itemType);
+            var item = itemPairNotNull.Key;
             var itemCost = itemPairNotNull.Value;
             
             for (int i = 0; i < numberOfBuys; i++)
@@ -217,9 +228,10 @@ namespace ConsoleApp12.Shop
             var itemPair = SearchItemByName(choice);
             if (itemPair is null)
                 throw new NotFoundItemException();
-            var itemPairNotNull = (KeyValuePair<Type, int>) itemPair;
-            var itemType = itemPairNotNull.Key;
-            var item = (Item) Activator.CreateInstance(itemType);
+            
+            var itemPairNotNull = (KeyValuePair<Item, int>) itemPair;
+            var item = itemPairNotNull.Key;
+
             var itemCost = itemPairNotNull.Value;
             var soldCost = ReturnRate * itemCost;
             HumanPlayer.SellItem(soldCost, item);
@@ -231,8 +243,7 @@ namespace ConsoleApp12.Shop
         {
             foreach (var itemTypePair in TotalOptions)
             {
-                var itemType = itemTypePair.Key;
-                var item = (Item) Activator.CreateInstance(itemType);
+                var item = itemTypePair.Key;
                 if (item.GetName() == itemName)
                     return itemTypePair.Value;
             }

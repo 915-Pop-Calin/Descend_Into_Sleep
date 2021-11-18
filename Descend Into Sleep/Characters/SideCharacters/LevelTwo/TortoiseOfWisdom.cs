@@ -5,7 +5,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelTwo
 {
     public class TortoiseOfWisdom: SideEnemy
     {
-        public TortoiseOfWisdom() : base("Tortoise of Wisdom", 7, 1, new NoWeapon(), new TemArmour(), 35)
+        public TortoiseOfWisdom() : base("Tortoise of Wisdom", 7, 1, AllItems.NoWeapon, AllItems.TemArmour, 35)
         {
             Level = 2;
         }

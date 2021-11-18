@@ -62,7 +62,8 @@ namespace ConsoleApp12.SaveFile
             var saveFilePath = GetSaveFilePath(saveFileNumber);
             if (!File.Exists(saveFilePath))
             {
-                File.Create(saveFilePath);
+                var stream = File.Create(saveFilePath);
+                stream.Close();
             }
         }
 

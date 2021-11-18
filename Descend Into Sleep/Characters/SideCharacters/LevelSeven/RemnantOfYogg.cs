@@ -5,7 +5,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSeven
 {
     public class RemnantOfYogg: VoidSideEnemy
     {
-        public RemnantOfYogg() : base("Remnant of Yogg", 15, 200, new GiantSlayer(), new NoArmour(), 100)
+        public RemnantOfYogg() : base("Remnant of Yogg", 15, 200, AllItems.GiantSlayer, AllItems.NoArmour, 100)
         {
             Level = 7;
         }

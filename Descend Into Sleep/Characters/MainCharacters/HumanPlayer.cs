@@ -147,7 +147,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var criticalChance = Weapon.GetCriticalChance();
             IncreaseStatsAtWeaponChange(-attackDamage, -defenseValue, -armourPenetration, -criticalChance);
             
-            Weapon = new NoWeapon();
+            Weapon = AllItems.NoWeapon;
         }
 
         public void MoveArmourToInventory()
@@ -163,7 +163,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var defenseValue = Armour.GetDefenseValue();
             IncreaseStatsAtArmourChange(attackDamage, defenseValue);
             
-            Armour = new NoArmour();
+            Armour = AllItems.NoArmour;
         }
 
         private string UseWeapon(Weapon weapon, int itemIndex)

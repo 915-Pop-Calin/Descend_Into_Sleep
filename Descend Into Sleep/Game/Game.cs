@@ -6,6 +6,7 @@ using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game.keysWork;
+using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons.LevelOne;
 using ConsoleApp12.Levels;
@@ -55,7 +56,7 @@ namespace ConsoleApp12.Game
             
             var choice = ConsoleHelper.MultipleChoice(20,difficulties);
             var difficulty = difficulties[choice];
-            var humanPlayer = new HumanPlayer(name, difficulty, new ToyKnife(), new Bandage());
+            var humanPlayer = new HumanPlayer(name, difficulty, AllItems.ToyKnife, AllItems.Bandage);
             
             Player = humanPlayer;
             
@@ -71,7 +72,7 @@ namespace ConsoleApp12.Game
                 case 0:
                     try
                     {
-                        Player = new HumanPlayer("filler", "filler", new ToyKnife(), new Bandage());
+                        Player = new HumanPlayer("filler", "filler", AllItems.ToyKnife, AllItems.Bandage);
                         Load();
                     }
                     catch (InvalidSaveFileException invalidSaveFileException)

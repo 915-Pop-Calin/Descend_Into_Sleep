@@ -1,5 +1,6 @@
 ﻿using System;
 using ConsoleApp12.Ability.YoggSaronAbilities;
+using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelThree;
 
@@ -9,7 +10,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         private int DiscourageCounter;
         
-        public YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, new BoilingBlood(), new BootsOfDodge(),
+        public YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
             int.MaxValue, "The God Of Death.\n")
         {
             Level = 3;
