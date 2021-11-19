@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
@@ -17,10 +18,6 @@ namespace ConsoleApp12.Game
     public class Game
     {
         protected HumanPlayer Player;
-        protected Character Enemy;
-        protected Combat _Combat;
-        protected bool InCombat;
-        protected bool Exit;
         protected List<Level> Levels;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
         protected int Level;
@@ -28,11 +25,11 @@ namespace ConsoleApp12.Game
         public Game()
         {
             Player = null;
-            Enemy = null;
-            _Combat = null;
-            InCombat = true;
             Levels = null;
 
+            FileHelper.CheckSaveDirectory();
+            for (int i = 0; i <= 9; i++)
+                FileHelper.CheckSaveFile(i);
             ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
             Level = 1;
         }
@@ -113,8 +110,7 @@ namespace ConsoleApp12.Game
                 if (Level == 7 && Player.IsCheater())
                 {
                     Console.WriteLine("Last Level cannot be played because you cheated!\n");
-                    Exit = true;
-                    break;
+                    Environment.Exit(0);
                 }
             }
         }
