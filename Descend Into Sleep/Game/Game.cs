@@ -21,7 +21,7 @@ namespace ConsoleApp12.Game
         protected Combat _Combat;
         protected bool InCombat;
         protected bool Exit;
-        protected List<Type> Levels;
+        protected List<Level> Levels;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
         protected int Level;
 
@@ -31,16 +31,8 @@ namespace ConsoleApp12.Game
             Enemy = null;
             _Combat = null;
             InCombat = true;
-            Exit = false;
-            Levels = new List<Type>();
-            Levels.Add(new LevelOne(Player).GetType());
-            Levels.Add(new LevelTwo(Player).GetType());
-            Levels.Add(new LevelThree(Player).GetType());
-            Levels.Add(new LevelFour(Player).GetType());
-            Levels.Add(new LevelFive(Player).GetType());
-            Levels.Add(new LevelSix(Player).GetType());
-            Levels.Add(new LevelSeven(Player).GetType());
-            
+            Levels = null;
+
             ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
             Level = 1;
         }
@@ -48,7 +40,6 @@ namespace ConsoleApp12.Game
         private void StartCharacter()
         {
             Console.WriteLine("The name you want to use from now on is:\n");
-            
             var name = Console.ReadLine();
             
             var difficulties = new String[] {"easy", "medium", "hard", "impossible"};
@@ -56,12 +47,21 @@ namespace ConsoleApp12.Game
             
             var choice = ConsoleHelper.MultipleChoice(20,difficulties);
             var difficulty = difficulties[choice];
+            
             var humanPlayer = new HumanPlayer(name, difficulty, AllItems.ToyKnife, AllItems.Bandage);
             
             Player = humanPlayer;
-            
+            SetLevels();
         }
 
+        private void SetLevels()
+        {
+            Levels = new List<Level>()
+            {
+                new LevelOne(Player), new LevelTwo(Player), new LevelThree(Player), new LevelFour(Player),
+                new LevelFive(Player), new LevelSix(Player), new LevelSeven(Player)
+            };
+        }
         public void StartGame()
         {
             Console.WriteLine("Do you want to load your save file?");
@@ -100,8 +100,7 @@ namespace ConsoleApp12.Game
 
         private void PlayLevel()
         {
-            var currentLevelType = Levels[Level - 1];
-            var currentLevel = (Level) Activator.CreateInstance(currentLevelType, Player);
+            var currentLevel = Levels[Level - 1];
             currentLevel.PlayOut();
         }
 
@@ -148,8 +147,10 @@ namespace ConsoleApp12.Game
             var loadType = ListOfSaveFiles[choice].LoadInfo();
             if (loadType.Item1 == null)
                 throw new EmptySaveFileException();
+            
             Player = loadType.Item1;
             Level = loadType.Item2;
+            SetLevels();
         }
         
         

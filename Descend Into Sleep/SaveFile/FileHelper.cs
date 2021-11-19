@@ -15,9 +15,9 @@ namespace ConsoleApp12.SaveFile
                 case "Windows":
                     return "C:\\Users\\" + username + "\\AppData\\Local\\";
                 case "Linux":
-                    return "Users/" + username + "/Library/Application Support/";
-                case "MacOS":
                     return "home/" + username + "/.local/share/";
+                case "MacOS":
+                    return "Users/" + username + "/Library/Application Support/";
                 default:
                     Console.WriteLine(operatingSystem + " is not currently supported");
                     Environment.Exit(0);

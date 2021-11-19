@@ -1,6 +1,7 @@
 ﻿using System;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Items;
 using ConsoleApp12.Items.Weapons.Unobtainable;
 
 namespace ConsoleApp12.CombatSystem
@@ -61,7 +62,7 @@ namespace ConsoleApp12.CombatSystem
                         " look, I don't have much time but I have been studying this for some time.\n";
             toStr += "And I have come to the conclusion that there is only ONE way to beat him.\n";
             toStr += "You have to use this titan construct to strike him right in the heart.\n";
-            var titanConstructItem = new OrbOfTheTitans();
+            var titanConstructItem = AllItems.OrbOfTheTitans;
             humanPlayer.DirectEquipWeapon(titanConstructItem);
             toStr += "You have equipped " + titanConstructItem.GetName() + "!\n";
             return toStr;

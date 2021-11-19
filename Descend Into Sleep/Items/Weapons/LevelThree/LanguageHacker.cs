@@ -21,7 +21,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             try
             {
                 if (caster is HumanPlayer humanPlayer)
-                    humanPlayer.PickUp(new GrainOfSalt());
+                    humanPlayer.PickUp(AllItems.GrainOfSalt);
                 toStr = "Grain of Salt was added to your inventory!\n";
             }
             catch(FullInventoryException)

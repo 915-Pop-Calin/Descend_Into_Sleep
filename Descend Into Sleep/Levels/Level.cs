@@ -24,7 +24,7 @@ namespace ConsoleApp12.Levels
         protected bool InCombat;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
 
-        public Level(int levelNumber, HumanPlayer humanPlayer)
+        protected Level(int levelNumber, HumanPlayer humanPlayer)
         {
             Number = levelNumber;
             MainEnemy = null;
