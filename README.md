@@ -24,7 +24,15 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - <i>SaveFiles</i> are now singletons and have their constructor private
 - Added class <i>FileHelper</i> which helps us check whether our app directory exists and our whether our save files exist 
 - Fixed a bug where Save File wouldn't close after opening due to the stream not closing
-- All Items are now Singletons! I might have missed a few here and there new()s, so be quick to remind me if I did
+- All Items are now <i>Singletons</i>; there exists only one instance of each item
+- Fixed a bug where <i>MacOS</i> was swapped with <i>Linux</i>, thus crashing the game on both platforms
+- Fixed a bug where the <i>Singleton</i> items would be initialsied in the <i>LanguageHacker</i> item and in the <i>LastBossFight</i>
+- <i>Levels</i> are now initialised only after <i>Player</i> is initialised3
+- Fixed a bug where you couldn't fight any <i>SideBoss</i> in the last <i>Level</i>
+- Fixed a bug where getting hit by a <i>FireSideEnemy</i> would print your stats
+- Made all main enemies <i>Singletons</i>
+- <i>MainEnemies</i> is now a list instead of a single object, due to the last level having multiple of them
+- Depending on your type of ending, the colour of the console is different 
 
 <b>Patch Notes 0.2.0</b>
 
