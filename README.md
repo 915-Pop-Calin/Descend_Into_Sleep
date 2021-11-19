@@ -1,5 +1,7 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
+<b>PLAY THE GAME WITH THE CONSOLE ON FULL SCREEN TO REDUCE THE NUMBER OF BUGS</b>
+
 
 <b>Patch Notes 0.3.0</b>
 
@@ -33,6 +35,7 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - Made all main enemies <i>Singletons</i>
 - <i>MainEnemies</i> is now a list instead of a single object, due to the last level having multiple of them
 - Depending on your type of ending, the colour of the console is different 
+- Added Table to simulate GUI and made it work like previously
 
 <b>Patch Notes 0.2.0</b>
 
