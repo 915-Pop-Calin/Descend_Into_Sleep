@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
-using System.Numerics;
-using ConsoleApp12.Ability;
-using ConsoleApp12.Ability.HumanAbilities;
 using ConsoleApp12.Ability.HumanAbilities.FireAbilities;
 using ConsoleApp12.Ability.HumanAbilities.NatureAbilities;
 using ConsoleApp12.Ability.HumanAbilities.NeutralAbilities;
@@ -11,10 +7,6 @@ using ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items;
-using ConsoleApp12.Items.Armours.LevelOne;
-using ConsoleApp12.Items.Weapons;
-using ConsoleApp12.Items.Weapons.LevelOne;
-using ConsoleApp12.Items.Weapons.LevelTwo;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
@@ -38,9 +30,11 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             Level = 0;
             ExperiencePoints = 0;
-            Inventory = new List<Item>();
-            for (var index = 0; index < 8; index++)
-                Inventory.Add(null);
+            Inventory = new List<Item>()
+            {
+                null, null, null, null, null, null, null, null
+            };
+
             Gold = 0;
             Cheater = false;
             PastSelves = new List<Character>();
@@ -265,7 +259,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return false;
         }
 
-        public void LevelUp(string alreadyChosenSchool = null)
+        private void LevelUp(string alreadyChosenSchool = null)
         {
             if (Level >= 35)
                 throw new MaximumLevelException();
@@ -308,7 +302,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var abilityInfo = AbilitiesToLearn[Level];
             var abilityToLearn = abilityInfo.Key;
             var abilityLevel = abilityInfo.Value;
-            var toStr = "";
+            String toStr;
             if (abilityLevel == 1)
                 toStr = LearnAbility(abilityToLearn);
             else
@@ -426,7 +420,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             Cheater = true;
         }
 
-        private string LevelUpAbility(Ability.Ability ability, bool verbose = true)
+        private string LevelUpAbility(Ability.Ability ability)
         {
             var abilityName = ability.GetName();
             RespectiveAbilities[abilityName].LevelUp();
@@ -435,7 +429,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return toStr;
         }
 
-        public void ChooseSchool(string alreadyChosenSchool = null)
+        private void ChooseSchool(string alreadyChosenSchool = null)
         {
             String schoolChoice;
             if (alreadyChosenSchool is not null)

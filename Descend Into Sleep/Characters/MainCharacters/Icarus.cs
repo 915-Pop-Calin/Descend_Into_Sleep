@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class Icarus: Character
     {
-        public Icarus() : base("Icarus", 0, 100, AllItems.IcarusesTouch, AllItems.SteelPlateau, 200,
+        private Icarus() : base("Icarus", 0, 100, AllItems.IcarusesTouch, AllItems.SteelPlateau, 200,
             "The corrupted mythological figure by flying too close to the sun.\n")
         {
             Level = 5;
@@ -16,5 +16,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             AddAbility(burnAbility);
             AddAbility(burningWillAbility);
         }
+
+        public static Icarus MainBoss = new Icarus();
     }
 }

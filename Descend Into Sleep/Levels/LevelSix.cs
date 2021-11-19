@@ -7,7 +7,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelSix(HumanPlayer humanPlayer) : base(6, humanPlayer)
         {
-            MainEnemy = typeof(Sauron);
+            MainEnemies.Enqueue(Sauron.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(CorruptedProphet));
             SideEnemies.Add(typeof(PossessedGoblin));

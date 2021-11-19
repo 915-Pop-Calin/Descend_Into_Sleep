@@ -8,7 +8,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelThree(HumanPlayer humanPlayer) : base(3, humanPlayer)
         {
-            MainEnemy = typeof(YoggSaron);
+            MainEnemies.Enqueue(YoggSaron.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(VoidCorruptedCyclope));
             SideEnemies.Add(typeof(VoidCorruptedDog));

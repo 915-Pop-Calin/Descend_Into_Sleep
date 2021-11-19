@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class SpaghettiMonster: Character
     {
-        public SpaghettiMonster(): base("Spaghetti Monster", 1, 300, AllItems.Words, AllItems.TemArmour, 100, "Represents the Developer\n")
+        private SpaghettiMonster(): base("Spaghetti Monster", 1, 300, AllItems.Words, AllItems.TemArmour, 100, "Represents the Developer\n")
         {
             Level = 2;
             var entangleAbility = new Entangle();
@@ -15,5 +15,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             AddAbility(entangleAbility);
             AddAbility(defensiveStanceAbility);
         }
+
+        public static SpaghettiMonster MainBoss = new SpaghettiMonster();
     }
 }

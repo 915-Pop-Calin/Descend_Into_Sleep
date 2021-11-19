@@ -30,7 +30,7 @@ namespace ConsoleApp12.Characters.SideCharacters
             var DOTDealt = randomObject.Next(minimumDOTDealtInt, maximumDOTDealtInt);
             var DOTEffect = new DotEffect(NumberOfTurns, DOTDealt);
             opponent.AddDotEffect(DOTEffect);
-            var toStr = opponent + " will take " + DOTDealt + " damage per turn for the next " + NumberOfTurns +
+            var toStr = opponentName + " will take " + DOTDealt + " damage per turn for the next " + NumberOfTurns +
                         " turns!\n";
             return toStr;
         }

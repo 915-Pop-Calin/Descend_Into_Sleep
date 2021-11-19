@@ -10,7 +10,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         private int DiscourageCounter;
         
-        public YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
+        private YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
             int.MaxValue, "The God Of Death.\n")
         {
             Level = 3;
@@ -54,5 +54,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             AddAbility(madnessAbility);
             IsAutoAttacker = false;
         }
+
+        public static YoggSaron MainBoss = new YoggSaron();
     }
 }

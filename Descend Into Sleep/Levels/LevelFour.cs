@@ -7,7 +7,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelFour(HumanPlayer humanPlayer) : base(4, humanPlayer)
         {
-            MainEnemy = typeof(Cthulhu);
+            MainEnemies.Enqueue(Cthulhu.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(ParanoiaInducer));
             SideEnemies.Add(typeof(TentacledManifestation));

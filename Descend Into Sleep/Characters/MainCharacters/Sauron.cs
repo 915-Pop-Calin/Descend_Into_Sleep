@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class Sauron: Character
     {
-        public Sauron() : base("Sauron", 2, 200, AllItems.TheRing, AllItems.EyeOfSauron, 200, "The creator of the Ring.\n")
+        private Sauron() : base("Sauron", 2, 200, AllItems.TheRing, AllItems.EyeOfSauron, 200, "The creator of the Ring.\n")
         {
             Level = 6;
             var powerOfTheRingAbility = new PowerOfTheRing();
@@ -15,5 +15,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             AddAbility(powerOfTheRingAbility);
             AddAbility(powerOfTheEyeAbility);
         }
+
+        public static Sauron MainBoss = new Sauron();
     }
 }

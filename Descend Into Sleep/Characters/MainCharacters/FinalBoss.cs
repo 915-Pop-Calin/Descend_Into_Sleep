@@ -13,7 +13,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         private string AttackType;
         private Queue<string> DialogueLines;
 
-        public FinalBoss() : base("???????", 75, 10000, AllItems.SaroniteTentacles, AllItems.SaroniteScales, 10000, "Mysterious Presence.\n")
+        private FinalBoss() : base("???????", 75, 10000, AllItems.SaroniteTentacles, AllItems.SaroniteScales, 10000, "Mysterious Presence.\n")
         {
             Level = 7;
             PhaseNumber = 1;
@@ -102,5 +102,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             return PhaseNumber;
         }
+
+        public static FinalBoss MainBoss = new FinalBoss();
     }
 }

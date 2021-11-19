@@ -7,7 +7,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelTwo(HumanPlayer humanPlayer) : base(2, humanPlayer)
         {
-            MainEnemy = typeof(SpaghettiMonster);
+            MainEnemies.Enqueue(SpaghettiMonster.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(Amalgamation));
             SideEnemies.Add(typeof(Cyclope));

@@ -7,7 +7,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class Tem: Character
     {
-        public Tem() : base("Tem", 1, 75, AllItems.Eclipse, AllItems.Cloth, 100, "Comes from Temmie Village\n")
+        private Tem() : base("Tem", 1, 75, AllItems.Eclipse, AllItems.Cloth, 100, "Comes from Temmie Village\n")
         {
             Level = 1;
             var doNothingAbility = new DoNothing();
@@ -15,5 +15,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var healTemAbility = new HealTem();
             AddAbility(healTemAbility);
         }
+
+        public static Tem MainBoss = new Tem();
     }
 }

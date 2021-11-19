@@ -15,7 +15,7 @@ namespace ConsoleApp12.Levels
     public class Level
     {
         protected int Number;
-        protected Type MainEnemy;
+        protected Queue<Character> MainEnemies;
         protected List<Type> SideEnemies;
         protected Shop.Shop Shop;
         protected HumanPlayer Player;
@@ -24,10 +24,10 @@ namespace ConsoleApp12.Levels
         protected bool InCombat;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
 
-        protected Level(int levelNumber, HumanPlayer humanPlayer)
+        public Level(int levelNumber, HumanPlayer humanPlayer)
         {
             Number = levelNumber;
-            MainEnemy = null;
+            MainEnemies = new Queue<Character>();
             SideEnemies = new List<Type>();
             Shop = null;
             Player = humanPlayer;
@@ -283,12 +283,16 @@ namespace ConsoleApp12.Levels
             }
         }
 
-        private void BossFight()
+        protected virtual void BossFight()
         {
-            var mainEnemy = (Character) Activator.CreateInstance(MainEnemy);
-            var toStr = "WILD " + mainEnemy.GetName() + " APPEARED!\n";
-            Console.WriteLine(toStr);
-            Combat(mainEnemy);
+            while (MainEnemies.Count != 0)
+            {
+                var mainEnemy = MainEnemies.Dequeue();
+                var toStr = "WILD " + mainEnemy.GetName() + " APPEARED!\n";
+                Console.WriteLine(toStr);
+                Combat(mainEnemy);
+            }
+            Passed = true;
         }
 
         private void SideBossFight(SideEnemy sideEnemy)
@@ -302,9 +306,6 @@ namespace ConsoleApp12.Levels
         {
             var combat = new Fight(Player, enemy);
             combat.Brawl();
-            var mainEnemyName = ((Character) Activator.CreateInstance(MainEnemy)).GetName();
-            if (enemy.GetName() == mainEnemyName)
-                Passed = true;
         }
 
         public virtual void PlayOut()

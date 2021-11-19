@@ -9,7 +9,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelOne(HumanPlayer humanPlayer) : base(1, humanPlayer)
         {
-            MainEnemy = typeof(Tem);
+            MainEnemies.Enqueue(Tem.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(DogOfWisdom));
             SideEnemies.Add(typeof(DogOfRashness));

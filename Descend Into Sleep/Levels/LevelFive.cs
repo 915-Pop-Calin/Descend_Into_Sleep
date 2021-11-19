@@ -7,7 +7,7 @@ namespace ConsoleApp12.Levels
     {
         public LevelFive(HumanPlayer humanPlayer) : base(5, humanPlayer)
         {
-            MainEnemy = typeof(Icarus);
+            MainEnemies.Enqueue(Icarus.MainBoss);
             Shop = new Shop.Shop(Player, Number);
             SideEnemies.Add(typeof(BurningCitizen));
             SideEnemies.Add(typeof(ExtinguishedFlame));

@@ -1,6 +1,7 @@
 ﻿using System;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -20,29 +21,29 @@ namespace ConsoleApp12.CombatSystem
             var computerPlayerName = SecondPlayer.GetName();
             var humanPlayerName = HumanPlayer.GetName();
             Console.WriteLine(computerPlayerName + " arrives into the fray!\n");
-            Console.WriteLine("MURDER\nSPARE\nSTATS\n");
-            var invalidInput = true;
-            while (invalidInput)
+
+            while (true)
             {
+                var choice = ConsoleHelper.MultipleChoice(20, "MURDER", "SPARE", "STATS");
                 Console.WriteLine("Your choice is:\n");
-                var choice = Console.ReadLine();
                 switch (choice)
                 {
-                    case "STATS":
-                        Console.WriteLine(SecondPlayer);
-                        break;
-                    case "MURDER":
+                    case 0:
                         HumanPlayer.DealDirectDamage(SecondPlayer, int.MaxValue);
-                        Console.WriteLine(computerPlayerName + " has been defeated!\n");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(computerPlayerName + " has been MURDERED!\n");
+                        Console.ResetColor();
                         return true;
-                    case "SPARE":
+                    case 1:
                         Console.WriteLine("And I thought highly of you.\n");
                         HumanPlayer.DealDirectDamage(HumanPlayer, int.MaxValue);
-                        Console.WriteLine(humanPlayerName + " has been murdered!\n");
+                        Console.WriteLine(humanPlayerName + " was lost to his insanity!\n");
                         return false;
+                    case 2:
+                        Console.WriteLine(SecondPlayer);
+                        break;
                 }
             }
-            return true;
         }
     }
 }
