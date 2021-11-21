@@ -40,9 +40,9 @@ namespace ConsoleApp12.Game
             var name = Console.ReadLine();
             
             var difficulties = new String[] {"easy", "medium", "hard", "impossible"};
-            Console.WriteLine("Choose the difficulty you want to play on");
-            
-            var choice = ConsoleHelper.MultipleChoice(20,difficulties);
+            const string question = "Choose the difficulty you want to play on";
+
+            var choice = ConsoleHelper.MultipleChoice(20, question, difficulties);
             var difficulty = difficulties[choice];
             
             var humanPlayer = new HumanPlayer(name, difficulty, AllItems.ToyKnife, AllItems.Bandage);
@@ -61,8 +61,8 @@ namespace ConsoleApp12.Game
         }
         public void StartGame()
         {
-            Console.WriteLine("Do you want to load your save file?");
-            var decision = ConsoleHelper.MultipleChoice(20,"yes", "no");
+            const string question = "Do you want to load your save file?";
+            var decision = ConsoleHelper.MultipleChoice(20,question, "yes", "no");
 
             switch (decision)
             {

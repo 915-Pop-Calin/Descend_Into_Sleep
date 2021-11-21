@@ -41,16 +41,16 @@ namespace ConsoleApp12.Shop
                 KeyValuePair.Create<Item, int>(Items.AllItems.GrainOfSalt, 50),
                 KeyValuePair.Create<Item, int>(Items.AllItems.DefensePotion, 100),
                 KeyValuePair.Create<Item, int>(Items.AllItems.OffensePotion, 100),
-                KeyValuePair.Create<Item, int>(Items.AllItems.SanityPotion, 200),
+                KeyValuePair.Create<Item, int>(Items.AllItems.SanityPotion, 100),
                 KeyValuePair.Create<Item, int>(Items.AllItems.ManaPotion, 20),
                 KeyValuePair.Create<Item, int>(Items.AllItems.ManaElixir, 100)
             };
             
             var levelTwoItems = new List<KeyValuePair<Item, int>>()
             {
-                KeyValuePair.Create<Item, int>(Items.AllItems.TemArmour, 150),
+                KeyValuePair.Create<Item, int>(Items.AllItems.TemArmour, 450),
                 KeyValuePair.Create<Item, int>(Items.AllItems.Cloth, 100),
-                KeyValuePair.Create<Item, int>(Items.AllItems.Eclipse, 150),
+                KeyValuePair.Create<Item, int>(Items.AllItems.Eclipse, 400),
                 KeyValuePair.Create<Item, int>(Items.AllItems.Words, 50),
                 KeyValuePair.Create<Item, int>(Items.AllItems.ToyKnife, 50),
                 KeyValuePair.Create<Item, int>(Items.AllItems.Bandage, 0)
@@ -168,7 +168,7 @@ namespace ConsoleApp12.Shop
             foreach (var itemPair in TotalOptions)
             {
                 var item = itemPair.Key;
-                if (item.GetName().ToLower() == itemName)
+                if (item.GetName().ToLower() == itemName.Trim().ToLower())
                     return itemPair;
             }
             return null;

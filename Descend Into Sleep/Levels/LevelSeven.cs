@@ -66,9 +66,8 @@ namespace ConsoleApp12.Levels
         {
             while (DialogueLines.Count != 1)
             {
-                var dialogueLine = DialogueLines.Dequeue();
-                Console.WriteLine(dialogueLine);
-                ConsoleHelper.MultipleChoice(20, "proceed");
+                var question = DialogueLines.Dequeue();
+                ConsoleHelper.MultipleChoice(20, question, "proceed");
             }
         }
 
@@ -79,8 +78,8 @@ namespace ConsoleApp12.Levels
 
             var options = new String[2] {"spare", "destroy"};
             
-            Console.WriteLine("Your choice is:\n");
-            var choice = ConsoleHelper.MultipleChoice(20, "spare", "destroy");
+            const string question = "Your choice is:";
+            var choice = ConsoleHelper.MultipleChoice(20, question, "spare", "destroy");
             return options[choice];
         }
 

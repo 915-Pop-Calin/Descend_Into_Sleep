@@ -10,9 +10,14 @@ namespace keysWork
 {
     public class ConsoleHelper
     {
-        public static int MultipleChoice(int spacingPerLine, params string[] options)
+        public static int MultipleChoice(int spacingPerLine, string question, params string[] options)
         {
             int currentSelection = 0;
+            var consoleBufferSize = Console.CursorTop;
+            
+            if (consoleBufferSize >= 3000)
+                Console.Clear();
+            Console.WriteLine(question);
             ConsoleKey key = ConsoleKey.A;
             Console.CursorVisible = false;
             int topConsole = Console.CursorTop;

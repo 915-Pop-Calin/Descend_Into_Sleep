@@ -39,7 +39,8 @@ namespace ConsoleApp12.CombatSystem
             {
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
-                var choice = ConsoleHelper.MultipleChoice(15, actions);
+                const string question = "";
+                var choice = ConsoleHelper.MultipleChoice(15, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];
@@ -88,7 +89,8 @@ namespace ConsoleApp12.CombatSystem
 
             while (InvalidInput)
             {
-                var choice = ConsoleHelper.MultipleChoice(20, "attack", "actions", "check stats", "equip item");
+                const string question = "";
+                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
                     case 0:

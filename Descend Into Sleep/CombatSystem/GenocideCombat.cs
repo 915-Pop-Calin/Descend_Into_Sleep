@@ -24,7 +24,8 @@ namespace ConsoleApp12.CombatSystem
 
             while (true)
             {
-                var choice = ConsoleHelper.MultipleChoice(20, "MURDER", "SPARE", "STATS");
+                const string question = "";
+                var choice = ConsoleHelper.MultipleChoice(20, question, "MURDER", "SPARE", "STATS");
                 Console.WriteLine("Your choice is:\n");
                 switch (choice)
                 {

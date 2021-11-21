@@ -111,7 +111,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         private int FindItemByName(string itemName)
         {
             for (int index = 0; index < Inventory.Count; index++)
-                if (Inventory[index] != null && Inventory[index].GetName() == itemName)
+                if (Inventory[index] != null && Inventory[index].GetName().ToLower() == itemName.ToLower().Trim())
                     return index;
             return -1;
         }
@@ -388,7 +388,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         public void SellItem(double cost, Item item)
         {
             int itemIndex = FindItemByName(item.GetName());
-            if (itemIndex != -1)
+            if (itemIndex == -1)
                 throw new NotFoundItemException();
             Inventory[itemIndex] = null;
             Gold += cost;
@@ -438,8 +438,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             else
             {
                 var schools = new String[3] {"fire", "self-harm", "nature"};
-                Console.WriteLine("Choose a school to be a part of");
-                    var choice = ConsoleHelper.MultipleChoice(20, "fire", "self-harm", "nature");
+                const string question = "Choose a school to be a part of";
+                    var choice = ConsoleHelper.MultipleChoice(20, question, "fire", "self-harm", "nature");
                     schoolChoice = schools[choice];
             }
 

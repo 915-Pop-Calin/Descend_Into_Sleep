@@ -112,7 +112,8 @@ namespace ConsoleApp12.Levels
         private void DropCurrentItem()
         {
             Console.WriteLine("What do you want to drop?");
-            int choice = ConsoleHelper.MultipleChoice(50,"drop current weapon", "drop current armour");
+            const string question = "What do you want to drop?";
+            int choice = ConsoleHelper.MultipleChoice(50, question, "drop current weapon", "drop current armour");
             switch (choice)
             {
                 case 0:
@@ -142,7 +143,8 @@ namespace ConsoleApp12.Levels
         // returns 2 if we want to proceed, 0 if we want to exit
         private int GameOptions()
         {
-            int choice = ConsoleHelper.MultipleChoice(20,"proceed", "explore", "save", "exit", "back");
+            const string question = "";
+            int choice = ConsoleHelper.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
             switch (choice)
             {
                 case 0:
@@ -164,7 +166,8 @@ namespace ConsoleApp12.Levels
 
         private void PlayerOptions()
         {
-            int choice = ConsoleHelper.MultipleChoice(20,"equip item", "drop item", "check stats", "drop current item",
+            const string question = "";
+            int choice = ConsoleHelper.MultipleChoice(20,question, "equip item", "drop item", "check stats", "drop current item",
                 "see abilities", "back");
             switch (choice)
             {
@@ -190,7 +193,8 @@ namespace ConsoleApp12.Levels
 
         private void ShopOptions()
         {
-            int choice = ConsoleHelper.MultipleChoice(20, "buy", "sell", "back");
+            const string question = "";
+            int choice = ConsoleHelper.MultipleChoice(20, question, "buy", "sell", "back");
             switch (choice)
             {
                 case 0:
@@ -217,7 +221,8 @@ namespace ConsoleApp12.Levels
             while (decision != "Proceed")
             {
 
-                var choice = ConsoleHelper.MultipleChoice(20,"game options", "player options", "shop options");
+                const string question = "";
+                var choice = ConsoleHelper.MultipleChoice(20,question, "game options", "player options", "shop options");
                 try
                 {
                     switch (choice)
