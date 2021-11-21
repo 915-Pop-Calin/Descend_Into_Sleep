@@ -427,6 +427,11 @@ namespace ConsoleApp12.Characters
             return Sanity;
         }
 
+        public void SetSanity(double newSanity)
+        {
+            Sanity = newSanity;
+        }
+        
         public void RestoreSanity(double sanityValue)
         {
             Sanity = Math.Min(Sanity + sanityValue, 100);

@@ -38,6 +38,8 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         public double Gold { get; set; }
         public string School { get; set; }
+        
+        public double Sanity { get; set; }
         public string Difficulty { get; set; }
         public int Weapon { get; set; }
         
@@ -118,6 +120,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             }
 
             Gold = humanPlayer.GetGold();
+            Sanity = humanPlayer.GetSanity();
             School = humanPlayer.GetSchool();
             Difficulty = humanPlayer.GetDifficulty();
             Weapon = AllItems.FindIdForItem(humanPlayer.GetWeapon());
@@ -211,6 +214,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             currentPlayer.SetTotalMana(saveDetails.TotalMana);
             currentPlayer.SetInnateMaximumHealth(saveDetails.MaximumHealth);
             currentPlayer.SetHealthPoints(saveDetails.Health);
+            currentPlayer.SetSanity(saveDetails.Sanity);
             
             foreach (var itemId in saveDetails.Inventory)
             {
@@ -264,7 +268,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return encodedString;
         }
 
-        private static String EncodeString(String stringToEncode)
+        public static String EncodeString(String stringToEncode)
         {
             var encodedString = new StringBuilder();
             var stringLength = stringToEncode.Length;
@@ -282,7 +286,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return encodedString.ToString();
         }
 
-        private static String DecodeString(String stringToDecode)
+        public static String DecodeString(String stringToDecode)
         {
             var decodedString = new StringBuilder();
             var stringLength = stringToDecode.Length;

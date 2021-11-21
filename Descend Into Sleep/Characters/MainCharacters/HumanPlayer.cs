@@ -583,8 +583,8 @@ namespace ConsoleApp12.Characters.MainCharacters
         public override string ToString()
         {
             var toStr = Name + ": " + Math.Round(Health, 2) + "/" + Math.Round(MaximumHealth, 2) +
-                        " HEALTH, " + Math.Round(Mana, 2) + " MANA, " + Defense + " DEFENSE, ";
-            toStr += Attack + " ATTACK, " + Gold + " GOLD, " + Level + " LEVEL\n";
+                        " HEALTH, " + Math.Round(Mana, 2) + " MANA, " + Math.Round(Defense, 2) + " DEFENSE, ";
+            toStr += Math.Round(Attack, 2) + " ATTACK, " + Math.Round(Sanity, 2) + " SANITY, " + Gold + " GOLD, " + Level + " LEVEL\n";
             toStr += Weapon.ToString();
             toStr += Armour.ToString();
             toStr += "school: ";
