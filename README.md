@@ -2,6 +2,14 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 
 <b>PLAY THE GAME WITH THE CONSOLE ON FULL SCREEN TO REDUCE THE NUMBER OF BUGS</b>
 
+<b>Patch Notes 0.4.0</b>
+- Fixed a bug where you couldn't sell any item
+- <i>TemArmour</i> cost nerfed from 150 Gold to 450 Gold
+- <i>Eclipse</i> cost nerfed from 150 Gold to 400 Gold
+- <i>SanityPotion</i> cost buffed from 200 Gold to 100 Gold
+- <i>Amalgamation</i>'s Attack Value buffed from 1 to 7
+- <i>SpaghettiMonster</i>'s Attack Value buffed from 1 to 10
+
 
 <b>Patch Notes 0.3.0</b>
 
