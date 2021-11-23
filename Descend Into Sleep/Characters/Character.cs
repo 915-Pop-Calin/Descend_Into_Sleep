@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
 
@@ -204,7 +205,7 @@ namespace ConsoleApp12.Characters
 
         public void GainMana(double manaGained)
         {
-            Mana += manaGained;
+            Mana = Math.Min(Mana + manaGained, TotalMana);
         }
 
         public void PermanentlyReduceHealthPoints(double reducedHealthPoints)
@@ -229,7 +230,7 @@ namespace ConsoleApp12.Characters
             return multiplier;
         }
 
-        public double NormalHit(Character opponent)
+        private double NormalHit(Character opponent)
         {
             var multiplier = GetMultiplier(opponent);
             double damageDealt;
@@ -429,7 +430,7 @@ namespace ConsoleApp12.Characters
 
         public void SetSanity(double newSanity)
         {
-            Sanity = newSanity;
+            Sanity = newSanity; 
         }
         
         public void RestoreSanity(double sanityValue)

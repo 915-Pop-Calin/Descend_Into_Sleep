@@ -48,10 +48,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             AbilitiesToLearn[6] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 2);
             AbilitiesToLearn[7] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 2);
             AbilitiesToLearn[9] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 3);
-            AbilitiesToLearn[11] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 3);
+            AbilitiesToLearn[11] = new KeyValuePair<Ability.Ability, int>(new Focus(), 1);
             AbilitiesToLearn[12] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 3);
             AbilitiesToLearn[14] = new KeyValuePair<Ability.Ability, int>(new Discourage(), 1);
-            AbilitiesToLearn[19] = new KeyValuePair<Ability.Ability, int>(new Focus(), 1);
+            AbilitiesToLearn[19] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 3);
             AbilitiesToLearn[21] = new KeyValuePair<Ability.Ability, int>(new Focus(), 2);
             AbilitiesToLearn[24] = new KeyValuePair<Ability.Ability, int>(new CleanseDOT(), 1);
             AbilitiesToLearn[29] = new KeyValuePair<Ability.Ability, int>(new TrueDamage(), 1);
@@ -583,7 +583,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         public override string ToString()
         {
             var toStr = Name + ": " + Math.Round(Health, 2) + "/" + Math.Round(MaximumHealth, 2) +
-                        " HEALTH, " + Math.Round(Mana, 2) + " MANA, " + Math.Round(Defense, 2) + " DEFENSE, ";
+                        " HEALTH, " + Math.Round(Mana, 2) + "/" + Math.Round(TotalMana, 2) + " MANA, " + Math.Round(Defense, 2) + " DEFENSE, ";
             toStr += Math.Round(Attack, 2) + " ATTACK, " + Math.Round(Sanity, 2) + " SANITY, " + Gold + " GOLD, " + Level + " LEVEL\n";
             toStr += Weapon.ToString();
             toStr += Armour.ToString();
