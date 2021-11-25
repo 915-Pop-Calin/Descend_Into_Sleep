@@ -5,7 +5,7 @@ namespace ConsoleApp12.Items.Armours.LeverFour
 {
     public class FireDeflector:  Armour
     {
-        public FireDeflector(): base(0, 75)
+        public FireDeflector(): base(0, 75, 0)
         {
             SetEffect();
             Name = "Fire Deflector";

@@ -40,6 +40,8 @@ namespace ConsoleApp12.Characters.MainCharacters
         public string School { get; set; }
         
         public double Sanity { get; set; }
+        
+        public double MaximumSanity { get; set; }
         public string Difficulty { get; set; }
         public int Weapon { get; set; }
         
@@ -121,6 +123,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
             Gold = humanPlayer.GetGold();
             Sanity = humanPlayer.GetSanity();
+            MaximumSanity = humanPlayer.GetMaximumSanity();
             School = humanPlayer.GetSchool();
             Difficulty = humanPlayer.GetDifficulty();
             Weapon = AllItems.FindIdForItem(humanPlayer.GetWeapon());
@@ -215,6 +218,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             currentPlayer.SetInnateMaximumHealth(saveDetails.MaximumHealth);
             currentPlayer.SetHealthPoints(saveDetails.Health);
             currentPlayer.SetSanity(saveDetails.Sanity);
+            currentPlayer.SetMaximumSanity(saveDetails.MaximumSanity);
             
             foreach (var itemId in saveDetails.Inventory)
             {

@@ -4,7 +4,7 @@ namespace ConsoleApp12.Items.Armours.LeverFour
 {
     public class TidalArmour: Armour
     {
-        public TidalArmour() : base(0, 30)
+        public TidalArmour() : base(0, 30, 0)
         {
             Name = "Tidal Armour";
             Description = "Helps one put out fire";

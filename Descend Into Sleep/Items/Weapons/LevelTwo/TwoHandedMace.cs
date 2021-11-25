@@ -8,7 +8,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
     public class TwoHandedMace: Weapon
     {
 
-        public TwoHandedMace() : base(45, 0)
+        public TwoHandedMace() : base(45, 0, 0)
         {
             Name = "Two Handed Mace";
             Description = "Strong attack weapon, but stuns you for one turn";

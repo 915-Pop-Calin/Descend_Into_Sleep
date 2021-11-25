@@ -8,6 +8,7 @@ namespace ConsoleApp12.Items
     {
         protected double Attack;
         protected double Defense;
+        protected double Health;
         protected bool _Effect;
         protected string Description;
         protected bool _Passive;
@@ -29,6 +30,16 @@ namespace ConsoleApp12.Items
         public void SetDefenseValue(double newDefenseValue)
         {
             Defense = newDefenseValue;
+        }
+
+        public double GetHealth()
+        {
+            return Health;
+        }
+
+        public void SetHealth(double newHealth)
+        {
+            Health = newHealth;
         }
         
         public bool HasEffect()

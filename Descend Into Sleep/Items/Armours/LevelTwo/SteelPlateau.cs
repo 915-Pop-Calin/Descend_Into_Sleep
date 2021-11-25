@@ -4,7 +4,7 @@ namespace ConsoleApp12.Items.Armours.LevelTwo
 {
     public class SteelPlateau: Armour
     {
-        public SteelPlateau() : base(0, 200)
+        public SteelPlateau() : base(0, 200, 0)
         {
             SetEffect();
             Name = "Steel Plateau";

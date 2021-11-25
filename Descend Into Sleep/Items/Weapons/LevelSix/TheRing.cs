@@ -5,10 +5,13 @@ namespace ConsoleApp12.Items.Armours.LevelSix
 {
     public class TheRing: Weapon
     {
-        public TheRing() : base(1, 0)
+        private readonly int DamageIncrease;
+        
+        public TheRing() : base(1, 0, 0)
         {
             SetEffect();
             Name = "The Ring";
+            DamageIncrease = 1;
             Description = "Scaling weapon. Starts off very weak but gains one attack on each attack";
         }
 
@@ -22,12 +25,13 @@ namespace ConsoleApp12.Items.Armours.LevelSix
             {
                 opponent.ReduceSanity(attackValue);
                 var opponentSanity = opponent.GetSanity();
-                toStr = opponent.GetName() + "'s sanity was reduced by " + attackValue.ToString() + "!\n";
-                toStr += opponent.GetName() + " is left with " + opponentSanity.ToString() + " sanity!\n";
+                toStr = opponent.GetName() + "'s sanity was reduced by " + attackValue + "!\n";
+                toStr += opponent.GetName() + " is left with " + opponentSanity + " sanity!\n";
             }
-            IncrementAttackValue();
-            toStr += caster.GetName() + "'s weapon attack was increased by 1!\n";
-            caster.IncreaseAttackValue(1);
+
+            var currentInnateAttack = caster.GetInnateAttack();
+            caster.SetInnateAttack(currentInnateAttack + DamageIncrease);
+            toStr += caster.GetName() + "'s attack was increased by " + DamageIncrease + "!\n";
             return toStr;
         }
     }

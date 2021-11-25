@@ -8,7 +8,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
 {
     public class LanguageHacker: Weapon
     {
-        public LanguageHacker() : base(10, 0)
+        public LanguageHacker() : base(10, 0, 0)
         {
             SetEffect();
             Name = "Language Hacker";

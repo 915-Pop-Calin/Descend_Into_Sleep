@@ -4,7 +4,7 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
 {
     public class SaroniteTentacles: Weapon
     {
-        public SaroniteTentacles() : base(20, 0)
+        public SaroniteTentacles() : base(20, 0, 100)
         {
             HealthPoints = 100;
             Broken = false;

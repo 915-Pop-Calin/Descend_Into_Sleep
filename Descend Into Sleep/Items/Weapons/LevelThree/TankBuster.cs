@@ -4,7 +4,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
 {
     public class TankBuster: Weapon
     {
-        public TankBuster() : base(4, 0)
+        public TankBuster() : base(4, 0, 0)
         {
             SetEffect();
             Description = "Each attack strikes twice";

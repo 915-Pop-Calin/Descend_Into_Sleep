@@ -26,6 +26,7 @@ namespace ConsoleApp12.Characters
         protected Dictionary<string, Ability.Ability> RespectiveAbilities;
         protected int Stunned;
         protected List<DotEffect> DotEffects;
+        protected double MaxSanity;
         protected double Sanity;
         protected bool IsAutoAttacker;
         protected bool StunResistant;
@@ -54,6 +55,7 @@ namespace ConsoleApp12.Characters
             Stunned = 0;
             DotEffects = new List<DotEffect>();
             Sanity = 100;
+            MaxSanity = Sanity;
             IsAutoAttacker = true;
             StunResistant = false;
             TotalMana = 100;
@@ -102,8 +104,9 @@ namespace ConsoleApp12.Characters
         public void SetInnateMaximumHealth(double newMaximumHealthValue)
         {
             var healthDifference = newMaximumHealthValue - MaximumHealth;
-            Health += healthDifference;
+            Health = Math.Max(1, Health + healthDifference);
             MaximumHealth = newMaximumHealthValue;
+            Health = Math.Min(Health, MaximumHealth);
         }
 
         public void GainHealthPoints(double healthPoints)
@@ -432,10 +435,23 @@ namespace ConsoleApp12.Characters
         {
             Sanity = newSanity; 
         }
+
+        public void SetMaximumSanity(double newMaximumSanity)
+        {
+            var sanityDifference = newMaximumSanity - MaxSanity;
+            MaxSanity = newMaximumSanity;
+            Sanity = Math.Max(1, Sanity + sanityDifference);
+            Sanity = Math.Min(Sanity, MaxSanity);
+        }
+
+        public double GetMaximumSanity()
+        {
+            return MaxSanity;
+        }
         
         public void RestoreSanity(double sanityValue)
         {
-            Sanity = Math.Min(Sanity + sanityValue, 100);
+            Sanity = Math.Min(Sanity + sanityValue, MaxSanity);
         }
 
         public bool AutoAttacker()

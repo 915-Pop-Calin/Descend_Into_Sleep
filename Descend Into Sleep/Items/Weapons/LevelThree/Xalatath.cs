@@ -5,7 +5,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
 {
     public class Xalatath: Weapon
     {
-        public Xalatath() : base(10, 0)
+        public Xalatath() : base(10, 0,0)
         {
             SetLifeSteal(0.75);
             Description = "Strong life stealer which helps you not go insane";

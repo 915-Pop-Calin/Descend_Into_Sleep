@@ -6,7 +6,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
     {
         private int _turnCounter;
         
-        public TacosWhisper() : base(5, 0)
+        public TacosWhisper() : base(5, 0, 0)
         {
             SetEffect();
             _turnCounter = 0;

@@ -4,12 +4,12 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
 {
     public class IcarusesTouch: Weapon
     {
-        public IcarusesTouch() : base(0, 3)
+        public IcarusesTouch() : base(0, 3, 0)
         {
             Name = "Icarus's Touch";
             Description = "Very strong DOTer";
             var dotEffect = new DotEffect(5, 3);
-            SetDotEffect(dotEffect);
+            DotEffect = dotEffect;
             SetEffect();
         }
 

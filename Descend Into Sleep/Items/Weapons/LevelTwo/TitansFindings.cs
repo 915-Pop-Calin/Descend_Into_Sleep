@@ -5,7 +5,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
     public class TitansFindings: Weapon
     {
-        public TitansFindings() : base(5, 0)
+        public TitansFindings() : base(5, 0, 0)
         {
             SetEffect();
             Name = "Titan's Findings";

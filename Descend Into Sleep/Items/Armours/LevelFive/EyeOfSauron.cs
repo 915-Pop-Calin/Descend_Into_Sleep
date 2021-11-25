@@ -2,7 +2,7 @@
 {
     public class EyeOfSauron: Armour
     {
-        public EyeOfSauron() : base(0, 200)
+        public EyeOfSauron() : base(0, 200, 0)
         {
             Name = "Eye Of Sauron";
             Description = "Strong armour with no drawbacks";

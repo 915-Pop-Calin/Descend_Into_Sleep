@@ -2,7 +2,7 @@
 {
     public class ToyKnife: Weapon
     {
-        public ToyKnife() : base(3, 0)
+        public ToyKnife() : base(3, 0, 0)
         {
             Name = "Toy Knife";
             Description = "Is this a game?";

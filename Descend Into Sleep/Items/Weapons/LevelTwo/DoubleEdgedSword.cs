@@ -6,7 +6,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
     public class DoubleEdgedSword : Weapon
     {
-        public DoubleEdgedSword() : base(20, 0)
+        public DoubleEdgedSword() : base(20, 0, 0)
         {
             Name = "Double Edged Sword";
             Description = "Huge Attack Weapon, but your opponent's attacks are stronger";

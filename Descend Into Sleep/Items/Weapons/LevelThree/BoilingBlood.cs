@@ -4,7 +4,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
 {
     public class BoilingBlood: Weapon
     {
-        public BoilingBlood() : base(40, 0)
+        public BoilingBlood() : base(40, 0, 0)
         {
             SetEffect();
             SetLifeSteal(1.5);

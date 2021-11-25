@@ -5,7 +5,7 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
 {
     public class Dreams: Weapon
     {
-        public Dreams() : base(2, 0)
+        public Dreams() : base(2, 0, 0)
         {
             Name = "Dreams";
             Description = "Makes your enemy go insane. Has no effect on monsters";

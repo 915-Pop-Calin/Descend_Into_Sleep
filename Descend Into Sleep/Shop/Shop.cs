@@ -59,6 +59,7 @@ namespace ConsoleApp12.Shop
             var levelThreeItems = new List<KeyValuePair<Item, int>>()
             {
                 KeyValuePair.Create<Item, int>(Items.AllItems.SteelPlateau, 800),
+                KeyValuePair.Create<Item, int>(Items.AllItems.WillPower, 800),
                 KeyValuePair.Create<Item, int>(Items.AllItems.TacosWhisper, 1000),
                 KeyValuePair.Create<Item, int>(Items.AllItems.TitansFindings, 1000),
                 KeyValuePair.Create<Item, int>(Items.AllItems.DoubleEdgedSword, 800),

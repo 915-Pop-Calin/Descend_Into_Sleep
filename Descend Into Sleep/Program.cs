@@ -1,7 +1,9 @@
 ﻿
+using System;
 using System.IO;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.CombatSystem;
+using ConsoleApp12.Items;
 
 namespace ConsoleApp12
 {

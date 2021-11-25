@@ -10,7 +10,7 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
         private readonly double PercentageIncreased;
         private readonly double IncreasedArmourPenetration;
         
-        public OrbOfTheTitans() : base(1000, 1000)
+        public OrbOfTheTitans() : base(1000, 1000, 0)
         {
             Name = "Orb of the Titans";
             SetEffect();

@@ -59,6 +59,7 @@ namespace ConsoleApp12.Items
         public readonly static SaroniteScales SaroniteScales = new SaroniteScales();
         public readonly static OrbOfTheTitans OrbOfTheTitans = new OrbOfTheTitans();
         public readonly static SaroniteTentacles SaroniteTentacles = new SaroniteTentacles();
+        public readonly static WillPower WillPower = new WillPower();
 
         public static Dictionary<int, Item> Items = new Dictionary<int, Item>()
         {
@@ -68,7 +69,8 @@ namespace ConsoleApp12.Items
             {19, TitansFindings}, {20, TwoHandedMace}, {21, BootsOfDodge}, {22, LastStand}, {23, BoilingBlood}, 
             {24, LanguageHacker}, {25, TankBuster}, {26, Xalatath}, {27, FireDeflector}, {28, Scales}, {29, TidalArmour},
             {30, GiantSlayer}, {31, IcarusesTouch}, {32, EyeOfSauron}, {33, NinjaYoroi}, {34, InfinityEdge},
-            {35, RadusBiceps}, {36, Dreams}, {37, TheRing}, {38, SaroniteScales}, {39, OrbOfTheTitans}, {40, SaroniteTentacles}
+            {35, RadusBiceps}, {36, Dreams}, {37, TheRing}, {38, SaroniteScales}, {39, OrbOfTheTitans}, {40, SaroniteTentacles},
+            {41, WillPower}
         };
 
         public static int FindIdForItem(Item item)

@@ -2,7 +2,7 @@
 {
     public class Eclipse: Weapon
     {
-        public Eclipse() : base(5, -2)
+        public Eclipse() : base(5, -2, 0)
         {
             SetLifeSteal(0.15);
             Name = "Eclipse";

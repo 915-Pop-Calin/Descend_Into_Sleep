@@ -6,7 +6,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
 {
     public class LastStand: Armour
     {
-        public LastStand() : base(0, 400)
+        public LastStand() : base(0, 400, 0)
         {
             Name = "Last Stand";
             Description = "Great armour which gets its defense decreased if under 30% HP";

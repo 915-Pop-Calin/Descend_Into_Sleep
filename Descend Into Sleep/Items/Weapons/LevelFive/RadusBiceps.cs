@@ -2,7 +2,7 @@
 {
     public class RadusBiceps: Weapon
     {
-        public RadusBiceps() : base(75, 0)
+        public RadusBiceps() : base(75, 0, 0)
         {
             CriticalChance = -0.15;
             Name = "Radu's Biceps";

@@ -2,7 +2,7 @@
 {
     public class SaroniteScales: Armour
     {
-        public SaroniteScales() : base(0, 100)
+        public SaroniteScales() : base(0, 100, 100)
         {
             HealthPoints = 100;
             Name = "Saronite Scales";
