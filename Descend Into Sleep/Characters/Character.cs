@@ -270,7 +270,8 @@ namespace ConsoleApp12.Characters
             var lifeStealValue = Weapon.GetLifeSteal();
             var lifeStolen = lifeStealValue * damageDealt;
             Heal(lifeStolen);
-            string toStr = Name + " has healed for " + lifeStolen + "!\n";
+            var toStr = Name + " has healed for " + Math.Round(lifeStolen, 2) + "!\n";
+            toStr += Name + " has " + Math.Round(Health, 2) + " health now!\n";
             return toStr;
         }
 

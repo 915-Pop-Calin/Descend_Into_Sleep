@@ -143,7 +143,7 @@ namespace ConsoleApp12.Shop
             foreach (var option in TotalOptions)
             {
                 var itemType = option.Key;
-                toStr += itemType + " cost: " + option.Value + " gold\n";
+                toStr += itemType + "cost: " + option.Value + " gold\n";
             }
             Console.WriteLine(toStr);
             
@@ -158,7 +158,7 @@ namespace ConsoleApp12.Shop
                 if (currentItem != null)
                 {
                     var newCost = ReturnRate * FindCostByName(currentItem.GetName());
-                    toStr += currentItem + ", gold: " + newCost + "\n";
+                    toStr += currentItem + "gold: " + newCost + "\n";
                 }
             }
             Console.WriteLine(toStr);
