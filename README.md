@@ -9,7 +9,13 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
 - <i>SanityPotion</i> cost buffed from 200 Gold to 100 Gold
 - <i>Amalgamation</i>'s Attack Value buffed from 1 to 7
 - <i>SpaghettiMonster</i>'s Attack Value buffed from 1 to 10
-
+- Fixed a bug where you could gain more mana than the Maximum amount you could have
+- Nerfed <i>TentacledMenace</i>'s attack from 30 to 20
+- Now <i>Armours</i> can have extra <i>Health</i> and <i>Sanity</i> on them
+- <i>Characters</i> now have a <i>MaximumSanity</i> field due to it not being constantly 100
+- Now you can see ALL stats on your characters and on all <i>Items</i>
+- All protected fields were made private in the <i>HumanPlayer</i> class
+- New Item: <i>Will Power</i> which increases your <i>Sanity</i> by 50
 
 <b>Patch Notes 0.3.0</b>
 
