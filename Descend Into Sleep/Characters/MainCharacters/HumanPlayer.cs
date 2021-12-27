@@ -207,7 +207,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             IncreaseAttackValue(attackValue);
             IncreaseDefenseValue(defenseValue);
-            SetInnateMaximumHealth(Health + healthValue);
+            SetInnateMaximumHealth(MaximumHealth + healthValue);
             SetMaximumSanity(Sanity + sanityValue);
         }
         

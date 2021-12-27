@@ -182,7 +182,7 @@ namespace ConsoleApp12.Shop
             
             var choice = Console.ReadLine();
             choice = choice.ToLower();
-            var splitChoice = choice.Split('x');
+            var splitChoice = choice.Split('*');
             
             if (splitChoice.Length != 1 && splitChoice.Length != 2)
                 throw new InvalidBuyingStatementException(choice);

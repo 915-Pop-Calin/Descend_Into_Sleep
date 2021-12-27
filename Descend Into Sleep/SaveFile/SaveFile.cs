@@ -59,6 +59,14 @@ namespace ConsoleApp12.SaveFile
                    "\nSave Date: " + saveDate + "\n"; 
         }
 
+        public bool IsEmpty()
+        {
+            var information = LoadInfo();
+            var character = information.Item1;
+            return character == null;
+        }
+        
+        
         public static List<SaveFile> saveFiles = new List<SaveFile>()
         {
             new SaveFile(0), new SaveFile(1), new SaveFile(2), new SaveFile(3),

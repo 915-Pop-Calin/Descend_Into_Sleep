@@ -16,8 +16,9 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         {
             var randomObject = new Random();
             int randomChoice = randomObject.Next(1, 10);
-            var toStr = caster.GetName() + " has restored " + randomChoice.ToString() + " of his sanity!\n";
-            toStr += caster.GetName() + " is left with " + caster.GetSanity().ToString() + " sanity!\n";
+            caster.RestoreSanity(randomChoice);
+            var toStr = caster.GetName() + " has restored " + randomChoice + " of his sanity!\n";
+            toStr += caster.GetName() + " is left with " + caster.GetSanity() + " sanity!\n";
             return toStr;
         }
     }

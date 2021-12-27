@@ -6,7 +6,7 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelThree
 {
     public class TentacledMenace: VoidSideEnemy
     {
-        public TentacledMenace() : base("Tentacled Menace", 20, 10, AllItems.TankBuster, AllItems.LastStand, 30)
+        public TentacledMenace() : base("Tentacled Menace", 20, -100, AllItems.TankBuster, AllItems.LastStand, 30)
         {
             Level = 3;
         }

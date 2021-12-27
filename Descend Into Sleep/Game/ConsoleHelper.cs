@@ -14,9 +14,13 @@ namespace keysWork
         {
             int currentSelection = 0;
             var consoleBufferSize = Console.CursorTop;
-            
-            if (consoleBufferSize >= 3000)
+
+            if (consoleBufferSize >= 2500)
+            {
                 Console.Clear();
+                Console.WriteLine("Console has been cleared");
+            }
+
             Console.WriteLine(question);
             ConsoleKey key = ConsoleKey.A;
             Console.CursorVisible = false;

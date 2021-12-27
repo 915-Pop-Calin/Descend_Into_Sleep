@@ -147,6 +147,7 @@ namespace ConsoleApp12.Game
             Player = loadType.Item1;
             Level = loadType.Item2;
             SetLevels();
+            Console.WriteLine("File successfully loaded!");
         }
         
         

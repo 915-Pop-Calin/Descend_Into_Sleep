@@ -60,25 +60,38 @@ namespace ConsoleApp12.Levels
         private void Save()
         {
             if (Player.IsCheater())
-                Console.WriteLine("Game cannot be saved because you cheated!\n");
-            else
             {
-                FileHelper.CheckSaveDirectory();
-                for (int i = 0; i <= 9; i++)
-                    FileHelper.CheckSaveFile(i);
-                
-                PrintAllSaveFiles();
-                Console.WriteLine("Choose the number of the Save File to Save On:\n");
-                var readLine = Console.ReadLine();
-                
-                int saveNumber;
-                var isParseable = int.TryParse(readLine.Trim(), out saveNumber);
-                if (!isParseable)
-                    throw new InvalidInputTypeException(typeof(int), readLine.GetType());
-                if (saveNumber < 0 || saveNumber > 9)
-                    throw new InvalidSaveFileException();
-                ListOfSaveFiles[saveNumber].SaveInfo(Player, Number);
+                Console.WriteLine("Game cannot be saved because you cheated!\n");
+                return;
             }
+            FileHelper.CheckSaveDirectory();
+            for (int i = 0; i <= 9; i++)
+                FileHelper.CheckSaveFile(i);
+            
+            PrintAllSaveFiles();
+            Console.WriteLine("Choose the number of the Save File to Save On:\n");
+            var readLine = Console.ReadLine();
+            
+            int saveNumber;
+            var isParseable = int.TryParse(readLine.Trim(), out saveNumber);
+            if (!isParseable)
+                throw new InvalidInputTypeException(typeof(int), readLine.GetType());
+            if (saveNumber < 0 || saveNumber > 9)
+                throw new InvalidSaveFileException();
+
+            if (!ListOfSaveFiles[saveNumber].IsEmpty())
+            {
+                var question = $"Do you want to overwrite Save File {saveNumber}?";
+                var choice = ConsoleHelper.MultipleChoice(20, question, "yes", "no");
+                if (choice == 1)
+                    return;
+            }
+            
+            ListOfSaveFiles[saveNumber].SaveInfo(Player, Number);
+
+            var conclusion = $"You have saved to Save File {saveNumber}";
+            Console.WriteLine(conclusion);
+            
 
         }
 
@@ -140,6 +153,13 @@ namespace ConsoleApp12.Levels
             Shop.SellItem();
         }
 
+        private void Exit()
+        {
+            int choice = ConsoleHelper.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
+            if (choice == 0)
+                Environment.Exit(0);
+        }
+        
         // returns 2 if we want to proceed, 0 if we want to exit
         private int GameOptions()
         {
@@ -156,7 +176,7 @@ namespace ConsoleApp12.Levels
                     Save();
                     break;
                 case 3:
-                    Environment.Exit(0);
+                    Exit();
                     break;
                 case 4:
                     break;
@@ -222,7 +242,7 @@ namespace ConsoleApp12.Levels
             {
 
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20,question, "game options", "player options", "shop options");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "game options", "player options", "shop options");
                 try
                 {
                     switch (choice)
