@@ -5,7 +5,6 @@ using ConsoleApp12.Ability.HumanAbilities.NatureAbilities;
 using ConsoleApp12.Ability.HumanAbilities.NeutralAbilities;
 using ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items;
 
 namespace ConsoleApp12.Characters.MainCharacters
@@ -455,7 +454,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             {
                 var schools = new String[3] {"fire", "self-harm", "nature"};
                 const string question = "Choose a school to be a part of";
-                    var choice = ConsoleHelper.MultipleChoice(20, question, "fire", "self-harm", "nature");
+                    var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "fire", "self-harm", "nature");
                     schoolChoice = schools[choice];
             }
 

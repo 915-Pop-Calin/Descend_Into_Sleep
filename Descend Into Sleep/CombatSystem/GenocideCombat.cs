@@ -1,7 +1,6 @@
 ﻿using System;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
-using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -25,7 +24,7 @@ namespace ConsoleApp12.CombatSystem
             while (true)
             {
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "MURDER", "SPARE", "STATS");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "MURDER", "SPARE", "STATS");
                 Console.WriteLine("Your choice is:\n");
                 switch (choice)
                 {

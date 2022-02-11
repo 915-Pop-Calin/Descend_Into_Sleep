@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 {
@@ -23,8 +24,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
-            var randomObject = new Random();
-            var sanityRestored = randomObject.Next(MinimumSanityRestored, MaximumSanityRestored);
+            var sanityRestored = RandomHelper.GenerateRandomInInterval(MinimumSanityRestored, MaximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
             toStr += casterName + " has restored " + sanityRestored + " sanity!\n";
             toStr += casterName + " is left with " + caster.GetSanity() + " sanity!\n";

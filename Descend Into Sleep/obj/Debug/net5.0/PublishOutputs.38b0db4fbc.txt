@@ -1,0 +1,5 @@
+C:\Users\popca\OneDrive\Documents\GitHub\Descend_Into_Sleep\Descend Into Sleep\bin\Debug\net5.0\publish\Descend Into Sleep.exe
+C:\Users\popca\OneDrive\Documents\GitHub\Descend_Into_Sleep\Descend Into Sleep\bin\Debug\net5.0\publish\Descend Into Sleep.dll
+C:\Users\popca\OneDrive\Documents\GitHub\Descend_Into_Sleep\Descend Into Sleep\bin\Debug\net5.0\publish\Descend Into Sleep.deps.json
+C:\Users\popca\OneDrive\Documents\GitHub\Descend_Into_Sleep\Descend Into Sleep\bin\Debug\net5.0\publish\Descend Into Sleep.runtimeconfig.json
+C:\Users\popca\OneDrive\Documents\GitHub\Descend_Into_Sleep\Descend Into Sleep\bin\Debug\net5.0\publish\Descend Into Sleep.pdb

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters
 {
@@ -33,6 +34,10 @@ namespace ConsoleApp12.Characters
         protected double TotalMana;
         protected double Mana;
         protected double ManaRegenerationRate;
+        protected bool Spared;
+        protected List<string> Actions;
+        protected Queue<string> OrderOfActions;
+        protected double ChanceOfSuccessfulAct;
 
         public Character(string name, double innateAttack, double innateDefense, Weapon weapon, Armour armour,
             double health, string description = null)
@@ -61,6 +66,10 @@ namespace ConsoleApp12.Characters
             TotalMana = 100;
             Mana = 100;
             ManaRegenerationRate = 0.03125;
+            Spared = false;
+            OrderOfActions = new Queue<string>();
+            Actions = new List<string>();
+            ChanceOfSuccessfulAct = 1;
         }
 
         public int GetLevel()
@@ -217,7 +226,7 @@ namespace ConsoleApp12.Characters
             Health -= reducedHealthPoints;
         }
 
-        public double GetMultiplier(Character opponent)
+        private double GetMultiplier(Character opponent)
         {
             double defensePoints = opponent.GetDefenseValue();
             double multiplier;
@@ -265,7 +274,7 @@ namespace ConsoleApp12.Characters
             opponent.ReduceHealthPoints(damage);
         }
 
-        public string LifeSteal(double damageDealt)
+        private string LifeSteal(double damageDealt)
         {
             var lifeStealValue = Weapon.GetLifeSteal();
             var lifeStolen = lifeStealValue * damageDealt;
@@ -274,19 +283,17 @@ namespace ConsoleApp12.Characters
             toStr += Name + " has " + Math.Round(Health, 2) + " health now!\n";
             return toStr;
         }
-
+        
         public virtual string Hit(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var randomObject = new Random();
             var opponentArmour = opponent.GetArmour();
             var opponentWeapon = opponent.GetWeapon();
             var dodgeChance = opponentArmour.GetDodge();
-            var dodgeOdds = Convert.ToInt32(dodgeChance * 100);
-            var randomChoice = randomObject.Next(0, 100);
-            var criticalChoice = randomObject.Next(0, 100);
+            var dodged = RandomHelper.IsSuccessfulTry(dodgeChance);
+            var criticalStriked = RandomHelper.IsSuccessfulTry(CriticalChance);
             var toStr = "";
             double dealtDamage = 0;
-            if (dodgeChance != 0 && randomChoice <= dodgeOdds)
+            if (dodged)
             {
                 toStr = opponent.GetName() + " has dodged your attack!\n";
                 return toStr;
@@ -300,7 +307,7 @@ namespace ConsoleApp12.Characters
                     toStr = opponentArmour.TakeHit(Attack);
                 else
                 {
-                    if (criticalChoice <= CriticalChance * 100)
+                    if (criticalStriked)
                     {
                         dealtDamage = CriticalHit(opponent);
                         var enemyHealthPoints = opponent.GetHealthPoints();
@@ -519,7 +526,69 @@ namespace ConsoleApp12.Characters
         {
             ManaRegenerationRate = newManaRegenerationRate;
         }
+        
+        public void Spare()
+        {
+            if (!IsSpareable())
+            {
+                throw new ImpossibleSpareException(Name);
+            }
+            Spared = true;
+        }
 
+        public bool IsSpared()
+        {
+            return Spared;
+        }
+
+        public bool IsSpareable()
+        {
+            return OrderOfActions.Count == 0;
+        }
+        
+        public List<string> GetActions()
+        {
+            return Actions;
+        }
+
+        public string Act(string action)
+        {
+            var toStr = "You " + action + " " + Name + "!\n";
+            var successfulAct = RandomHelper.IsSuccessfulTry(ChanceOfSuccessfulAct);
+            if (!successfulAct)
+            {
+                toStr += "Action failed!\n";
+                return toStr;
+            }
+            if (OrderOfActions.Count == 0 || action == OrderOfActions.Peek())
+            {
+                toStr += "It is very effective!\n";
+                if (OrderOfActions.Count != 0)
+                {
+                    OrderOfActions.Dequeue();
+                    var lostAttack = Attack / Actions.Count;
+                    toStr += Name + " has lost " + Math.Round(lostAttack, 2) + " of its Attack!";
+                    InnateAttack -= lostAttack;
+                    Attack -= lostAttack;
+                }
+            }
+            else
+            {
+                toStr += "It does not seem to be effective!\n";
+            }
+            return toStr;
+        }
+
+        private string GetStatus()
+        {
+            if (Actions.Count == 0)
+                return "";
+            if (OrderOfActions.Count == 0)
+                return "Spareable\n";
+            var desiredAction = OrderOfActions.Peek();
+            return "You should " + desiredAction + " him\n";
+        }
+        
         public override string ToString()
         {
             var toStr = Name + ": " + Health + " HEALTH, ";
@@ -528,6 +597,7 @@ namespace ConsoleApp12.Characters
                 toStr += "\n" + Description;
             toStr += "\n" + Weapon;
             toStr += Armour;
+            toStr += GetStatus();
             return toStr;
         }
     }

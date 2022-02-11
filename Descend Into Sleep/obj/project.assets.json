@@ -8,7 +8,8 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\popca\\.nuget\\packages\\": {}
+    "C:\\Users\\popca\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -19,6 +20,9 @@
       "packagesPath": "C:\\Users\\popca\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\popca\\OneDrive\\Documents\\GitHub\\Descend_Into_Sleep\\Descend Into Sleep\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\popca\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
@@ -58,7 +62,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\popca\\.dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
       }
     }
   }

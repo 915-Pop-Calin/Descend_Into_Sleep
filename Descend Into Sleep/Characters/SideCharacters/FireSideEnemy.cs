@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp12.Items;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.SideCharacters
 {
-    public class FireSideEnemy: SideEnemy
+    public abstract class FireSideEnemy: SideEnemy
     {
         private readonly double MinimumDOTPercentage;
         private readonly double MaximumDOTPercentage;
@@ -26,8 +27,7 @@ namespace ConsoleApp12.Characters.SideCharacters
             var maximumDOTDealtReal = MaximumDOTPercentage * Attack;
             var minimumDOTDealtInt = Convert.ToInt32(minimumDOTDealtReal);
             var maximumDOTDealtInt = Convert.ToInt32(maximumDOTDealtReal);
-            var randomObject = new Random();
-            var DOTDealt = randomObject.Next(minimumDOTDealtInt, maximumDOTDealtInt);
+            var DOTDealt = RandomHelper.GenerateRandomInInterval(minimumDOTDealtInt, maximumDOTDealtInt);
             var DOTEffect = new DotEffect(NumberOfTurns, DOTDealt);
             opponent.AddDotEffect(DOTEffect);
             var toStr = opponentName + " will take " + DOTDealt + " damage per turn for the next " + NumberOfTurns +

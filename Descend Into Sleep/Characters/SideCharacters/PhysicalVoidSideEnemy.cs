@@ -4,7 +4,7 @@ using ConsoleApp12.Items;
 
 namespace ConsoleApp12.Characters.SideCharacters
 {
-    public class PhysicalVoidSideEnemy: VoidSideEnemy
+    public abstract class PhysicalVoidSideEnemy: VoidSideEnemy
     {
         public PhysicalVoidSideEnemy(string name, double attack, double defense, Weapon weapon, Armour armour,
             double health) :

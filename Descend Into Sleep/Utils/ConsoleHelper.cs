@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Text;
-using System.Text.RegularExpressions;
 
-namespace ConsoleApp12.Game
+namespace ConsoleApp12.Utils
 {
-    using System;
-
-namespace keysWork
+    namespace keysWork
 {
-    public class ConsoleHelper
+    public class Utils
     {
         public static int MultipleChoice(int spacingPerLine, string question, params string[] options)
         {
@@ -91,7 +88,7 @@ namespace keysWork
             return currentSelection;
         }
 
-          public static string GetTableLine(int spacingPerLine, string[] options)
+          private static string GetTableLine(int spacingPerLine, string[] options)
           {
               var tableLine = new StringBuilder();
               for (int i = 0; i < options.Length; i++)

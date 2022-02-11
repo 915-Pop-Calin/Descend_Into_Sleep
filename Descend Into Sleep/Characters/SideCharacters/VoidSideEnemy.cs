@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp12.Items;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.SideCharacters
 {
-    public class VoidSideEnemy: SideEnemy
+    public abstract class VoidSideEnemy: SideEnemy
     {
 
         private readonly double MinimumPercentageReduced;
@@ -24,8 +25,7 @@ namespace ConsoleApp12.Characters.SideCharacters
             var maximumSanityReducedReal = MaximumPercentageReduced * Attack;
             var minimumSanityReducedInt = Convert.ToInt32(minimumSanityReducedReal);
             var maximumSanityReducedInt = Convert.ToInt32(maximumSanityReducedReal);
-            var randomObject = new Random();
-            var sanityReduced = randomObject.Next(minimumSanityReducedInt, maximumSanityReducedInt);
+            var sanityReduced = RandomHelper.GenerateRandomInInterval(minimumSanityReducedInt, maximumSanityReducedInt);
             opponent.ReduceSanity(sanityReduced);
             var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
             toStr += opponentName + " is left with " + opponent.GetSanity() + " sanity!\n";

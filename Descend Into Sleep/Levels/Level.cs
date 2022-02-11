@@ -7,8 +7,8 @@ using ConsoleApp12.Characters.SideCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game;
-using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.SaveFile;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Levels
 {
@@ -44,15 +44,14 @@ namespace ConsoleApp12.Levels
         
         private void Explore()
         {
-            var choice = 0;
-            var randomObject = new Random();
-            while (choice != 1)
+            var found = false;
+            while (!found)
             {
                 Console.WriteLine("Exploring...\n");
-                choice = randomObject.Next(1, 4);
+                found = RandomHelper.IsSuccessfulTry(0.25);
                 Thread.Sleep(1000);
             }
-            var randomSideBoss = randomObject.Next(0, SideEnemies.Count);
+            var randomSideBoss = RandomHelper.GenerateRandomInInterval(0, SideEnemies.Count);
             var foundEnemy = (SideEnemy)Activator.CreateInstance(SideEnemies[randomSideBoss]);
             SideBossFight(foundEnemy);
         }
@@ -82,7 +81,7 @@ namespace ConsoleApp12.Levels
             if (!ListOfSaveFiles[saveNumber].IsEmpty())
             {
                 var question = $"Do you want to overwrite Save File {saveNumber}?";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "yes", "no");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "yes", "no");
                 if (choice == 1)
                     return;
             }
@@ -126,7 +125,7 @@ namespace ConsoleApp12.Levels
         {
             Console.WriteLine("What do you want to drop?");
             const string question = "What do you want to drop?";
-            int choice = ConsoleHelper.MultipleChoice(50, question, "drop current weapon", "drop current armour");
+            int choice = Utils.keysWork.Utils.MultipleChoice(50, question, "drop current weapon", "drop current armour");
             switch (choice)
             {
                 case 0:
@@ -155,16 +154,16 @@ namespace ConsoleApp12.Levels
 
         private void Exit()
         {
-            int choice = ConsoleHelper.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
+            int choice = Utils.keysWork.Utils.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
             if (choice == 0)
-                Environment.Exit(0);
+                throw new ExitGameException();
         }
         
         // returns 2 if we want to proceed, 0 if we want to exit
         private int GameOptions()
         {
             const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
+            int choice = Utils.keysWork.Utils.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
             switch (choice)
             {
                 case 0:
@@ -187,7 +186,7 @@ namespace ConsoleApp12.Levels
         private void PlayerOptions()
         {
             const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20,question, "equip item", "drop item", "check stats", "drop current item",
+            int choice = Utils.keysWork.Utils.MultipleChoice(20,question, "equip item", "drop item", "check stats", "drop current item",
                 "see abilities", "back");
             switch (choice)
             {
@@ -214,7 +213,7 @@ namespace ConsoleApp12.Levels
         private void ShopOptions()
         {
             const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20, question, "buy", "sell", "back");
+            int choice = Utils.keysWork.Utils.MultipleChoice(20, question, "buy", "sell", "back");
             switch (choice)
             {
                 case 0:
@@ -242,7 +241,7 @@ namespace ConsoleApp12.Levels
             {
 
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "game options", "player options", "shop options");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "game options", "player options", "shop options");
                 try
                 {
                     switch (choice)

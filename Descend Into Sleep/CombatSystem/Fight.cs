@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -55,17 +56,21 @@ namespace ConsoleApp12.CombatSystem
             int gameLevel = ComputerPlayer.GetLevel();
             int minimumGoldToGain = 10 * (TurnCounter + 1) * gameLevel + 100;
             int maximumGoldToGain = 10 * (TurnCounter + 1) * gameLevel + 200;
-            var randomObject = new Random();
-            int goldToGain = randomObject.Next(minimumGoldToGain, maximumGoldToGain);
+            int goldToGain = RandomHelper.GenerateRandomInInterval(minimumGoldToGain, maximumGoldToGain);
             goldToGain /= GoldDivider;
 
             int minimumExperienceToGain = 4 * (TurnCounter + 1) * gameLevel + 100;
             int maximumExperienceToGain = 4 * (TurnCounter + 1) * gameLevel + 200;
-            int experienceToGain = randomObject.Next(minimumExperienceToGain, maximumExperienceToGain);
+            int experienceToGain = RandomHelper.GenerateRandomInInterval(minimumExperienceToGain, maximumExperienceToGain);
             experienceToGain /= ExperienceDivider;
             
             var keyValuePair = new KeyValuePair<int, int>(goldToGain, experienceToGain);
             return keyValuePair;
+        }
+
+        private bool IsCombatDone()
+        {
+            return ComputerPlayer.GetHealthPoints() <= 0 || ComputerPlayer.IsSpared();
         }
         
         private void PlayerTurn()
@@ -81,7 +86,7 @@ namespace ConsoleApp12.CombatSystem
                 if (!CombatDone)
                 {
                     HumanCombat.CombatTurn(ComputerPlayer);
-                    if (ComputerPlayer.GetHealthPoints() <= 0)
+                    if (IsCombatDone())
                     {
                         HumanWin();
                     }
@@ -106,7 +111,7 @@ namespace ConsoleApp12.CombatSystem
             Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
             ComputerCombat.FightEnd(HumanPlayer);
             HumanCombat.FightEnd(ComputerPlayer);
-            Environment.Exit(0);
+            throw new ExitGameException();
         }
         private void ComputerTurn()
         {

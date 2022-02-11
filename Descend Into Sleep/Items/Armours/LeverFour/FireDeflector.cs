@@ -1,5 +1,6 @@
 ﻿using System;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Armours.LeverFour
 {
@@ -14,10 +15,9 @@ namespace ConsoleApp12.Items.Armours.LeverFour
 
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
-            var randomObject = new Random();
-            var randomChoice = randomObject.Next(1, 11);
+            var willDeflect = RandomHelper.IsSuccessfulTry(0.1);
             var toStr = "";
-            if (randomChoice == 1)
+            if (willDeflect)
             {
                 var dotEffects = caster.GetDotEffects();
                 foreach (var dotEffect in dotEffects)

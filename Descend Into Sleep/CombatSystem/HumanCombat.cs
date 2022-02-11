@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -40,7 +41,7 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(15, question, actions);
+                var choice = Utils.keysWork.Utils.MultipleChoice(15, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];
@@ -81,6 +82,22 @@ namespace ConsoleApp12.CombatSystem
             return false;
         }
 
+        private bool Act(Character secondCharacter)
+        {
+            List<String> actionsList = secondCharacter.GetActions();
+            var actionsLength = actionsList.Count;
+            String[] allActions = new String[actionsLength + 1];
+            actionsList.CopyTo(allActions);
+            allActions[actionsLength] = "back";
+            var choice = Utils.keysWork.Utils.MultipleChoice(20, "",allActions);
+            if (choice == actionsLength)
+                return false;
+            var actionChoice = allActions[choice];
+            var toStr = secondCharacter.Act(actionChoice);
+            Console.WriteLine(toStr);
+            return true;
+        }
+
         public override void CombatTurn(Character secondCharacter)
         {
             var humanPlayer = (HumanPlayer) Player;
@@ -90,7 +107,7 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
                 switch (choice)
                 {
                     case 0:
@@ -110,7 +127,13 @@ namespace ConsoleApp12.CombatSystem
                         }
                         break;
                     case 2:
+                        if (secondCharacter.IsSpareable())
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        }
+
                         Console.WriteLine(secondCharacter);
+                        Console.ResetColor();
                         break;
                     case 3:
                         try
@@ -126,7 +149,21 @@ namespace ConsoleApp12.CombatSystem
                         {
                             Console.WriteLine(invalidItemException.Message);
                         }
-
+                        break;
+                    case 4:
+                        InvalidInput = !Act(secondCharacter);
+                        break;
+                    case 5:
+                        try
+                        {
+                            secondCharacter.Spare();
+                            Console.WriteLine(secondCharacter.GetName() + " has been successfully spared!");
+                            InvalidInput = false;
+                        }
+                        catch (ImpossibleSpareException impossibleSpareException)
+                        {
+                            Console.WriteLine(impossibleSpareException.Message);
+                        }
                         break;
                 }
             }

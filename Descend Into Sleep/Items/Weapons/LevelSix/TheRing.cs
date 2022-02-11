@@ -1,5 +1,6 @@
 ﻿using System;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Armours.LevelSix
 {
@@ -18,10 +19,9 @@ namespace ConsoleApp12.Items.Armours.LevelSix
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             var attackValue = GetAttackValue();
-            var randomObject = new Random();
-            var randomChoice = randomObject.Next(1, 5);
+            var willCast = RandomHelper.IsSuccessfulTry(0.2);
             var toStr = "";
-            if (randomChoice == 1)
+            if (willCast)
             {
                 opponent.ReduceSanity(attackValue);
                 var opponentSanity = opponent.GetSanity();

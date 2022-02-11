@@ -1,0 +1,6 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Descend Into Sleep" type="DotNetMsBuildPublish" factoryName="Publish to IIS" singleton="false">
+    <riderPublish />
+    <method v="2" />
+  </configuration>
+</component>

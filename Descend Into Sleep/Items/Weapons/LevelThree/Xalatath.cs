@@ -1,5 +1,6 @@
 ﻿using System;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
@@ -17,8 +18,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         {
             var minimumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt / 2));
             var maximumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt));
-            var randomObject = new Random();
-            var sanityRestored = randomObject.Next(minimumSanityRestored, maximumSanityRestored);
+            var sanityRestored = RandomHelper.GenerateRandomInInterval(minimumSanityRestored, maximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
             var toStr = caster.GetName() + " has restored " + sanityRestored.ToString() + " of his sanity!\n";
             toStr += caster.GetName() + " is left with " + caster.GetSanity().ToString() + " sanity!\n";

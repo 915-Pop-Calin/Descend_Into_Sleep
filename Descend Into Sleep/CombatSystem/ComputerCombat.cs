@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -13,14 +14,14 @@ namespace ConsoleApp12.CombatSystem
 
         public override void CombatTurn(Character secondCharacter)
         {
-            var randomObject = new Random();
-            var willAttack = randomObject.Next(1, 5);
+            var willAttack = RandomHelper.IsSuccessfulTry(0.8);
             var numberOfAbilities = Player.GetRespectiveAbilities().Count;
-            var abilityNumber = randomObject.Next(0, numberOfAbilities);
+            var abilityNumber = RandomHelper.GenerateRandomInInterval(0, numberOfAbilities);
             if (!Player.AutoAttacker())
-                willAttack = 4;
-
-            if (willAttack == 4 && numberOfAbilities > 0)
+                willAttack = false;
+            if (numberOfAbilities == 0)
+                willAttack = true;
+            if (!willAttack)
             {
                 var abilityKeys = Player.GetRespectiveAbilities().Keys.ToList();
                 var chosenAbilityKey = abilityKeys[abilityNumber];

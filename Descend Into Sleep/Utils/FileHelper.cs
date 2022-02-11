@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace ConsoleApp12.SaveFile
+namespace ConsoleApp12.Utils
 {
     public class FileHelper
     {
@@ -20,10 +20,8 @@ namespace ConsoleApp12.SaveFile
                     return "/Users/" + username + "/Library/Application Support/";
                 default:
                     Console.WriteLine(operatingSystem + " is not currently supported");
-                    Environment.Exit(0);
-                    break;
+                    throw new ExitGameException();
             }
-            return "";
         }
 
         private static bool IsUnix()

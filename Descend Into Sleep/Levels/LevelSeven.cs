@@ -4,7 +4,6 @@ using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters.LevelSeven;
 using ConsoleApp12.CombatSystem;
-using ConsoleApp12.Game.keysWork;
 
 namespace ConsoleApp12.Levels
 {
@@ -52,7 +51,7 @@ namespace ConsoleApp12.Levels
             if (Player.IsCheater())
             {
                 Console.WriteLine("Level cannot be played because you cheated!\n");
-                Environment.Exit(0);
+                throw new ExitGameException();
             }
             StartUp();
             var finalDecision = TheDecision();
@@ -67,7 +66,7 @@ namespace ConsoleApp12.Levels
             while (DialogueLines.Count != 1)
             {
                 var question = DialogueLines.Dequeue();
-                ConsoleHelper.MultipleChoice(20, question, "proceed");
+                Utils.keysWork.Utils.MultipleChoice(20, question, "proceed");
             }
         }
 
@@ -79,7 +78,7 @@ namespace ConsoleApp12.Levels
             var options = new String[2] {"spare", "destroy"};
             
             const string question = "Your choice is:";
-            var choice = ConsoleHelper.MultipleChoice(20, question, "spare", "destroy");
+            var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "spare", "destroy");
             return options[choice];
         }
 
@@ -96,8 +95,7 @@ namespace ConsoleApp12.Levels
             Console.WriteLine("GOOD ENDING");
             Console.ResetColor();
             DeleteSaveFiles();
-                // Environment.Exit(0);
-            }
+        }
 
         private void DestroyEnding()
         {
@@ -116,7 +114,7 @@ namespace ConsoleApp12.Levels
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("BAD ENDING");
             Console.ResetColor();
-            Environment.Exit(0);
+            throw new ExitGameException();
         }
     }
 }

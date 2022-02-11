@@ -4,6 +4,7 @@ using System.ComponentModel;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons.LevelSix;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
@@ -54,10 +55,9 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         private string InsanityHit(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var randomObject = new Random();
             var minimumSanityReduced = 1;
             var maximumSanityReduced = 31;
-            var sanityReduced = randomObject.Next(minimumSanityReduced, maximumSanityReduced);
+            var sanityReduced = RandomHelper.GenerateRandomInInterval(minimumSanityReduced, maximumSanityReduced);
             var opponentName = opponent.GetName();
             var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
             toStr += opponentName + " is left with " + opponent.GetSanity() + " sanity!\n";

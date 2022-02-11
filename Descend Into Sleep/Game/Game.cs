@@ -6,12 +6,12 @@ using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Game.keysWork;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelOne;
 using ConsoleApp12.Items.Weapons.LevelOne;
 using ConsoleApp12.Levels;
 using ConsoleApp12.SaveFile;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Game
 {
@@ -42,7 +42,7 @@ namespace ConsoleApp12.Game
             var difficulties = new String[] {"easy", "medium", "hard", "impossible"};
             const string question = "Choose the difficulty you want to play on";
 
-            var choice = ConsoleHelper.MultipleChoice(20, question, difficulties);
+            var choice = Utils.keysWork.Utils.MultipleChoice(20, question, difficulties);
             var difficulty = difficulties[choice];
             
             var humanPlayer = new HumanPlayer(name, difficulty, AllItems.ToyKnife, AllItems.Bandage);
@@ -62,7 +62,7 @@ namespace ConsoleApp12.Game
         public void StartGame()
         {
             const string question = "Do you want to load your save file?";
-            var decision = ConsoleHelper.MultipleChoice(20,question, "yes", "no");
+            var decision = Utils.keysWork.Utils.MultipleChoice(20,question, "yes", "no");
 
             switch (decision)
             {
@@ -110,7 +110,7 @@ namespace ConsoleApp12.Game
                 if (Level == 7 && Player.IsCheater())
                 {
                     Console.WriteLine("Last Level cannot be played because you cheated!\n");
-                    Environment.Exit(0);
+                    throw new ExitGameException();
                 }
             }
         }
