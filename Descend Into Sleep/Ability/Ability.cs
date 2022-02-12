@@ -26,7 +26,7 @@ namespace ConsoleApp12.Ability
         
         public string GetDescription()
         {
-            return Description + "level:" + Level.ToString() + "\nmana cost: " + ManaCost.ToString() + "\n";
+            return $"{Description}level:{Level}\nmana cost:{ManaCost}\n";
         }
 
         public void LevelUp()
@@ -82,10 +82,9 @@ namespace ConsoleApp12.Ability
 
         protected string GetCastingString(Character caster)
         {
-            var casterName = caster.GetName();
             var casterManaLeft = caster.GetMana();
-            var toStr = casterName + " has used " + ManaCost + " mana to cast " + Name + "!\n";
-            toStr += casterName + " is left with " + Math.Round(casterManaLeft, 2) + " mana!\n";
+            var toStr = $"{caster.GetName()} has used {ManaCost} mana to cast {Name}!\n";
+            toStr += $"{caster.GetName()} is left with {Math.Round(casterManaLeft, 2)} mana!\n";
             return toStr;
         }
         

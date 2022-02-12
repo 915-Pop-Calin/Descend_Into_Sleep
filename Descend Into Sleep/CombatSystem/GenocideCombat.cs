@@ -19,7 +19,7 @@ namespace ConsoleApp12.CombatSystem
         {
             var computerPlayerName = SecondPlayer.GetName();
             var humanPlayerName = HumanPlayer.GetName();
-            Console.WriteLine(computerPlayerName + " arrives into the fray!\n");
+            Console.WriteLine($"{computerPlayerName} arrives into the fray!\n");
 
             while (true)
             {
@@ -31,13 +31,13 @@ namespace ConsoleApp12.CombatSystem
                     case 0:
                         HumanPlayer.DealDirectDamage(SecondPlayer, int.MaxValue);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(computerPlayerName + " has been MURDERED!\n");
+                        Console.WriteLine($"{computerPlayerName} has been MURDERED!\n");
                         Console.ResetColor();
                         return true;
                     case 1:
                         Console.WriteLine("And I thought highly of you.\n");
                         HumanPlayer.DealDirectDamage(HumanPlayer, int.MaxValue);
-                        Console.WriteLine(humanPlayerName + " was lost to his insanity!\n");
+                        Console.WriteLine($"{humanPlayerName} was lost to his insanity!\n");
                         return false;
                     case 2:
                         Console.WriteLine(SecondPlayer);

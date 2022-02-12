@@ -16,11 +16,10 @@ namespace ConsoleApp12.Items.Potions
 
         public override string UseItem(HumanPlayer humanPlayer)
         {
-            var playerName = humanPlayer.GetName();
             var humanPlayerLevel = humanPlayer.GetLevel();
             var healingDone = HealingPerLevel * humanPlayerLevel;
             humanPlayer.Heal(healingDone);
-            var toStr = playerName + " has healed for " + healingDone.ToString() + " health points!\n";
+            var toStr = $"{humanPlayer.GetName()} has healed for {healingDone} health points!\n";
             return toStr;
         }
     }

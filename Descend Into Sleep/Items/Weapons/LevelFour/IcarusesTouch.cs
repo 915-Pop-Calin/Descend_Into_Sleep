@@ -16,8 +16,8 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             opponent.AddDotEffect(DotEffect);
-            var toStr = opponent.GetName() + " will take " + DotEffect.DamagePerTurn + " damage every turn for " +
-                        DotEffect.NumberOfTurns + " turns!\n";
+            var toStr = $"{opponent.GetName()} will take {DotEffect.DamagePerTurn} damage every turn for " +
+                        $"{DotEffect.NumberOfTurns} turns!\n";
             return toStr;
         }
     }

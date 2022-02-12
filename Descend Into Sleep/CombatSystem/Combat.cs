@@ -21,7 +21,7 @@ namespace ConsoleApp12.CombatSystem
         {
             if (Player.IsStunned())
             {
-                var toStr = Player.GetName() + " 's turn was skipped because he was stunned!\n";
+                var toStr = $"{Player.GetName()}'s turn was skipped because he was stunned!\n";
                 Console.WriteLine(toStr);
                 TurnCounter++;
                 return true;
@@ -76,8 +76,7 @@ namespace ConsoleApp12.CombatSystem
                 while (index < dotEffects.Count)
                 {
                     Player.ReduceHealthPoints(dotEffects[index].DamagePerTurn);
-                    toStr += Player.GetName() + " has taken " + dotEffects[index].DamagePerTurn +
-                             " damage over time!\n";
+                    toStr += $"{Player.GetName()} has taken {dotEffects[index].DamagePerTurn} damage over time!\n";
                     var leftTurns = dotEffects[index].NumberOfTurns;
                     Player.DecreaseDotEffect(index);
                     if (leftTurns != 1)

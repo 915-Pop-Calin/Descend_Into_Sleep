@@ -22,24 +22,22 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
             var gainedArmourPenetration = SetArmourPenetration - caster.GetArmourPenetration();
             ArmourPenetrationQueue.Enqueue(gainedArmourPenetration);
             caster.IncreaseArmourPenetration(gainedArmourPenetration);
-            toStr += casterName + "'s armour penetration was set to " + SetArmourPenetration + "!\n";
+            toStr += $"{caster.GetName()}'s armour penetration was set to {SetArmourPenetration}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
         public override string Decast(Character caster, Character opponent)
         {
-            var casterName = caster.GetName();
             if (ArmourPenetrationQueue.Count == 0)
                 throw new EmptyQueueException("Armour Penetration");
             var armourPenetrationGained = ArmourPenetrationQueue.Dequeue();
             caster.DecreaseArmourPenetration(armourPenetrationGained);
-            var toStr = casterName + "'s armour penetration was brought back to normal!\n";
+            var toStr = $"{caster.GetName()}'s armour penetration was brought back to normal!\n";
             return toStr;
         }
     }

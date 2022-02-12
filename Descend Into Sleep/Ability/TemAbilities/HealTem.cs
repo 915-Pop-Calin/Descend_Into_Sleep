@@ -16,10 +16,9 @@ namespace ConsoleApp12.Ability.TemAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
             caster.Heal(HealthHealed);
-            var toStr = casterName + " heals for " + HealthHealed + "!\n";
-            toStr += casterName + " is now at " + caster.GetHealthPoints() + " health!\n";
+            var toStr = $"{caster.GetName()} heals for {HealthHealed}!\n";
+            toStr += $"{caster.GetName()} is now at {caster.GetHealthPoints()} health!\n";
             return toStr;
         }
 

@@ -22,7 +22,6 @@ namespace ConsoleApp12.Characters.SideCharacters
         public override string Hit(Character opponent,
             Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var minimumDOTDealtReal = MinimumDOTPercentage * Attack;
             var maximumDOTDealtReal = MaximumDOTPercentage * Attack;
             var minimumDOTDealtInt = Convert.ToInt32(minimumDOTDealtReal);
@@ -30,8 +29,7 @@ namespace ConsoleApp12.Characters.SideCharacters
             var DOTDealt = RandomHelper.GenerateRandomInInterval(minimumDOTDealtInt, maximumDOTDealtInt);
             var DOTEffect = new DotEffect(NumberOfTurns, DOTDealt);
             opponent.AddDotEffect(DOTEffect);
-            var toStr = opponentName + " will take " + DOTDealt + " damage per turn for the next " + NumberOfTurns +
-                        " turns!\n";
+            var toStr = $"{opponent.GetName()} will take {DOTDealt} damage per turn for the next {NumberOfTurns} turns!\n";
             return toStr;
         }
 

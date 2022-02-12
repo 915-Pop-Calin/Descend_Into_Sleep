@@ -25,13 +25,13 @@ namespace ConsoleApp12.Items.Armours.LevelSix
             {
                 opponent.ReduceSanity(attackValue);
                 var opponentSanity = opponent.GetSanity();
-                toStr = opponent.GetName() + "'s sanity was reduced by " + attackValue + "!\n";
-                toStr += opponent.GetName() + " is left with " + opponentSanity + " sanity!\n";
+                toStr = $"{opponent.GetName()}'s sanity was reduced by {attackValue}!\n";
+                toStr += $"{opponent.GetName()} is left with {opponentSanity} sanity!\n";
             }
 
             var currentInnateAttack = caster.GetInnateAttack();
             caster.SetInnateAttack(currentInnateAttack + DamageIncrease);
-            toStr += caster.GetName() + "'s attack was increased by " + DamageIncrease + "!\n";
+            toStr += $"{caster.GetName()}'s attack was increased by {DamageIncrease}!\n";
             return toStr;
         }
     }

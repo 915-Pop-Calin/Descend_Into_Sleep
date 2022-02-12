@@ -20,10 +20,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var numbersOfTurnsImmune = MinimumNumberOfImmuneTurns - Level;
-            toStr += opponentName + " was stunned for " + TurnsUntilDecast + " turns!\n";
+            toStr += $"{opponent.GetName()} was stunned for {TurnsUntilDecast} turns!\n";
             opponent.Stun();
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
 
@@ -45,8 +44,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             var opponentName = opponent.GetName();
             opponent.Unstun();
             opponent.SetStunResistant(true);
-            var toStr = opponentName + " is no longer stunned!\n";
-            toStr += opponentName + " is now stun resistant!\n";
+            var toStr = $"{opponentName} is no longer stunned!\n";
+            toStr += $"{opponentName} is now stun resistant!\n";
             return toStr;
         }
 
@@ -54,7 +53,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
         {
             var opponentName = opponent.GetName();
             opponent.SetStunResistant(false);
-            var toStr = opponentName + " is no longer stun resistant!\n";
+            var toStr = $"{opponentName} is no longer stun resistant!\n";
             return toStr;
         }
     }

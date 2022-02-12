@@ -35,12 +35,12 @@ namespace ConsoleApp12.Items
         
         public override string ToString()
         {
-            var attackString = ", " + Attack + " ATTACK";
-            var healthString = ", " + Health + " HEALTH";
-            var dodgeString = ", " + Dodge * 100 + "% DODGE";
-            var sanityString = ", " + Sanity + " SANITY";
-            var descriptionString = ": " + Description;
-            return Name + " ARMOUR: " + Defense + " DEFENSE" + String.Concat(Enumerable.Repeat(attackString, Convert.ToInt16(Defense != 0))) +
+            var attackString = $", {Attack} ATTACK";
+            var healthString = $", {Health} HEALTH";
+            var dodgeString = $", {Dodge * 100}% DODGE";
+            var sanityString = $", {Sanity} SANITY";
+            var descriptionString = $": {Description}";
+            return $"{Name} ARMOUR: {Defense} DEFENSE" + String.Concat(Enumerable.Repeat(attackString, Convert.ToInt16(Defense != 0))) +
                    String.Concat(Enumerable.Repeat(healthString, Convert.ToInt16(Health != 0))) + 
                    String.Concat(Enumerable.Repeat(dodgeString, Convert.ToInt16(Dodge != 0)))
                    + String.Concat(Enumerable.Repeat(sanityString, Convert.ToInt16(Sanity != 0)))

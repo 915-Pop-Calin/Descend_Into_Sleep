@@ -25,7 +25,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
             caster.DecreaseDefenseValue(DefenseLost);
             var addedLifesteal = ScalingPerLevel * Level;
@@ -37,15 +36,13 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             }
             else
                 throw new SchoolException("Mage");
-            toStr += casterName + "'s lifesteal was increased by " + addedLifesteal +
-                     " and defense value was reduced by " + DefenseLost +"!\n";
+            toStr += $"{caster.GetName()}'s lifesteal was increased by {addedLifesteal} and defense value was reduced by {DefenseLost}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
         public override string Decast(Character caster, Character opponent)
         {
-            var casterName = caster.GetName();
             var addedLifesteal = ScalingPerLevel * Level;
             if (WeaponQueue.Count == 0)
                 throw new EmptyQueueException("Weapon");
@@ -53,7 +50,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var currentLifesteal = changedWeapon.GetLifeSteal();
             changedWeapon.SetLifeSteal(currentLifesteal - addedLifesteal);
             caster.IncreaseDefenseValue(DefenseLost);
-            var toStr = casterName + "'s defense and lifesteal were brought back to normal!\n";
+            var toStr = $"{caster.GetName()}'s defense and lifesteal were brought back to normal!\n";
             return toStr;
         }
     }

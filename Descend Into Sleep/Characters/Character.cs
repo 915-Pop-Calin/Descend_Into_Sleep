@@ -174,12 +174,7 @@ namespace ConsoleApp12.Characters
         {
             return ArmourPenetration;
         }
-
-        public void SetArmourPenetration(double newArmourPenetrationValue)
-        {
-            ArmourPenetration = newArmourPenetrationValue;
-        }
-
+        
         public double GetHealthPoints()
         {
             return Health;
@@ -279,8 +274,8 @@ namespace ConsoleApp12.Characters
             var lifeStealValue = Weapon.GetLifeSteal();
             var lifeStolen = lifeStealValue * damageDealt;
             Heal(lifeStolen);
-            var toStr = Name + " has healed for " + Math.Round(lifeStolen, 2) + "!\n";
-            toStr += Name + " has " + Math.Round(Health, 2) + " health now!\n";
+            var toStr = $"{Name} has healed for {Math.Round(lifeStolen, 2)}!\n";
+            toStr += $"{Name} has {Math.Round(Health, 2)} health now!\n";
             return toStr;
         }
         
@@ -291,11 +286,11 @@ namespace ConsoleApp12.Characters
             var dodgeChance = opponentArmour.GetDodge();
             var dodged = RandomHelper.IsSuccessfulTry(dodgeChance);
             var criticalStriked = RandomHelper.IsSuccessfulTry(CriticalChance);
-            var toStr = "";
+            String toStr;
             double dealtDamage = 0;
             if (dodged)
             {
-                toStr = opponent.GetName() + " has dodged your attack!\n";
+                toStr = $"{opponent.GetName()} has dodged your attack!\n";
                 return toStr;
             }
 
@@ -311,24 +306,22 @@ namespace ConsoleApp12.Characters
                     {
                         dealtDamage = CriticalHit(opponent);
                         var enemyHealthPoints = opponent.GetHealthPoints();
-                        toStr = "CRITICAL HIT! " + Math.Round(dealtDamage, 2) + " damage done to " + opponent.GetName() +
-                                "!\n";
-                        toStr += opponent.GetName() + " is left with " + Math.Round(enemyHealthPoints, 2) + " health!\n";
+                        toStr = $"CRITICAL HIT! {Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
+                        toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
                     }
                     else
                     {
                         dealtDamage = NormalHit(opponent);
                         var enemyHealthPoints = opponent.GetHealthPoints();
-                        toStr = Math.Round(dealtDamage, 2) + " damage done to " + opponent.GetName() + "!\n";
-                        toStr += opponent.GetName() + " is left with " + Math.Round(enemyHealthPoints, 2) +
-                                " health!\n";
+                        toStr = $"{Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
+                        toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
                     }
                 }
             }
             var regeneratedMana = ManaRegenerationRate * TotalMana;
             GainMana(regeneratedMana);
-            toStr += Name + " has regenerated " + regeneratedMana + " of his mana!\n";
-            toStr += Name + " now has " + Math.Round(Mana, 2) + " mana!\n";
+            toStr += $"{Name} has regenerated {regeneratedMana} of his mana!\n";
+            toStr += $"{Name} now has {Math.Round(Mana, 2)} mana!\n";
             if (Weapon.HasEffect())
                 toStr += Weapon.Effect(dealtDamage, this, opponent);
             if (Weapon.GetLifeSteal() != 0)
@@ -376,7 +369,6 @@ namespace ConsoleApp12.Characters
         
         protected void AddAbility(Ability.Ability ability)
         {
-            // var abilityName = ability.GetType().ToString().ToLower();
             var abilityName = ability.GetName();
             RespectiveAbilities[abilityName] = ability;
         }
@@ -438,12 +430,7 @@ namespace ConsoleApp12.Characters
         {
             return Sanity;
         }
-
-        public void SetSanity(double newSanity)
-        {
-            Sanity = newSanity; 
-        }
-
+        
         public void SetMaximumSanity(double newMaximumSanity)
         {
             var sanityDifference = newMaximumSanity - MaxSanity;
@@ -496,11 +483,6 @@ namespace ConsoleApp12.Characters
         {
             return Mana;
         }
-
-        public void SetMana(double newMana)
-        {
-            Mana = newMana;
-        }
         
         public string GetDescription()
         {
@@ -511,20 +493,10 @@ namespace ConsoleApp12.Characters
         {
             return TotalMana;
         }
-
-        public void SetTotalMana(double newTotalMana)
-        {
-            TotalMana = newTotalMana;
-        }
-
+        
         public double GetManaRegenerationRate()
         {
             return ManaRegenerationRate;
-        }
-
-        public void SetManaRegenerationRate(double newManaRegenerationRate)
-        {
-            ManaRegenerationRate = newManaRegenerationRate;
         }
         
         public void Spare()
@@ -553,7 +525,7 @@ namespace ConsoleApp12.Characters
 
         public string Act(string action)
         {
-            var toStr = "You " + action + " " + Name + "!\n";
+            var toStr = $"You {action} {Name}!\n";
             var successfulAct = RandomHelper.IsSuccessfulTry(ChanceOfSuccessfulAct);
             if (!successfulAct)
             {
@@ -566,8 +538,8 @@ namespace ConsoleApp12.Characters
                 if (OrderOfActions.Count != 0)
                 {
                     OrderOfActions.Dequeue();
-                    var lostAttack = Attack / Actions.Count;
-                    toStr += Name + " has lost " + Math.Round(lostAttack, 2) + " of its Attack!";
+                    var lostAttack = 0.005;
+                    toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!";
                     InnateAttack -= lostAttack;
                     Attack -= lostAttack;
                 }
@@ -582,23 +554,17 @@ namespace ConsoleApp12.Characters
         private string GetStatus()
         {
             if (Actions.Count == 0)
-                return "";
+                return "Not Spareable\n";
             if (OrderOfActions.Count == 0)
                 return "Spareable\n";
             var desiredAction = OrderOfActions.Peek();
-            return "You should " + desiredAction + " him\n";
+            return $"You should {desiredAction} them\n";
         }
         
         public override string ToString()
         {
-            var toStr = Name + ": " + Health + " HEALTH, ";
-            toStr += Defense + " DEFENSE, " + Attack + " ATTACK";
-            if (Description != null)
-                toStr += "\n" + Description;
-            toStr += "\n" + Weapon;
-            toStr += Armour;
-            toStr += GetStatus();
-            return toStr;
+            return $"{Name}: {Health} HEALTH, {Defense} DEFENSE, {Attack} ATTACK" +
+                        $"\n{Description}{Weapon}{Armour}{GetStatus()}";
         }
     }
 }

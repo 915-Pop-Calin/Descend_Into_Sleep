@@ -12,7 +12,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         
         public UndyingWill() : base("Undying Will")
         {
-            Description = "your attack damage is greatly increased, but you die after 3 turns\n";
+            Description = "Your attack damage is greatly increased, but you die after 3 turns\n";
             ManaCost = 75;
             TurnsUntilDecast = 3;
             AttackValuesQueue = new Queue<double>();
@@ -35,24 +35,16 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 
         public override string Decast(Character caster, Character opponent)
         {
-            var opponentHealth = opponent.GetHealthPoints();
-            var casterName = caster.GetName();
-            var toStr = "";
-            if (opponentHealth > 0)
+            if (opponent.GetHealthPoints() > 0)
             {
                 caster.ReduceHealthPoints(10000);
-                toStr += casterName + "'s health was reduced by 10000!\n";
+                return $"{caster.GetName()}'s health was reduced by 10000!\n";
             }
-            else
-            {
-                if (AttackValuesQueue.Count == 0)
+            if (AttackValuesQueue.Count == 0)
                     throw new EmptyQueueException("Attack Values");
-                var increasedAttackValue = AttackValuesQueue.Dequeue();
-                caster.DecreaseAttackValue(increasedAttackValue);
-                toStr += casterName + "'s attack value was brought back to normal!\n";
+            var increasedAttackValue = AttackValuesQueue.Dequeue();
+            caster.DecreaseAttackValue(increasedAttackValue);
+            return $"{caster.GetName()}'s attack value was brought back to normal!\n";
             }
-
-            return toStr;
-        }
     }
 }

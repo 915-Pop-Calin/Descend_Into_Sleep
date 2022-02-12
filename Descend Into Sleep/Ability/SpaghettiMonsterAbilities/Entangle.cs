@@ -13,20 +13,17 @@ namespace ConsoleApp12.Ability.SpaghettiMonsterAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             opponent.Stun();
-            var toStr = casterName + " casts " + Name + "!\n";
-            toStr += opponentName + " is stunned for " + TurnsUntilDecast + " turns!\n";
+            var toStr = $"{caster.GetName()} casts {Name}!\n";
+            toStr += $"{opponent.GetName()} is stunned for {TurnsUntilDecast} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
         public override string Decast(Character caster, Character opponent)
         {
-            var opponentName = opponent.GetName();
             opponent.Unstun();
-            var toStr = opponentName + " is no longer stunned!\n";
+            var toStr = $"{opponent.GetName()} is no longer stunned!\n";
             return toStr;
         }
     }

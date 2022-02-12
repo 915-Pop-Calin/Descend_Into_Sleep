@@ -35,19 +35,12 @@ namespace ConsoleApp12.CombatSystem
             }
             else
             {
+                GoldDivider = 1;
+                ExperienceDivider = 1;
                 if (ComputerPlayer is FinalBoss finalBoss)
-                {
                     ComputerCombat = new LastBossCombat(finalBoss);
-                    GoldDivider = 1;
-                    ExperienceDivider = 1;
-                }
-
                 else
-                {
                     ComputerCombat = new ComputerCombat(ComputerPlayer);
-                    GoldDivider = 1;
-                    ExperienceDivider = 1;
-                }
             }
         }
 
@@ -99,7 +92,9 @@ namespace ConsoleApp12.CombatSystem
         private void HumanWin()
         {
             CombatDone = true;
-            Console.WriteLine(HumanPlayer.GetName() + " has won!\n");
+            Console.WriteLine($"{HumanPlayer.GetName()} has won!\n");
+            if (ComputerPlayer.GetHealthPoints() <= 0)
+                HumanPlayer.IncrementKillCount();
             ComputerCombat.FightEnd(HumanPlayer);
             HumanCombat.FightEnd(ComputerPlayer);
             var goldAndExperience = PostCombatGains();
@@ -108,7 +103,7 @@ namespace ConsoleApp12.CombatSystem
 
         private void ComputerWin()
         {
-            Console.WriteLine(ComputerPlayer.GetName() + " has won!\n");
+            Console.WriteLine($"{ComputerPlayer.GetName()} has won!\n");
             ComputerCombat.FightEnd(HumanPlayer);
             HumanCombat.FightEnd(ComputerPlayer);
             throw new ExitGameException();
@@ -127,15 +122,12 @@ namespace ConsoleApp12.CombatSystem
                 return;
             }
             
-            if (!ComputerCombat.CheckStun())
+            if (!ComputerCombat.CheckStun() && !CombatDone)
             {
-                if (!CombatDone)
+                ComputerCombat.CombatTurn(HumanPlayer);
+                if (HumanPlayer.GetHealthPoints() <= 0 || HumanPlayer.GetSanity() <= 0)
                 {
-                    ComputerCombat.CombatTurn(HumanPlayer);
-                    if (HumanPlayer.GetHealthPoints() <= 0 || HumanPlayer.GetSanity() <= 0)
-                    {
-                        ComputerWin();
-                    }
+                    ComputerWin();
                 }
             }
 

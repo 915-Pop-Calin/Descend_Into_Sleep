@@ -16,16 +16,14 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var damageDealt = ScalingPerLevel * Level;
             var damageTaken = caster.TakeMitigatedDamage(damageDealt);
             var damageMitigated = damageDealt - damageTaken;
             opponent.ReduceHealthPoints(damageMitigated);
-            toStr += casterName + " took " + damageDealt + " damage, but mitigated " + damageMitigated + " of it!\n";
-            toStr += opponentName + " took the mitigated damage!\n";
-            toStr += opponentName + " is left with " + opponent.GetHealthPoints() + " health!\n";
+            toStr += $"{caster.GetName()} took {damageDealt} damage, but mitigated {damageMitigated} of it!\n";
+            toStr += $"{opponent.GetName()} took the mitigated damage!\n";
+            toStr += $"{opponent.GetName()} is left with {opponent.GetHealthPoints()} health!\n";
             return toStr;
         }
 

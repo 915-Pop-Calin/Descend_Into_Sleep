@@ -14,7 +14,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             caster.DealDirectDamage(opponent, damageDealt);
-            var toStr = caster.GetName() + " did a double hit and dealt " + damageDealt.ToString() + " damage!\n";
+            var toStr = $"{caster.GetName()} did a double hit and dealt {damageDealt} damage!\n";
             return toStr;
         }
     }

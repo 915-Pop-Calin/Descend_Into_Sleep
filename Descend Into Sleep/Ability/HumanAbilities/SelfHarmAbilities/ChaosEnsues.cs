@@ -31,7 +31,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         {
             if (!Available)
                 throw new CooldownException(Name);
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var currentWeapon = caster.GetWeapon();
             var removedLifesteal = currentWeapon.GetLifeSteal();
@@ -44,7 +43,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             caster.SetHealthPoints(SetHealthPoints);
             opponent.Stun();
             Available = false;
-            toStr += opponentName + " is now stunned!\nYou can no longer life steal!\nYour health is set to 0.5!\n";
+            toStr += $"{opponent.GetName()} is now stunned!\nYou can no longer life steal!\nYour health is set to 0.5!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             Func<Character, Character, string> secondDecastFunction = delegate(Character caster, Character opponent){
                 return SecondDecast(caster, opponent);
@@ -63,19 +62,17 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         {
             if (WeaponQueue.Count == 0 || LifeStealQueue.Count == 0)
                 throw new EmptyQueueException("Life Steal");
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             var debuffedWeapon = WeaponQueue.Dequeue();
             var debuffValue = LifeStealQueue.Dequeue();
             debuffedWeapon.SetLifeSteal(debuffValue);
-            var toStr = casterName + " can now life steal!\n" + opponentName + " is no longer stunned!\n";
+            var toStr = $"{caster.GetName()} can now life steal!\n{opponent.GetName()} is no longer stunned!\n";
             return toStr;
         }
 
         public string SecondDecast(Character caster, Character opponent)
         {
             Available = true;
-            var toStr = Name + " is now available!\n";
+            var toStr = $"{Name} is now available!\n";
             return toStr;
         }
     }

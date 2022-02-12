@@ -56,13 +56,13 @@ namespace ConsoleApp12.Items
         
         public override string ToString()
         {
-            var defenseString = ", " + Defense + " DEFENSE";
-            var healthString = ", " + Health + " HEALTH";
-            var lifestealString = ", " + LifeSteal * 100 + "% LIFESTEAL";
-            var criticalChanceString = ", " + CriticalChance * 100 + "% CRITICAL CHANCE";
-            var armourPenetrationString = ", " + ArmorPenetration * 100 + "% ARMOUR PENETRATION";
-            var descriptionString = ": " + Description;
-            return Name + " WEAPON: " + Attack + " ATTACK" + String.Concat(Enumerable.Repeat(defenseString, Convert.ToInt16(Defense != 0))) +
+            var defenseString = $", {Defense} DEFENSE";
+            var healthString = $", {Health} HEALTH";
+            var lifestealString = $", {LifeSteal * 100}% LIFESTEAL";
+            var criticalChanceString = $", {CriticalChance * 100}% CRITICAL CHANCE";
+            var armourPenetrationString = $", {ArmorPenetration * 100}% ARMOUR PENETRATION";
+            var descriptionString = $": {Description}";
+            return $"{Name} WEAPON: {Attack} ATTACK" + String.Concat(Enumerable.Repeat(defenseString, Convert.ToInt16(Defense != 0))) +
                      String.Concat(Enumerable.Repeat(healthString, Convert.ToInt16(Health != 0))) + 
                      String.Concat(Enumerable.Repeat(lifestealString, Convert.ToInt16(LifeSteal != 0)))
                      + String.Concat(Enumerable.Repeat(criticalChanceString, Convert.ToInt16(CriticalChance != 0)))

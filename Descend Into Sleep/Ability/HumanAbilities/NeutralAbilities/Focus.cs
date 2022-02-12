@@ -22,12 +22,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
             var sanityRestored = RandomHelper.GenerateRandomInInterval(MinimumSanityRestored, MaximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
-            toStr += casterName + " has restored " + sanityRestored + " sanity!\n";
-            toStr += casterName + " is left with " + caster.GetSanity() + " sanity!\n";
+            toStr += $"{caster.GetName()} has restored {sanityRestored} sanity!\n";
+            toStr += $"{caster.GetName()} is left with {caster.GetSanity()} sanity!\n";
             return toStr;
         }
 

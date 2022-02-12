@@ -26,7 +26,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
             var decreasedDefense = caster.GetDefenseValue() * DefensePercentageLost;
             var increasedAttack = caster.GetAttackValue() * AttackPercentageGained;
@@ -34,8 +33,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             DefenseLostQueue.Enqueue(decreasedDefense);
             caster.IncreaseAttackValue(increasedAttack);
             caster.DecreaseDefenseValue(decreasedDefense);
-            toStr += "In a blinding rage, " + casterName + "'s attack value was increased by " + increasedAttack;
-            toStr += " and their defense was decreased by " + decreasedDefense + "!\n";
+            toStr += $"In a blinding rage, {caster.GetName()}'s attack value was increased by {increasedAttack}";
+            toStr += $" and their defense was decreased by {decreasedDefense}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -44,12 +43,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         {
             if (AttackGainedQueue.Count == 0 || DefenseLostQueue.Count == 0)
                 throw new EmptyQueueException("Stats");
-            var casterName = caster.GetName();
             var increasedAttack = AttackGainedQueue.Dequeue();
             var decreasedDefense = DefenseLostQueue.Dequeue();
             caster.DecreaseAttackValue(increasedAttack);
             caster.IncreaseDefenseValue(decreasedDefense);
-            var toStr = casterName + "'s attack value and defense were brought back to normal!\n";
+            var toStr = $"{caster.GetName()}'s attack value and defense were brought back to normal!\n";
             return toStr;
         }
     }

@@ -36,7 +36,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
                     listOfTurns[turnCounter + 2].Add(decastFunction);
                 }
 
-                toStr = caster.GetName() + " was stunned for a turn by Two Handed Mace!\n";
+                toStr = $"{caster.GetName()} was stunned for a turn by Two Handed Mace!\n";
             }
             catch (StunException stunException)
             {
@@ -49,7 +49,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         public string Decast(Character caster, Character opponent)
         {
             caster.Unstun();
-            var toStr = caster.GetName() + " can attack now!\n";
+            var toStr = $"{caster.GetName()} can attack now!\n";
             return toStr;
         }
     }

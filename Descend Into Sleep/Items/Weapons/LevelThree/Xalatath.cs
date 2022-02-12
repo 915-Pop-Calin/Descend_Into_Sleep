@@ -20,8 +20,8 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             var maximumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt));
             var sanityRestored = RandomHelper.GenerateRandomInInterval(minimumSanityRestored, maximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
-            var toStr = caster.GetName() + " has restored " + sanityRestored.ToString() + " of his sanity!\n";
-            toStr += caster.GetName() + " is left with " + caster.GetSanity().ToString() + " sanity!\n";
+            var toStr = $"{caster.GetName()} has restored {sanityRestored} of his sanity!\n";
+            toStr += $"{caster.GetName()} is left with {caster.GetSanity()} sanity!\n";
             return toStr;
         }
     }

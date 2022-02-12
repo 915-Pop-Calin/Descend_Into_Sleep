@@ -23,14 +23,12 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         {
             if (!Available)
                 throw new CooldownException(Name);
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var totalDamageDealt = caster.GetAttackValue() * ScalingPerLevel * Level;
             var damagePerTurn = totalDamageDealt / NumberOfTurns;
             var damageOverTime = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(damageOverTime);
-            toStr += opponentName + " will take " + damagePerTurn + " damage over " + 
-                     NumberOfTurns + " turns!\n";
+            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage over {NumberOfTurns} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             Available = false;
             return toStr;
@@ -39,7 +37,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public override string Decast(Character caster, Character opponent)
         {
             Available = true;
-            var toStr = "Pyroblast is now available!\n";
+            var toStr = $"{Name} is now available!\n";
             return toStr;
         }
     }

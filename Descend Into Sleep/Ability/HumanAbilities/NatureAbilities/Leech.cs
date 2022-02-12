@@ -21,15 +21,12 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var armourLeeched = opponent.GetDefenseValue() * ScalingPerLevel * Level;
             caster.IncreaseDefenseValue(armourLeeched);
             opponent.DecreaseDefenseValue(armourLeeched);
             ArmourLeechedQueue.Enqueue(armourLeeched);
-            toStr += casterName + " has leeched " + Math.Round(armourLeeched, 2) + " armour from " + opponentName +
-                     " for " + TurnsUntilDecast + " turns!\n";
+            toStr += $"{caster.GetName()} has leeched {Math.Round(armourLeeched, 2)} armour from {opponent.GetName()} for {TurnsUntilDecast} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }

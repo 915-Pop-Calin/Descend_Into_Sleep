@@ -20,15 +20,14 @@ namespace ConsoleApp12.Characters.SideCharacters
 
         public override string Hit(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var minimumSanityReducedReal = MinimumPercentageReduced * Attack;
             var maximumSanityReducedReal = MaximumPercentageReduced * Attack;
             var minimumSanityReducedInt = Convert.ToInt32(minimumSanityReducedReal);
             var maximumSanityReducedInt = Convert.ToInt32(maximumSanityReducedReal);
             var sanityReduced = RandomHelper.GenerateRandomInInterval(minimumSanityReducedInt, maximumSanityReducedInt);
             opponent.ReduceSanity(sanityReduced);
-            var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
-            toStr += opponentName + " is left with " + opponent.GetSanity() + " sanity!\n";
+            var toStr = $"{opponent.GetName()}'s sanity was reduced by {sanityReduced}!\n";
+            toStr += $"{opponent.GetName()} is left with {opponent.GetSanity()} sanity!\n";
             return toStr;
         }
         

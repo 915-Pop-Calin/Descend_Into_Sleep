@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Mail;
-using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
-using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
-using ConsoleApp12.Items.Armours.LevelOne;
-using ConsoleApp12.Items.Weapons.LevelOne;
 using ConsoleApp12.Levels;
-using ConsoleApp12.SaveFile;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Game
@@ -87,6 +80,11 @@ namespace ConsoleApp12.Game
                         Console.WriteLine(invalidInputTypeException.Message);
                         StartCharacter();
                     }
+                    catch (CorruptedSaveFileException corruptedSaveFileException)
+                    {
+                        Console.WriteLine(corruptedSaveFileException.Message);
+                        StartCharacter();
+                    }
                     break;
                 case 1:
                     StartCharacter();
@@ -131,18 +129,17 @@ namespace ConsoleApp12.Game
             
             PrintAllSaveFiles();
             Console.WriteLine("Choose the number of the Save File to load:");
-            var readLine = Console.ReadLine();;
-
-            int choice;
-            var isParseable = int.TryParse(readLine.Trim(), out choice);
+            var readLine = Console.ReadLine();
+            
+            var isParseable = int.TryParse(readLine.Trim(), out var choice);
             if (!isParseable)
                 throw new InvalidInputTypeException(typeof(int), readLine.GetType());
             
             if (choice < 0 || choice >= 10)
                 throw new InvalidSaveFileException();
             var loadType = ListOfSaveFiles[choice].LoadInfo();
-            if (loadType.Item1 == null)
-                throw new EmptySaveFileException();
+            // if (loadType.Item1 == null)
+            //     throw new EmptySaveFileException();
             
             Player = loadType.Item1;
             Level = loadType.Item2;

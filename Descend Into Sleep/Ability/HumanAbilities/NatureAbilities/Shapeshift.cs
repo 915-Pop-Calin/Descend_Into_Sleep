@@ -34,7 +34,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
         {
             if (!Available)
                 throw new CooldownException(Name);
-            var casterName = caster.GetName();
             var toStr = GetCastingString(caster);
             var armourGained = ArmourScalingPerLevel * Level;
             var healthGained = HealthScalingPerLevel * Level;
@@ -47,9 +46,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             caster.IncreaseAttackValue(attackGained);
             caster.GainHealthPoints(healthGained);
             caster.IncreaseDefenseValue(armourGained);
-            toStr += casterName + "'s health was increased by " + healthGained +
-                     ", their attack value was increased by ";
-            toStr += attackGained + " and their defense was increased by " + armourGained + "!\n";
+            toStr += $"{caster.GetName()}'s health was increased by {healthGained}, their attack value was increased by ";
+            toStr += $"{attackGained} and their defense was increased by {armourGained}!\n";
             Available = false;
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
 
@@ -77,14 +75,14 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             caster.LoseHealthPoints(healthGained);
             caster.DecreaseAttackValue(attackGained);
             caster.DecreaseDefenseValue(armourGained);
-            var toStr = casterName + "'s shapeshift has ended!\n Their stats were brought back to normal!\n";
+            var toStr = $"{casterName}'s shapeshift has ended!\n Their stats were brought back to normal!\n";
             return toStr;
         }
 
         public string SecondDecast(Character character, Character opponent)
         {
             Available = true;
-            var toStr = "Shapeshift is now available!\n";
+            var toStr = $"{Name} is now available!\n";
             return toStr;
         }
     }

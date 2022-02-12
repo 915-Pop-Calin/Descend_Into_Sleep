@@ -18,17 +18,14 @@ namespace ConsoleApp12.Ability.IcarusAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             var firstDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
             var secondDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
             var thirdDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
             opponent.AddDotEffect(firstDOTEffect);
             opponent.AddDotEffect(secondDOTEffect);
             opponent.AddDotEffect(thirdDOTEffect);
-            var toStr = casterName + " has cast " + Name + "!\n";
-            toStr += opponentName + " will take " + DamagePerTurn + " every turn for " + NumberOfTurns +
-                     " turns THRICE!\n";
+            var toStr = $"{caster.GetName()} has cast {Name}!\n";
+            toStr += $"{opponent.GetName()} will take {DamagePerTurn} every turn for {NumberOfTurns} turns THRICE!\n";
             return toStr;
         }
 

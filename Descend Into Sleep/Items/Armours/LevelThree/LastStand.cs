@@ -19,7 +19,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
             if (caster.GetHealthPoints() / caster.GetMaximumHealthPoints() < 0.3)
             {
                 caster.DecreaseDefenseValue(100);
-                toStr = "Due to " + caster.GetName() + " being under 30% HP, his defense was reduced by 100 for a turn!\n";
+                toStr = $"Due to {caster.GetName()} being under 30% HP, his defense was reduced by 100 for a turn!\n";
                 
                 Func<Character, Character, string> decastFunction = delegate(Character caster, Character opponent)
                 {
@@ -41,7 +41,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
         public string Decast(Character caster, Character opponent)
         {
             caster.IncreaseDefenseValue(100);
-            var toStr = caster.GetName() + "'s defenses were brought back to normal!\n";
+            var toStr = $"{caster.GetName()}'s defenses were brought back to normal!\n";
             return toStr;
         }
     }

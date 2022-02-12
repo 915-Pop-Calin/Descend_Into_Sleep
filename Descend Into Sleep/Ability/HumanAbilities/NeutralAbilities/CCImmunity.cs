@@ -17,7 +17,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             var toStr = GetCastingString(caster);
             caster.SetStunResistant(true);
-            toStr += caster.GetName() + " is immune to CC for " + TurnsUntilDecast + " turns!\n";
+            toStr += $"{caster.GetName()} is immune to CC for {TurnsUntilDecast} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -25,7 +25,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         public override string Decast(Character caster, Character opponent)
         {
             caster.SetStunResistant(false);
-            var toStr = caster.GetName() + " is no longer immune to CC!\n";
+            var toStr = $"{caster.GetName()} is no longer immune to CC!\n";
             return toStr;
         }
     }

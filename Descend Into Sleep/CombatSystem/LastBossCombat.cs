@@ -57,14 +57,12 @@ namespace ConsoleApp12.CombatSystem
 
         private string Intervention(HumanPlayer humanPlayer)
         {
-            var humanPlayerName = humanPlayer.GetName();
-            var toStr = humanPlayerName +
-                        " look, I don't have much time but I have been studying this for some time.\n";
+            var toStr = $"{humanPlayer.GetName()} look, I don't have much time but I have been studying this for some time.\n";
             toStr += "And I have come to the conclusion that there is only ONE way to beat him.\n";
             toStr += "You have to use this titan construct to strike him right in the heart.\n";
             var titanConstructItem = AllItems.OrbOfTheTitans;
             humanPlayer.DirectEquipWeapon(titanConstructItem);
-            toStr += "You have equipped " + titanConstructItem.GetName() + "!\n";
+            toStr += $"You have equipped {titanConstructItem.GetName()}!\n";
             return toStr;
         }
     }

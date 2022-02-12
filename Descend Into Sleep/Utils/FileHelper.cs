@@ -13,13 +13,13 @@ namespace ConsoleApp12.Utils
             switch (operatingSystem)
             {
                 case "Windows":
-                    return "C:\\Users\\" + username + "\\AppData\\Local\\";
+                    return $"C:\\Users\\{username}\\AppData\\Local\\";
                 case "Linux":
-                    return "/home/" + username + "/.local/share/";
+                    return $"/home/{username}/.local/share/";
                 case "MacOS":
-                    return "/Users/" + username + "/Library/Application Support/";
+                    return $"/Users/{username}/Library/Application Support/";
                 default:
-                    Console.WriteLine(operatingSystem + " is not currently supported");
+                    Console.WriteLine($"{operatingSystem} is not currently supported");
                     throw new ExitGameException();
             }
         }
@@ -74,7 +74,7 @@ namespace ConsoleApp12.Utils
                 delimiter = "/";
             else
                 delimiter = "\\";
-            var saveFilePath = appDataPath + gameName + delimiter + "savefile" + saveFileNumber + ".json";
+            var saveFilePath = $"{appDataPath}{gameName}{delimiter}savefile{saveFileNumber}.json";
             return saveFilePath;
         }
     }

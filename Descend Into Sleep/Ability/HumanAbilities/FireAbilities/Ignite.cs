@@ -22,15 +22,13 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var damagePerTurn = ScalingPerLevel * Level;
             var damageOverTime = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(damageOverTime);
             opponent.DecreaseDefenseValue(DefenseLost);
-            toStr += opponentName + " will take " + damagePerTurn + " damage over " + 
-                     NumberOfTurns + " turns and their defense was decreased by " + 
-                     DefenseLost +"!\n";
+            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage over {NumberOfTurns} turns and their defense was decreased by " + 
+                     $"{DefenseLost}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -38,7 +36,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public override string Decast(Character caster, Character opponent)
         {
             var opponentName = opponent.GetName();
-            var toStr = opponentName + "'s defense value was brought back to normal!\n";
+            var toStr = $"{opponentName}'s defense value was brought back to normal!\n";
             opponent.IncreaseDefenseValue(DefenseLost);
             return toStr;
         }

@@ -59,8 +59,9 @@ namespace ConsoleApp12.Characters.MainCharacters
             var maximumSanityReduced = 31;
             var sanityReduced = RandomHelper.GenerateRandomInInterval(minimumSanityReduced, maximumSanityReduced);
             var opponentName = opponent.GetName();
-            var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
-            toStr += opponentName + " is left with " + opponent.GetSanity() + " sanity!\n";
+            var toStr = $"{opponentName}'s sanity was reduced by {sanityReduced}!\n";
+            opponent.ReduceSanity(sanityReduced);
+            toStr += $"{opponentName} is left with {opponent.GetSanity()} sanity!\n";
             if (DialogueLines.Count == 0)
                 toStr += "...\n";
             else

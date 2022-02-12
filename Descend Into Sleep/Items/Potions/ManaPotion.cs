@@ -17,9 +17,8 @@ namespace ConsoleApp12.Items.Potions
 
         public override string UseItem(HumanPlayer humanPlayer)
         {
-            var playerName = humanPlayer.GetName();
             humanPlayer.GainMana(RestoredValue);
-            var toStr = playerName + " has restored " + RestoredValue.ToString() + " of their mana!\n";
+            var toStr = $"{humanPlayer.GetName()} has restored {RestoredValue} of their mana!\n";
             return toStr;
         }
     }

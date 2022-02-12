@@ -20,7 +20,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
-            var casterName = caster.GetName();
             var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
             var totalHealth = caster.GetMaximumHealthPoints();
             var percentageMissing = missingHealth / totalHealth;
@@ -28,9 +27,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             var attackIncrease = caster.GetAttackValue() * damageIncrease;
             IncreasedDamageQueue.Enqueue(attackIncrease);
             caster.IncreaseAttackValue(attackIncrease);
-            toStr += "Due to " + casterName + " missing " + missingHealth +
-                     " of its health, their attack is increased by ";
-            toStr += attackIncrease + " for " + TurnsUntilDecast + " turns!\n";
+            toStr += $"Due to {caster.GetName()} missing {missingHealth} of its health, their attack is increased by " +
+                     $"{attackIncrease} for {TurnsUntilDecast} turns";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -39,10 +37,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         {
             if (IncreasedDamageQueue.Count == 0)
                 throw new EmptyQueueException("Increased Damage");
-            var casterName = caster.GetName();
             var attackIncrease = IncreasedDamageQueue.Dequeue();
             caster.DecreaseAttackValue(attackIncrease);
-            var toStr = casterName + "'s attack value was brought back to normal!\n";
+            var toStr = $"{caster.GetName()}'s attack value was brought back to normal!\n";
             return toStr;
         }
     }

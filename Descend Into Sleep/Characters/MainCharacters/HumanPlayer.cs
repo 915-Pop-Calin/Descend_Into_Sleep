@@ -19,14 +19,17 @@ namespace ConsoleApp12.Characters.MainCharacters
         private List<Character> PastSelves;
         private string School;
         private string Difficulty;
-        private readonly double AttackGrowth;
-        private readonly double DefenseGrowth;
-        private readonly double HealthGrowth;
-        private readonly double ManaGrowth;
+        private double AttackGrowth;
+        private double DefenseGrowth;
+        private double HealthGrowth;
+        private double ManaGrowth;
+        private double KillCount;
 
         public HumanPlayer(string name, string difficulty, Weapon weapon, Armour armour) : 
             base(name, 10, 0, weapon, armour, 20)
         {
+            SetDifficulty();
+            SetInitialAbilities();
             Level = 0;
             ExperiencePoints = 0;
             Inventory = new List<Item>()
@@ -39,23 +42,46 @@ namespace ConsoleApp12.Characters.MainCharacters
             PastSelves = new List<Character>();
             School = null;
             Difficulty = difficulty;
-            AbilitiesToLearn = new Dictionary<int, KeyValuePair<Ability.Ability, int>>();
-            AbilitiesToLearn[1] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 1);
-            AbilitiesToLearn[2] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 1);
-            AbilitiesToLearn[3] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 1);
-            AbilitiesToLearn[5] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 2);
-            AbilitiesToLearn[6] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 2);
-            AbilitiesToLearn[7] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 2);
-            AbilitiesToLearn[9] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 3);
-            AbilitiesToLearn[11] = new KeyValuePair<Ability.Ability, int>(new Focus(), 1);
-            AbilitiesToLearn[12] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 3);
-            AbilitiesToLearn[14] = new KeyValuePair<Ability.Ability, int>(new Discourage(), 1);
-            AbilitiesToLearn[19] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 3);
-            AbilitiesToLearn[21] = new KeyValuePair<Ability.Ability, int>(new Focus(), 2);
-            AbilitiesToLearn[24] = new KeyValuePair<Ability.Ability, int>(new CleanseDOT(), 1);
-            AbilitiesToLearn[29] = new KeyValuePair<Ability.Ability, int>(new TrueDamage(), 1);
-            AbilitiesToLearn[34] = new KeyValuePair<Ability.Ability, int>(new CCImmunity(), 1);
+            KillCount = 0;
+        }
+
+        public HumanPlayer(String name, int humanLevel, double experiencePoints, double innateAttack,
+            double innateDefense, double innateCriticalChance, double innateArmourPenetration,
+            double manaRegenerationRate, double mana, double health, double maximumHealth,
+            double totalMana, List<Item> inventory, double gold, string school, double sanity,
+            double maxSanity, double killCount, string difficulty, Weapon weapon, Armour armour, 
+            List<Character> pastSelves): base(name, innateAttack, innateDefense, weapon, armour, maximumHealth)
+        {
+            School = school;
+            SetDifficulty();
+            SetInitialAbilities();
+            ExperiencePoints = experiencePoints;
+            InnateCriticalChance = innateCriticalChance;
+            InnateArmourPenetration = innateArmourPenetration;
+            ManaRegenerationRate = manaRegenerationRate;
+            Mana = mana;
+            Health = health;
+            TotalMana = totalMana;
+            Inventory = inventory;
+            Gold = gold;
+            if (school == "")
+                school = null;
+            Sanity = sanity;
+            MaxSanity = maxSanity;
+            KillCount = killCount;
+            Difficulty = difficulty;
+            PastSelves = pastSelves;
+            Cheater = false;
+            JumpToGivenLevel(humanLevel, School);
+            ArmourPenetration = InnateArmourPenetration + Weapon.GetArmorPenetration();
+            Attack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
+            Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
+            CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
             
+        }
+
+        private void SetDifficulty()
+        {
             switch (Difficulty)
             {
                 case "impossible":
@@ -84,6 +110,26 @@ namespace ConsoleApp12.Characters.MainCharacters
                     Difficulty = "easy";
                     break;
             }
+        }
+
+        private void SetInitialAbilities()
+        {
+            AbilitiesToLearn = new Dictionary<int, KeyValuePair<Ability.Ability, int>>();
+            AbilitiesToLearn[1] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 1);
+            AbilitiesToLearn[2] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 1);
+            AbilitiesToLearn[3] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 1);
+            AbilitiesToLearn[5] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 2);
+            AbilitiesToLearn[6] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 2);
+            AbilitiesToLearn[7] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 2);
+            AbilitiesToLearn[9] = new KeyValuePair<Ability.Ability, int>(new Taunt(), 3);
+            AbilitiesToLearn[11] = new KeyValuePair<Ability.Ability, int>(new Focus(), 1);
+            AbilitiesToLearn[12] = new KeyValuePair<Ability.Ability, int>(new Bolster(), 3);
+            AbilitiesToLearn[14] = new KeyValuePair<Ability.Ability, int>(new Discourage(), 1);
+            AbilitiesToLearn[19] = new KeyValuePair<Ability.Ability, int>(new Strengthen(), 3);
+            AbilitiesToLearn[21] = new KeyValuePair<Ability.Ability, int>(new Focus(), 2);
+            AbilitiesToLearn[24] = new KeyValuePair<Ability.Ability, int>(new CleanseDOT(), 1);
+            AbilitiesToLearn[29] = new KeyValuePair<Ability.Ability, int>(new TrueDamage(), 1);
+            AbilitiesToLearn[34] = new KeyValuePair<Ability.Ability, int>(new CCImmunity(), 1);
         }
         
         private int FindEmptyPositionInInventory()
@@ -120,7 +166,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             int itemIndex = FindItemByName(itemName);
             if (itemIndex == -1)
                 throw new InvalidItemException();
-            string toStr = itemName + " has been dropped!\n";
+            string toStr = $"{itemName} has been dropped!\n";
             Inventory[itemIndex] = null;
             return toStr;
         }
@@ -164,7 +210,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         private string UseWeapon(Weapon weapon, int itemIndex)
         {
-            var toStr = "You have equipped " + weapon.GetName() + "!\n";
+            var toStr = $"You have equipped {weapon.GetName()}!\n";
             var oldWeapon = ChangeWeapon(weapon);
             if (oldWeapon.GetName() != "No Weapon")
                 Inventory[itemIndex] = oldWeapon;
@@ -206,13 +252,15 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             IncreaseAttackValue(attackValue);
             IncreaseDefenseValue(defenseValue);
-            SetInnateMaximumHealth(MaximumHealth + healthValue);
-            SetMaximumSanity(Sanity + sanityValue);
+            var supposedHealth = Math.Max(1, MaximumHealth + healthValue);
+            SetInnateMaximumHealth(supposedHealth);
+            var supposedSanity = Math.Max(1, Sanity + sanityValue);
+            SetMaximumSanity(supposedSanity);
         }
         
         private string UseArmour(Armour armour, int itemIndex)
         {
-            var toStr = "You have equipped " + armour.GetName() + "!\n";
+            var toStr = $"You have equipped {armour.GetName()}!\n";
             var oldArmour = ChangeArmour(armour);
             if (oldArmour.GetName() != "No Armour")
                 Inventory[itemIndex] = oldArmour;
@@ -240,7 +288,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         private string UsePotion(Potion potion, int itemIndex)
         {
-            var toStr = "You have consumed a " + potion.GetName() + "!\n";
+            var toStr = $"You have consumed a {potion.GetName()}!\n";
             Inventory[itemIndex] = null;
             toStr += potion.UseItem(this);
             return toStr;
@@ -288,13 +336,13 @@ namespace ConsoleApp12.Characters.MainCharacters
                 switch (Level)
                 {
                     case 2:
-                        PastSelves.Add(CreateCharacterCopy("Young " + Name, "Does not want to hurt you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Young {Name}", "Does not want to hurt you\n"));
                         break;
                     case 15:
-                        PastSelves.Add(CreateCharacterCopy("Teen " + Name, "Might want to hurt you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Teen {Name}", "Might want to hurt you\n"));
                         break;
                     case 30:
-                        PastSelves.Add(CreateCharacterCopy("Adult " + Name, "Wants to MURDER you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Adult {Name}", "Wants to MURDER you\n"));
                         break;
                 }
             }
@@ -368,7 +416,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             var abilityName = abilityToLearn.GetName();
             RespectiveAbilities[abilityName] = abilityToLearn;
-            var toStr = abilityName + " has been learnt!";
+            var toStr = $"{abilityName} has been learnt!";
             return toStr;
         }
 
@@ -377,7 +425,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var toStr = "";
             foreach (var ability in RespectiveAbilities)
             {
-                toStr += ability.Value.GetName() + ":" + ability.Value.GetDescription() + "\n";
+                toStr += $"{ability.Value.GetName()}:{ability.Value.GetDescription()}\n";
             }
             return toStr;
         }
@@ -439,8 +487,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             var abilityName = ability.GetName();
             RespectiveAbilities[abilityName].LevelUp();
-            var toStr = abilityName + " has been leveled up to level " + RespectiveAbilities[abilityName].GetLevel() +
-                    "!\n";
+            var toStr = $"{abilityName} has been leveled up to level {RespectiveAbilities[abilityName].GetLevel()}!\n";
             return toStr;
         }
 
@@ -555,64 +602,40 @@ namespace ConsoleApp12.Characters.MainCharacters
             return Difficulty;
         }
 
-        public void SetExperiencePoints(double experiencePoints)
-        {
-            ExperiencePoints = experiencePoints;
-        }
-        
         public double GetExperiencePoints()
         {
             return ExperiencePoints;
         }
 
-        public void SetGold(double gold)
+        public double GetKillCount()
         {
-            Gold = gold;
-        }
-        
-        public void SetPastSelves(List<Character> pastSelves)
-        {
-            PastSelves = pastSelves;
+            return KillCount;
         }
 
+        public void IncrementKillCount()
+        {
+            KillCount += 1;
+        }
+        
         public double GetInnateArmourPenetration()
         {
             return InnateArmourPenetration;
         }
-
-        public void SetInnateArmourPenetration(double newInnateArmourPenetration)
-        {
-            InnateArmourPenetration = newInnateArmourPenetration;
-        }
-
+        
         public double GetInnateCriticalChance()
         {
             return InnateCriticalChance;
         }
 
-        public void SetInnateCriticalChance(double newInnateCriticalChance)
-        {
-            InnateCriticalChance = newInnateCriticalChance;
-        }
-
         public override string ToString()
         {
-            var toStr = Name + ": " + Math.Round(Health, 2) + "/" + Math.Round(MaximumHealth, 2) +
-                        " HEALTH, " + Math.Round(Mana, 2) + "/" + Math.Round(TotalMana, 2) + " MANA, " + Math.Round(Defense, 2) + " DEFENSE, ";
-            toStr += Math.Round(Attack, 2) + " ATTACK, " + Math.Round(Sanity, 2) + "/" + Math.Round(MaxSanity, 2) + " SANITY, " + CriticalChance * 100 +
-                     "% CRITICAL CHANCE, " + ArmourPenetration * 100 + "% ARMOUR PENETRATION\n";
-            toStr += Gold + " GOLD, " + Level + " LEVEL\n";
-            toStr += Weapon.ToString();
-            toStr += Armour.ToString();
-            toStr += "school: ";
-            if (School is null)
-                toStr += "none\n";
-            else
-                toStr += School + "\n";
-            toStr += "attack growth rate: " + AttackGrowth + ", defense growth rate: " +
-                     DefenseGrowth + "\n";
-            toStr += "health growth rate: " + HealthGrowth + ", mana growth rate: " + ManaGrowth +
-                     "\n";
+            var toStr =
+                $"{Name}: {Math.Round(Health, 2)}/{Math.Round(MaximumHealth, 2)} HEALTH, {Math.Round(Mana, 2)}/" +
+                $"{Math.Round(TotalMana, 2)} MANA, {Math.Round(Defense, 2)} DEFENSE, " +
+                $"{Math.Round(Attack, 2)} ATTACK, {Math.Round(Sanity, 2)}/{Math.Round(MaxSanity, 2)} SANITY, " +
+                $"{CriticalChance * 100}% CRITICAL CHANCE, {ArmourPenetration * 100}% ARMOUR PENETRATION\n" +
+                $"{Gold} GOLD, {Level} LEVEL\n{Weapon}{Armour}school:{School}\nattack growth rate: {AttackGrowth}" +
+                $"defense growth rate: {DefenseGrowth}\nhealth growth rate: {HealthGrowth}, mana growth rate: {ManaGrowth}\n";
             return toStr;
         }
     }

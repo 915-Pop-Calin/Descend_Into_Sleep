@@ -16,8 +16,7 @@ namespace ConsoleApp12.Ability.CthulhuAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var toStr = casterName + " has cast Triple Hit!\n";
+            var toStr = $"{caster.GetName()} has cast Triple Hit!\n";
             var attackValue = caster.GetAttackValue();
             caster.SetAttackValue(PercentageOfAttackUsed * attackValue);
             toStr += caster.Hit(opponent, listOfTurns, turnCounter);

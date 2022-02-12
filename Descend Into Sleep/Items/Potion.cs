@@ -17,7 +17,7 @@ namespace ConsoleApp12.Items
             var toStr = "";
             toStr += Name;
             if (Description != null)
-                toStr += ", " + Description;
+                toStr += $", {Description}";
             return toStr;
         }
         

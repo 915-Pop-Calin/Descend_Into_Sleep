@@ -17,9 +17,8 @@ namespace ConsoleApp12.Ability.SauronAbilities
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             opponent.ReduceSanity(SanityReduced);
-            var opponentName = opponent.GetName();
-            var toStr = opponentName + " has looked into the Eye of Sauron!\n";
-            toStr += opponentName + "'s sanity is reduced by " + SanityReduced + "!\n";
+            var toStr = $"{opponent.GetName()} has looked into the Eye of Sauron!\n";
+            toStr += $"{opponent.GetName()}'s sanity is reduced by {SanityReduced}!\n";
             return toStr;
         }
 

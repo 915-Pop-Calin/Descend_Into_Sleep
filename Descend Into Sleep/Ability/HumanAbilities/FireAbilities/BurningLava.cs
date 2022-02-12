@@ -21,15 +21,13 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
             var totalDamageDealt = Level * missingHealth * MissingHealthPercentageTransformed;
             var damagePerTurn = totalDamageDealt / NumberOfTurns;
             var dotEffect = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(dotEffect);
-            toStr += opponentName + " will take " + damagePerTurn + " damage per turn for" + 
-                     NumberOfTurns + " turns!\n";
+            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage per turn for {NumberOfTurns} turns!\n";
             return toStr;
         }
 

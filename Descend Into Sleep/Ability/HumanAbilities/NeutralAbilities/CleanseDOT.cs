@@ -17,7 +17,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             var toStr = GetCastingString(caster);
             caster.ClearDotEffects();
-            toStr += caster.GetName() + " cleared all their dot effects!\n";
+            toStr += $"{caster.GetName()} cleared all their dot effects!\n";
             return toStr;
         }
 

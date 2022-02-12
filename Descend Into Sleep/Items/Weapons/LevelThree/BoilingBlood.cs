@@ -15,8 +15,8 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             caster.DealDirectDamage(caster,40);
-            var toStr = "Boiling Blood has dealt 40 true damage to " + caster.GetName() + " !\n";
-            toStr += caster.GetName() + " is left with " + caster.GetHealthPoints().ToString() + " health!\n";
+            var toStr = $"Boiling Blood has dealt 40 true damage to {caster.GetName()}!\n";
+            toStr += $"{caster.GetName()} is left with {caster.GetHealthPoints()} health!\n";
             return toStr;
         }
     }

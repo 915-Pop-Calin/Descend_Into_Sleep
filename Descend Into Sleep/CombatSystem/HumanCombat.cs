@@ -107,7 +107,8 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
+                // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
                     case 0:
@@ -157,7 +158,7 @@ namespace ConsoleApp12.CombatSystem
                         try
                         {
                             secondCharacter.Spare();
-                            Console.WriteLine(secondCharacter.GetName() + " has been successfully spared!");
+                            Console.WriteLine($"{secondCharacter.GetName()} has been successfully spared!");
                             InvalidInput = false;
                         }
                         catch (ImpossibleSpareException impossibleSpareException)
@@ -175,10 +176,10 @@ namespace ConsoleApp12.CombatSystem
         {
             var humanPlayer = (HumanPlayer) Player;
             var hasLeveled = humanPlayer.GainExperience(experienceToGain);
-            Console.WriteLine("You have gained " + experienceToGain.ToString() + " experience!\n");
+            Console.WriteLine($"You have gained {experienceToGain} experience!\n");
             if (hasLeveled)
-                Console.WriteLine("Level up! Level " + humanPlayer.GetLevel().ToString() + "!\n");
-            Console.WriteLine("You have gained " + goldToGain.ToString() + " gold!\n");
+                Console.WriteLine($"Level up! Level {humanPlayer.GetLevel()}!\n");
+            Console.WriteLine($"You have gained {goldToGain} gold!\n");
             humanPlayer.GainGold(goldToGain);
             ListOfTurns.Clear();
             TurnCounter = 0;

@@ -13,9 +13,7 @@ namespace ConsoleApp12.Ability.TemAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var toStr = casterName + " does nothing!\n";
-            toStr += "It seems pretty ineffective!\n";
+            var toStr = $"{caster.GetName()} does nothing!\nIt seems pretty ineffective!\n";
             return toStr;
         }
 

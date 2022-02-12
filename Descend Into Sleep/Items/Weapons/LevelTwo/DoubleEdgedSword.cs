@@ -30,13 +30,13 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
                 listOfTurns[turnCounter + 2].Add(decastFunction);
             }
 
-            var toStr = opponent.GetName() + "'s attack was increased by 10 for a turn by Double Edged Sword!\n";
+            var toStr = $"{opponent.GetName()}'s attack was increased by 10 for a turn by Double Edged Sword!\n";
             return toStr;
         }
 
         public string Decast(Character caster, Character opponent) {
         opponent.DecreaseAttackValue(10);
-        var toStr = opponent.GetName() + "'s attack was decreased back by 10 by Double Edged Sword!\n";
+        var toStr = $"{opponent.GetName()}'s attack was decreased back by 10 by Double Edged Sword!\n";
         return toStr;
         }
         

@@ -11,60 +11,70 @@ namespace ConsoleApp12.SaveFile
     {
         private int Number;
         private string Name;
-        private bool Corrupted;
+        private string CorruptionMessage;
 
         private SaveFile(int number)
         {
             Number = number;
-            
             Name = FileHelper.GetSaveFilePath(number);
-            Corrupted = false;
-            try
-            {
-                HumanJSONSave.Load(Name);
-                
-            }
-            catch (CorruptedSaveFileException)
-            {
-                Corrupted = true;
-            }
+            CheckCorruptionMessage();
         }
 
+        private void CheckCorruptionMessage()
+        {
+            CorruptionMessage = null;
+            try
+            {
+                HumanTxtSave.Load(Name);
+            }
+            catch (CorruptedFormatSaveFileException corruptedFormatSaveFileException)
+            {
+                CorruptionMessage = corruptedFormatSaveFileException.Message;
+            }
+            catch (CorruptedInvalidValuesException corruptedInvalidValuesException)
+            {
+                CorruptionMessage = corruptedInvalidValuesException.Message;
+            }
+            catch (CorruptedLengthException corruptedLengthException)
+            {
+                CorruptionMessage = corruptedLengthException.Message;
+            }
+            catch (EmptyFileException emptyFileException)
+            {
+                CorruptionMessage = emptyFileException.Message;
+            }
+        }
+        
         public Tuple<HumanPlayer, int, DateTime> LoadInfo()
         {
-            if (Corrupted)
-                throw new CorruptedSaveFileException(Number);
-            var loadedInformation = HumanJSONSave.Load(Name);
+            CheckCorruptionMessage();
+            if (CorruptionMessage != null)
+                throw new CorruptedSaveFileException(CorruptionMessage);
+            var loadedInformation = HumanTxtSave.Load(Name);
             return loadedInformation;
         }
         
         public void SaveInfo(HumanPlayer humanPlayer, int GameLevel)
         {
-            var humanJSON = new HumanJSONSave(humanPlayer, GameLevel);
-            humanJSON.Save(Name);
+            HumanTxtSave.Save(humanPlayer, GameLevel, Name);
         }
 
         public override string ToString()
         {
-            var header = "Save File " + Number;
-            if (Corrupted)
-                return header + ": Corrupted. Please erase its contents\n";
+            CheckCorruptionMessage();
+            var header = $"Save File {Number}";
+            if (CorruptionMessage != null)
+                return $"{header}: {CorruptionMessage}\n";
             var information = LoadInfo();
             var character = information.Item1;
             var gameLevel = information.Item2;
             var saveDate = information.Item3;
-            if (character == null)
-                return header + ": Empty Save File\n";
-
-            return header + ":\n" + character + "Game Level: " + gameLevel +
-                   "\nSave Date: " + saveDate + "\n"; 
+            return $"{header}:\n{character}Game Level: {gameLevel}\nSave Date: {saveDate}\n"; 
         }
 
         public bool IsEmpty()
         {
-            var information = LoadInfo();
-            var character = information.Item1;
-            return character == null;
+            return CorruptionMessage != null;
         }
         
         

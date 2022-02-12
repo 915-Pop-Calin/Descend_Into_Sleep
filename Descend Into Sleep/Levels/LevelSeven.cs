@@ -25,21 +25,13 @@ namespace ConsoleApp12.Levels
             DialogueLines = new Queue<string>(    new[]
                 {
                     "So this is it.\n", "You have reached the end of your journey.\n",
-                    "You have achieved your goal.\n", "You have neutralised the evil in this world.\n",
-                    "However, while doing so.\n", "You have succumbed to the darkness you swore to oppose.\n",
-                    "And you have became the thing you swore to destroy.\n",
-                    "Now, you have to make your final choice.\n",
-                    "You can choose to destroy whatever is left of your humanity.\n", "Or you can spare it.\n",
-                    "The decision is yours.\n"
+                    "In your relentless adventure, you have sought to neutralise the evil of this world.\n",
+                    "Depending on your path, you will now face your final challenge.\n",
+                    "Good luck.\n"
                 }
             );
         }
-
-        private void DeleteSaveFiles()
-        {
-            
-        }
-
+        
         private bool PastSelfFight(Character pastSelf)
         {
             var genocideCombat = new GenocideCombat(Player, pastSelf);
@@ -54,11 +46,19 @@ namespace ConsoleApp12.Levels
                 throw new ExitGameException();
             }
             StartUp();
-            var finalDecision = TheDecision();
-            if (finalDecision == "spare")
-                SpareEnding();
-            else
-                DestroyEnding();
+            if (Player.GetKillCount() == 0)
+            {
+                PacifistEnding();
+                return;
+            }
+
+            if (Player.GetKillCount() >= 100)
+            {
+                GenocideEnding();
+                return;
+            }
+            NeutralEnding();
+            Console.WriteLine("THIS ENDING IS NOT DONE YET");
         }
         
         private void StartUp()
@@ -69,20 +69,8 @@ namespace ConsoleApp12.Levels
                 Utils.keysWork.Utils.MultipleChoice(20, question, "proceed");
             }
         }
-
-        private string TheDecision()
-        {
-            var lastDialogueLine = DialogueLines.Dequeue();
-            Console.WriteLine(lastDialogueLine);
-
-            var options = new String[2] {"spare", "destroy"};
-            
-            const string question = "Your choice is:";
-            var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "spare", "destroy");
-            return options[choice];
-        }
-
-        private void SpareEnding()
+        
+        private void PacifistEnding()
         {
             Console.WriteLine("A strange figure appears from the shadows.\n");
             Console.WriteLine("This is the end.\n");
@@ -94,10 +82,14 @@ namespace ConsoleApp12.Levels
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("GOOD ENDING");
             Console.ResetColor();
-            DeleteSaveFiles();
         }
 
-        private void DestroyEnding()
+        private void NeutralEnding()
+        {
+            
+        }
+        
+        private void GenocideEnding()
         {
             Console.WriteLine("Very Well.\n");
             for (int i = 0; i < 3; i++)
@@ -109,8 +101,7 @@ namespace ConsoleApp12.Levels
                 var currentPastSelf = MainEnemies.Dequeue();
                 goFurther = PastSelfFight(currentPastSelf);
             }
- 
-            DeleteSaveFiles();
+            
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("BAD ENDING");
             Console.ResetColor();

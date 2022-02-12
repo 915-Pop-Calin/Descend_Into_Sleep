@@ -143,11 +143,11 @@ namespace ConsoleApp12.Shop
             foreach (var option in TotalOptions)
             {
                 var itemType = option.Key;
-                toStr += itemType + "cost: " + option.Value + " gold\n";
+                toStr += $"{itemType} cost: {option.Value} gold\n";
             }
             Console.WriteLine(toStr);
             
-            Console.WriteLine(HumanPlayer.GetGold() + " gold available\n");
+            Console.WriteLine($"{HumanPlayer.GetGold()} gold available\n");
         }
 
         private void PrintCurrentItems()
@@ -158,7 +158,7 @@ namespace ConsoleApp12.Shop
                 if (currentItem != null)
                 {
                     var newCost = ReturnRate * FindCostByName(currentItem.GetName());
-                    toStr += currentItem + "gold: " + newCost + "\n";
+                    toStr += $"{currentItem} gold: {newCost}\n";
                 }
             }
             Console.WriteLine(toStr);
@@ -214,7 +214,7 @@ namespace ConsoleApp12.Shop
             for (int i = 0; i < numberOfBuys; i++)
             {
                 HumanPlayer.BuyItem(itemCost, item);
-                var writtenLine = "You have bought " + item.GetName() + "!\n";
+                var writtenLine = $"You have bought {item.GetName()}!\n";
                 Console.WriteLine(writtenLine);
             }
 
@@ -236,7 +236,7 @@ namespace ConsoleApp12.Shop
             var itemCost = itemPairNotNull.Value;
             var soldCost = ReturnRate * itemCost;
             HumanPlayer.SellItem(soldCost, item);
-            var writtenLine = "You have sold " + item.GetName() + "!\n";
+            var writtenLine = $"You have sold {item.GetName()}!\n";
             Console.WriteLine(writtenLine);
         }
 

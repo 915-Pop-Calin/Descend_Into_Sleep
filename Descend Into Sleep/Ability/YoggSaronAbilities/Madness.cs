@@ -19,11 +19,10 @@ namespace ConsoleApp12.Ability.YoggSaronAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var sanityReduced = RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
             opponent.ReduceSanity(sanityReduced);
-            var toStr = opponentName + "'s sanity was reduced by " + sanityReduced + "!\n";
-            toStr += opponentName + " has " + Math.Round(opponent.GetSanity(), 2) + " left!\n";
+            var toStr = $"{opponent.GetName()}'s sanity was reduced by {sanityReduced}!\n";
+            toStr += $"{opponent.GetName()} has {Math.Round(opponent.GetSanity(), 2)} left!\n";
             return toStr;
         }
 

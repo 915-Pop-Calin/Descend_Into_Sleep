@@ -17,9 +17,8 @@ namespace ConsoleApp12.Items.Potions
 
         public override string UseItem(HumanPlayer humanPlayer)
         {
-            var playerName = humanPlayer.GetName();
             humanPlayer.Heal(HealingValue);
-            var toStr = playerName + " has healed for " + HealingValue.ToString() + " health points!\n";
+            var toStr = $"{humanPlayer.GetName()} has healed for {HealingValue} health points!\n";
             return toStr;
         }
     }

@@ -23,7 +23,7 @@ namespace ConsoleApp12.Items.Armours.LeverFour
                 foreach (var dotEffect in dotEffects)
                     opponent.AddDotEffect(dotEffect);
                 caster.ClearDotEffects();
-                toStr = caster.GetName() + " has deflected his DOT effects onto " + opponent.GetName() + "!\n";
+                toStr = $"{caster.GetName()} has deflected his DOT effects onto {opponent.GetName()}!\n";
             }
             return toStr;
         }

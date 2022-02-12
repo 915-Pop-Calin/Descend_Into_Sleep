@@ -292,10 +292,6 @@ namespace ConsoleApp12.Levels
                 {
                     Console.WriteLine(maximumLevelException.Message);
                 }
-                catch (UnopenableSaveFileException unopenableSaveFileException)
-                {
-                    Console.WriteLine(unopenableSaveFileException.Message);
-                }
                 catch (CorruptedSaveFileException corruptedSaveFileException)
                 {
                     Console.WriteLine(corruptedSaveFileException.Message);
@@ -312,7 +308,7 @@ namespace ConsoleApp12.Levels
             while (MainEnemies.Count != 0)
             {
                 var mainEnemy = MainEnemies.Dequeue();
-                var toStr = "WILD " + mainEnemy.GetName() + " APPEARED!\n";
+                var toStr = $"WILD {mainEnemy.GetName()} APPEARED!\n";
                 Console.WriteLine(toStr);
                 Combat(mainEnemy);
             }
@@ -321,7 +317,7 @@ namespace ConsoleApp12.Levels
 
         private void SideBossFight(SideEnemy sideEnemy)
         {
-            var toStr = sideEnemy.GetName() + " APPEARS INTO THE FRAY!\n";
+            var toStr = $"{sideEnemy.GetName()} APPEARS INTO THE FRAY!\n";
             Console.WriteLine(toStr);
             Combat(sideEnemy);
         }

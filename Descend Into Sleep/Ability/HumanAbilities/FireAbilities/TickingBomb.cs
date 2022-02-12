@@ -17,21 +17,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
-            toStr += "A bomb placed upon " + opponentName + " will explode in " + TurnsUntilDecast + " turns!\n";
+            toStr += $"A bomb placed upon {opponent.GetName()} will explode in {TurnsUntilDecast} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
         public override string Decast(Character caster, Character opponent)
         {
-            var opponentName = opponent.GetName();
             var attackValue = caster.GetAttackValue();
             var totalDamageDealt = attackValue * ScalingPerLevel * Level;
             opponent.ReduceHealthPoints(totalDamageDealt);
-            var toStr = "The bomb has exploded!\n" + opponentName + " has taken " + totalDamageDealt +
-                        " damage!\n";
+            var toStr = $"The bomb has exploded!\n{opponent.GetName()} has taken {totalDamageDealt} damage!\n";
             return toStr;
         }
     }

@@ -20,8 +20,8 @@
                 Broken = true;
             }
 
-            var toStr = Name + " have taken " + attackValue + " damage!\n";
-            toStr += Name + " are left with " + HealthPoints + " health!\n";
+            var toStr = $"{Name} have taken {attackValue} damage!\n";
+            toStr += $"{Name} are left with {HealthPoints} health!\n";
             return toStr;
         }
     }

@@ -21,8 +21,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             {
                 caster.DealDirectDamage(opponent, 2 * damageDealt);
                 _turnCounter = 0;
-                toStr += "Taco's whisper has dealt " + (2 * damageDealt).ToString() +
-                         " damage with the fourth shot!\n";
+                toStr += $"Taco's whisper has dealt {2 * damageDealt} damage with the fourth shot!\n";
             }
             else
             {

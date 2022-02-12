@@ -14,7 +14,7 @@ namespace ConsoleApp12.Items.Armours.LeverFour
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             caster.DecreaseDotEffects(1);
-            var toStr = caster.GetName() + " has decreased all dot effects applied by 1!\n";
+            var toStr = $"{caster.GetName()} has decreased all dot effects applied by 1!\n";
             return toStr;
         }
     }

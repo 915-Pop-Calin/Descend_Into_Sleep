@@ -22,8 +22,8 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         {
             int randomChoice = RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
             caster.RestoreSanity(randomChoice);
-            var toStr = caster.GetName() + " has restored " + randomChoice + " of his sanity!\n";
-            toStr += caster.GetName() + " is left with " + caster.GetSanity() + " sanity!\n";
+            var toStr = $"{caster.GetName()} has restored {randomChoice} of his sanity!\n";
+            toStr += $"{caster.GetName()} is left with {caster.GetSanity()} sanity!\n";
             return toStr;
         }
     }

@@ -19,16 +19,14 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var casterName = caster.GetName();
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var difference = ScalingPerLevel * Level;
             if (opponent.GetAttackValue() <= difference)
-                throw new NegativeAttackException(opponentName);
+                throw new NegativeAttackException(opponent.GetName());
             opponent.DecreaseAttackValue(difference);
             caster.IncreaseAttackValue(difference);
-            toStr += casterName + "'s attack was increased by " + difference + " !\n";
-            toStr += opponentName + "'s attack was decreased by " + difference + " !\n";
+            toStr += $"{caster.GetName()}'s attack was increased by {difference}!\n";
+            toStr += $"{opponent.GetName()}'s attack was decreased by {difference}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -38,8 +36,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var difference = ScalingPerLevel * Level;
             opponent.IncreaseAttackValue(difference);
             caster.DecreaseAttackValue(difference);
-            var toStr = caster.GetName() + "'s attack was decreased back by " + difference + " !\n";
-            toStr += opponent.GetName() + "'s attack was increased back by " + difference + " !\n";
+            var toStr = $"{caster.GetName()}'s attack was decreased back by {difference}!\n";
+            toStr += $"{opponent.GetName()}'s attack was increased back by {difference}!\n";
             return toStr;
         }
     }

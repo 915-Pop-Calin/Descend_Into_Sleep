@@ -20,12 +20,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var opponentName = opponent.GetName();
             var toStr = GetCastingString(caster);
             var currentAttackValue = opponent.GetAttackValue();
             AttackValues.Enqueue(currentAttackValue);
             opponent.DecreaseAttackValue(currentAttackValue);
-            toStr += opponentName + "'s attack value was decreased to 0!\n";
+            toStr += $"{opponent.GetName()}'s attack value was decreased to 0!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -36,7 +35,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
                 throw new EmptyQueueException("Attack Values");
             var attackValue = AttackValues.Dequeue();
             opponent.IncreaseAttackValue(attackValue);
-            var toStr = opponent.GetName() + "'s attack was brought back to normal!\n";
+            var toStr = $"{opponent.GetName()}'s attack was brought back to normal!\n";
             return toStr;
         }
     }

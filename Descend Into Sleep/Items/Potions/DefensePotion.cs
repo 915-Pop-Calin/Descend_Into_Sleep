@@ -19,13 +19,12 @@ namespace ConsoleApp12.Items.Potions
 
         public override string UseItem(HumanPlayer humanPlayer)
         {
-            var playerName = humanPlayer.GetName();
             var originalDefense = humanPlayer.GetInnateDefense();
             var newDefense = originalDefense + DefenseGained;
             humanPlayer.SetInnateDefense(newDefense);
             humanPlayer.PermanentlyReduceHealthPoints(HealthLost);
-            var toStr = playerName + "'s defense has been increased by" + DefenseGained.ToString();
-            toStr += ", but their health points were reduced by " + HealthLost.ToString() + "!\n";
+            var toStr = $"{humanPlayer.GetName()}'s defense has been increased by {DefenseGained}," +
+                        $"but their health points were reduced by {HealthLost}!\n";
             return toStr;
         }
     }

@@ -16,9 +16,8 @@ namespace ConsoleApp12.Items.Potions
 
         public override string UseItem(HumanPlayer humanPlayer)
         {
-            var playerName = humanPlayer.GetName();
             humanPlayer.RestoreSanity(SanityRestoringValue);
-            var toStr = playerName + "'s sanity was increased by " + SanityRestoringValue.ToString() + "!\n";
+            var toStr = $"{humanPlayer.GetName()}'s sanity was increased by {SanityRestoringValue}!\n";
             return toStr;
         }
     }
