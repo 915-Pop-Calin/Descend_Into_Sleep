@@ -12,6 +12,9 @@ namespace ConsoleApp12.SaveFile
         private int Number;
         private string Name;
         private string CorruptionMessage;
+        private HumanPlayer Player;
+        private int GameLevel;
+        private DateTime Time;
 
         private SaveFile(int number)
         {
@@ -23,9 +26,15 @@ namespace ConsoleApp12.SaveFile
         private void CheckCorruptionMessage()
         {
             CorruptionMessage = null;
+            Player = null;
+            GameLevel = -1;
+            Time = DateTime.UnixEpoch;
             try
             {
-                HumanTxtSave.Load(Name);
+                var loadedInfo = HumanTxtSave.Load(Name);
+                Player = loadedInfo.Item1;
+                GameLevel = loadedInfo.Item2;
+                Time = loadedInfo.Item3;
             }
             catch (CorruptedFormatSaveFileException corruptedFormatSaveFileException)
             {
@@ -50,26 +59,25 @@ namespace ConsoleApp12.SaveFile
             CheckCorruptionMessage();
             if (CorruptionMessage != null)
                 throw new CorruptedSaveFileException(CorruptionMessage);
-            var loadedInformation = HumanTxtSave.Load(Name);
-            return loadedInformation;
+            return new Tuple<HumanPlayer, int, DateTime>(Player, GameLevel, Time);
         }
         
-        public void SaveInfo(HumanPlayer humanPlayer, int GameLevel)
+        public void SaveInfo(HumanPlayer humanPlayer, int gameLevel)
         {
-            HumanTxtSave.Save(humanPlayer, GameLevel, Name);
+            DateTime currentTime = DateTime.Now;
+            Player = humanPlayer;
+            GameLevel = gameLevel;
+            Time = currentTime;
+            CorruptionMessage = null;
+            HumanTxtSave.Save(humanPlayer, gameLevel, currentTime, Name);
         }
-
+        
         public override string ToString()
         {
-            CheckCorruptionMessage();
-            var header = $"Save File {Number}";
             if (CorruptionMessage != null)
-                return $"{header}: {CorruptionMessage}\n";
-            var information = LoadInfo();
-            var character = information.Item1;
-            var gameLevel = information.Item2;
-            var saveDate = information.Item3;
-            return $"{header}:\n{character}Game Level: {gameLevel}\nSave Date: {saveDate}\n"; 
+                return $"Save File {Number}:\nFile is corrupted:{CorruptionMessage}\n";
+            var header = $"Save File {Number}";
+            return $"{header}:\n{Player}Game Level: {GameLevel}\nSave Date: {Time}\n"; 
         }
 
         public bool IsEmpty()

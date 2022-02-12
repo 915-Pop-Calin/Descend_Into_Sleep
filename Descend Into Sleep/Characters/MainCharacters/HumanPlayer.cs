@@ -16,7 +16,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         private Dictionary<int, KeyValuePair<Ability.Ability, int>> AbilitiesToLearn;
         private double Gold;
         private bool Cheater;
-        private List<Character> PastSelves;
+        private List<PastSelf> PastSelves;
         private string School;
         private string Difficulty;
         private double AttackGrowth;
@@ -39,7 +39,7 @@ namespace ConsoleApp12.Characters.MainCharacters
 
             Gold = 0;
             Cheater = false;
-            PastSelves = new List<Character>();
+            PastSelves = new List<PastSelf>();
             School = null;
             Difficulty = difficulty;
             KillCount = 0;
@@ -50,7 +50,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             double manaRegenerationRate, double mana, double health, double maximumHealth,
             double totalMana, List<Item> inventory, double gold, string school, double sanity,
             double maxSanity, double killCount, string difficulty, Weapon weapon, Armour armour, 
-            List<Character> pastSelves): base(name, innateAttack, innateDefense, weapon, armour, maximumHealth)
+            List<PastSelf> pastSelves): base(name, innateAttack, innateDefense, weapon, armour, maximumHealth)
         {
             School = school;
             SetDifficulty();
@@ -355,7 +355,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             
         }
 
-        public List<Character> GetPastSelves()
+        public List<PastSelf> GetPastSelves()
         {
             return PastSelves;
         }
@@ -467,9 +467,9 @@ namespace ConsoleApp12.Characters.MainCharacters
             return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
         }
 
-        private Character CreateCharacterCopy(string copyName, string copyDescription)
+        private PastSelf CreateCharacterCopy(string copyName, string copyDescription)
         {
-            var chara = new Character(copyName, InnateAttack, InnateDefense, Weapon, Armour, MaximumHealth, copyDescription);
+            var chara = new PastSelf(copyName, InnateAttack, InnateDefense, Weapon, Armour, MaximumHealth, copyDescription);
             return chara;
         }
 
@@ -634,7 +634,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 $"{Math.Round(TotalMana, 2)} MANA, {Math.Round(Defense, 2)} DEFENSE, " +
                 $"{Math.Round(Attack, 2)} ATTACK, {Math.Round(Sanity, 2)}/{Math.Round(MaxSanity, 2)} SANITY, " +
                 $"{CriticalChance * 100}% CRITICAL CHANCE, {ArmourPenetration * 100}% ARMOUR PENETRATION\n" +
-                $"{Gold} GOLD, {Level} LEVEL\n{Weapon}{Armour}school:{School}\nattack growth rate: {AttackGrowth}" +
+                $"{Gold} GOLD, {Level} LEVEL\n{Weapon}{Armour}school:{School}\nattack growth rate: {AttackGrowth}, " +
                 $"defense growth rate: {DefenseGrowth}\nhealth growth rate: {HealthGrowth}, mana growth rate: {ManaGrowth}\n";
             return toStr;
         }

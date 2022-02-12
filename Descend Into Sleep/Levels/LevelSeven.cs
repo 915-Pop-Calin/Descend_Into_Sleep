@@ -9,7 +9,7 @@ namespace ConsoleApp12.Levels
 {
     public class LevelSeven: Level
     {
-        private readonly List<Character> PastSelves;
+        private readonly List<PastSelf> PastSelves;
         private Queue<string> DialogueLines;
         
         public LevelSeven(HumanPlayer humanPlayer) : base(7, humanPlayer)

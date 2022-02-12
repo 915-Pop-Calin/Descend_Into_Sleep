@@ -16,7 +16,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         
 
-        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel)
+        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel, DateTime currentTime)
         {
             var toStr = humanPlayer.GetName() + "\n";
             toStr += humanPlayer.GetLevel() + "\n";
@@ -48,7 +48,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             toStr += humanPlayer.GetDifficulty() + "\n";
             toStr += AllItems.FindIdForItem(humanPlayer.GetWeapon()) + "\n";
             toStr += AllItems.FindIdForItem(humanPlayer.GetArmour()) + "\n";
-            toStr += DateTime.Now + "\n";
+            toStr += currentTime + "\n";
             toStr += gameLevel + "\n";
             toStr += humanPlayer.GetPastSelves().Count + "\n";
             foreach (var pastSelf in humanPlayer.GetPastSelves())
@@ -64,9 +64,9 @@ namespace ConsoleApp12.Characters.MainCharacters
             return toStr;
         }
         
-        public static void Save(HumanPlayer humanPlayer, int gameLevel, string filename)
+        public static void Save(HumanPlayer humanPlayer, int gameLevel, DateTime currentTime, string filename)
         {
-            var textString = GetTextString(humanPlayer, gameLevel);
+            var textString = GetTextString(humanPlayer, gameLevel, currentTime);
             File.WriteAllText(filename, textString);
         }
 
@@ -224,7 +224,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (lines.Length < 30 + 6 * pastSelvesCount)
                 throw new CorruptedLengthException(filename, lines.Length);
             
-            var pastSelves = new List<Character>();
+            var pastSelves = new List<PastSelf>();
             for (int i = 0; i < pastSelvesCount; i++)
             {
                 var currentName = lines[31 + 6 * i];
@@ -259,7 +259,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 
                 var currentDescription = lines[37 + 6 * i];
                 
-                var pastSelf = new Character(currentName, currentAttack, currentDefense, pastSelfWeapon, pastSelfArmour,
+                var pastSelf = new PastSelf(currentName, currentAttack, currentDefense, pastSelfWeapon, pastSelfArmour,
                     currentHealth, currentDescription);
                 pastSelves.Add(pastSelf);
             }
