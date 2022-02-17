@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Ability.TemAbilities;
+﻿using System;
+using ConsoleApp12.Ability.TemAbilities;
 
 namespace ConsoleApp12.Items.Weapons.Unobtainable
 {
@@ -22,8 +23,8 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
                 Broken = true;
             }
 
-            var toStr = Name + " have taken " + attackValue + " damage!\n";
-            toStr += Name + " are left with " + HealthPoints + " health!\n";
+            var toStr = $"{Name} have taken {Math.Round(attackValue)} damage!\n";
+            toStr += $"{Name} are left with {HealthPoints} health!\n";
             return toStr;
         }
     }

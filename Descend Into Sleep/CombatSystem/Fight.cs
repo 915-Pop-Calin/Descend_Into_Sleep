@@ -52,8 +52,8 @@ namespace ConsoleApp12.CombatSystem
             int goldToGain = RandomHelper.GenerateRandomInInterval(minimumGoldToGain, maximumGoldToGain);
             goldToGain /= GoldDivider;
 
-            int minimumExperienceToGain = 4 * (TurnCounter + 1) * gameLevel + 100;
-            int maximumExperienceToGain = 4 * (TurnCounter + 1) * gameLevel + 200;
+            int minimumExperienceToGain = (TurnCounter + 1) * gameLevel + 200 * gameLevel;                                                                                                              
+            int maximumExperienceToGain = 2 * (TurnCounter + 1) * gameLevel + 200 * gameLevel;
             int experienceToGain = RandomHelper.GenerateRandomInInterval(minimumExperienceToGain, maximumExperienceToGain);
             experienceToGain /= ExperienceDivider;
             
@@ -106,7 +106,7 @@ namespace ConsoleApp12.CombatSystem
             Console.WriteLine($"{ComputerPlayer.GetName()} has won!\n");
             ComputerCombat.FightEnd(HumanPlayer);
             HumanCombat.FightEnd(ComputerPlayer);
-            throw new ExitGameException();
+            throw new GameOverException();
         }
         private void ComputerTurn()
         {

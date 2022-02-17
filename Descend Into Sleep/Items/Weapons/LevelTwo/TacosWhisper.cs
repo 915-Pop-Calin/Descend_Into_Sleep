@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
@@ -22,6 +23,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
                 caster.DealDirectDamage(opponent, 2 * damageDealt);
                 _turnCounter = 0;
                 toStr += $"Taco's whisper has dealt {2 * damageDealt} damage with the fourth shot!\n";
+                toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetAttackValue())} health!\n";
             }
             else
             {

@@ -18,7 +18,7 @@ namespace ConsoleApp12.Ability.TemAbilities
         {
             caster.Heal(HealthHealed);
             var toStr = $"{caster.GetName()} heals for {HealthHealed}!\n";
-            toStr += $"{caster.GetName()} is now at {caster.GetHealthPoints()} health!\n";
+            toStr += $"{caster.GetName()} now has {caster.GetHealthPoints()} health!\n";
             return toStr;
         }
 

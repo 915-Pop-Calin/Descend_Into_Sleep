@@ -21,7 +21,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             var sanityRestored = RandomHelper.GenerateRandomInInterval(minimumSanityRestored, maximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
             var toStr = $"{caster.GetName()} has restored {sanityRestored} of his sanity!\n";
-            toStr += $"{caster.GetName()} is left with {caster.GetSanity()} sanity!\n";
+            toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
     }

@@ -17,12 +17,17 @@ namespace ConsoleApp12.Ability.CthulhuAbilities
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = $"{caster.GetName()} has cast Triple Hit!\n";
-            var attackValue = caster.GetAttackValue();
-            caster.SetAttackValue(PercentageOfAttackUsed * attackValue);
+            var initialAttackValue = caster.GetAttackValue();
+            var currentAttackValue = initialAttackValue * PercentageOfAttackUsed;
+            
+            caster.SetAttackValue(currentAttackValue);
+            toStr += $"{caster.GetName()}'s attack has been set to {Math.Round(currentAttackValue, 2)} for the next 3 hits!\n";
             toStr += caster.Hit(opponent, listOfTurns, turnCounter);
             toStr += caster.Hit(opponent, listOfTurns, turnCounter);
             toStr += caster.Hit(opponent, listOfTurns, turnCounter);
-            caster.SetAttackValue(attackValue);
+            caster.SetAttackValue(initialAttackValue);
+            
+            toStr += $"{caster.GetName()}'s attack has been set back to {Math.Round(initialAttackValue, 2)}!\n";
             return toStr;
         }
 

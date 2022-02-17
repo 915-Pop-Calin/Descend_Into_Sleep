@@ -12,11 +12,11 @@ namespace ConsoleApp12.Characters.MainCharacters
     public class HumanPlayer: Character
     {
         private double ExperiencePoints;
-        private List<Item> Inventory;
+        private readonly List<Item> Inventory;
         private Dictionary<int, KeyValuePair<Ability.Ability, int>> AbilitiesToLearn;
         private double Gold;
         private bool Cheater;
-        private List<PastSelf> PastSelves;
+        private readonly List<PastSelf> PastSelves;
         private string School;
         private string Difficulty;
         private double AttackGrowth;
@@ -64,8 +64,6 @@ namespace ConsoleApp12.Characters.MainCharacters
             TotalMana = totalMana;
             Inventory = inventory;
             Gold = gold;
-            if (school == "")
-                school = null;
             Sanity = sanity;
             MaxSanity = maxSanity;
             KillCount = killCount;
@@ -77,7 +75,6 @@ namespace ConsoleApp12.Characters.MainCharacters
             Attack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
             Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
             CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
-            
         }
 
         private void SetDifficulty()
@@ -212,7 +209,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             var toStr = $"You have equipped {weapon.GetName()}!\n";
             var oldWeapon = ChangeWeapon(weapon);
-            if (oldWeapon.GetName() != "No Weapon")
+            if (oldWeapon != AllItems.NoWeapon)
                 Inventory[itemIndex] = oldWeapon;
             else
                 Inventory[itemIndex] = null;
@@ -262,7 +259,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             var toStr = $"You have equipped {armour.GetName()}!\n";
             var oldArmour = ChangeArmour(armour);
-            if (oldArmour.GetName() != "No Armour")
+            if (oldArmour != AllItems.NoArmour)
                 Inventory[itemIndex] = oldArmour;
             else
                 Inventory[itemIndex] = null;
@@ -313,19 +310,21 @@ namespace ConsoleApp12.Characters.MainCharacters
         public bool GainExperience(double experiencePoints)
         {
             ExperiencePoints += experiencePoints;
+            if (Level == 34)
+                return false;
             var experienceNeeded = 25 * (Level + 1) * (Level + 2);
-            if (ExperiencePoints >= experienceNeeded)
+            bool leveledUp = false;
+            while (ExperiencePoints >= experienceNeeded)
             {
                 LevelUp();
-                return true;
+                leveledUp = true;
+                experienceNeeded = 25 * (Level + 1) * (Level + 2);
             }
-            return false;
+            return leveledUp;
         }
 
         private void LevelUp(string alreadyChosenSchool = null)
         {
-            if (Level >= 35)
-                throw new MaximumLevelException();
             Level += 1;
             if (alreadyChosenSchool is null){
                 SetInnateDefense(InnateDefense + DefenseGrowth);
@@ -336,13 +335,13 @@ namespace ConsoleApp12.Characters.MainCharacters
                 switch (Level)
                 {
                     case 2:
-                        PastSelves.Add(CreateCharacterCopy($"Young {Name}", "Does not want to hurt you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Young {Name}", "Does not want to hurt you", 1));
                         break;
                     case 15:
-                        PastSelves.Add(CreateCharacterCopy($"Teen {Name}", "Might want to hurt you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Teen {Name}", "Might want to hurt you", 2));
                         break;
                     case 30:
-                        PastSelves.Add(CreateCharacterCopy($"Adult {Name}", "Wants to MURDER you\n"));
+                        PastSelves.Add(CreateCharacterCopy($"Adult {Name}", "Wants to MURDER you", 3));
                         break;
                 }
             }
@@ -365,11 +364,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var abilityInfo = AbilitiesToLearn[Level];
             var abilityToLearn = abilityInfo.Key;
             var abilityLevel = abilityInfo.Value;
-            String toStr;
-            if (abilityLevel == 1)
-                toStr = LearnAbility(abilityToLearn);
-            else
-                toStr = LevelUpAbility(abilityToLearn);
+            var toStr = abilityLevel == 1 ? LearnAbility(abilityToLearn) : LevelUpAbility(abilityToLearn);
             if (verbose)
                 Console.WriteLine(toStr);
         }
@@ -380,35 +375,15 @@ namespace ConsoleApp12.Characters.MainCharacters
             currentLifeSteal += lifeStealAdded;
             Weapon.SetLifeSteal(currentLifeSteal);
         }
-
-        public void RemoveLifeStealFromWeapon(double lifeStealRemoved)
-        {
-            var currentLifeSteal = Weapon.GetLifeSteal();
-            currentLifeSteal -= lifeStealRemoved;
-            Weapon.SetLifeSteal(currentLifeSteal);
-        }
         
         public string ShowInventory()
         {
             var toStr = "";
             foreach (var item in Inventory)
             {
-                if (item is Weapon weapon)
-                {
-                    toStr += weapon.ToString();
-                }
-                
-                if (item is Armour armour)
-                {
-                    toStr += armour.ToString();
-                }
-                
-                if (item is Potion potion)
-                {
-                    toStr += potion.ToString();
-                }
+                if (item != null)
+                    toStr += item.ToString();
             }
-
             return toStr;
         }
 
@@ -467,9 +442,9 @@ namespace ConsoleApp12.Characters.MainCharacters
             return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
         }
 
-        private PastSelf CreateCharacterCopy(string copyName, string copyDescription)
+        private PastSelf CreateCharacterCopy(string copyName, string copyDescription, int level)
         {
-            var chara = new PastSelf(copyName, InnateAttack, InnateDefense, Weapon, Armour, MaximumHealth, copyDescription);
+            var chara = new PastSelf(copyName, InnateAttack, InnateDefense, Weapon, Armour, MaximumHealth, copyDescription, level);
             return chara;
         }
 
@@ -627,6 +602,23 @@ namespace ConsoleApp12.Characters.MainCharacters
             return InnateCriticalChance;
         }
 
+        public Tuple<double, double, double> Weaken()
+        {
+            double lostHealth = MaximumHealth / 5;
+            MaximumHealth -= lostHealth;
+            Health = Math.Max(1, Health - lostHealth);
+
+            double lostAttack = InnateAttack / 5;
+            InnateAttack -= lostAttack;
+            Attack -= lostAttack;
+
+            double lostDefense = Defense / 5;
+            InnateDefense -= lostDefense;
+            Defense -= lostDefense;
+
+            return new Tuple<double, double, double>(lostHealth, lostAttack, lostDefense);
+        }
+        
         public override string ToString()
         {
             var toStr =

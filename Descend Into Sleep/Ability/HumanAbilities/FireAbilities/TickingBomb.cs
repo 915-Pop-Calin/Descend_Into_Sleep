@@ -28,7 +28,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var attackValue = caster.GetAttackValue();
             var totalDamageDealt = attackValue * ScalingPerLevel * Level;
             opponent.ReduceHealthPoints(totalDamageDealt);
-            var toStr = $"The bomb has exploded!\n{opponent.GetName()} has taken {totalDamageDealt} damage!\n";
+            var toStr = $"The bomb has exploded!\n{opponent.GetName()} has taken {Math.Round(totalDamageDealt, 2)} damage!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
     }

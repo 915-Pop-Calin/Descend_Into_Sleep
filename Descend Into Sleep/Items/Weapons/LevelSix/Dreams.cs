@@ -24,7 +24,7 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
                 RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
             opponent.ReduceSanity(randomInsanityReduced);
             var toStr = $"{opponent.GetName()}'s sanity was reduced by {randomInsanityReduced}!\n{opponent.GetName()} " +
-                        $"has {opponent.GetSanity()} sanity left!\n";
+                        $"has {Math.Round(opponent.GetSanity(), 2)} sanity left!\n";
             return toStr;
         }
     }

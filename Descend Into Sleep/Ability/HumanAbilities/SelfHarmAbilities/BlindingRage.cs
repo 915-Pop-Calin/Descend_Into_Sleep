@@ -32,9 +32,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             AttackGainedQueue.Enqueue(increasedAttack);
             DefenseLostQueue.Enqueue(decreasedDefense);
             caster.IncreaseAttackValue(increasedAttack);
-            caster.DecreaseDefenseValue(decreasedDefense);
-            toStr += $"In a blinding rage, {caster.GetName()}'s attack value was increased by {increasedAttack}";
-            toStr += $" and their defense was decreased by {decreasedDefense}!\n";
+            caster.IncreaseDefenseValue(-decreasedDefense);
+            toStr += $"In a blinding rage, {caster.GetName()}'s attack value was increased by {Math.Round(increasedAttack, 2)}";
+            toStr += $" and their defense was decreased by {Math.Round(decreasedDefense, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -45,9 +47,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
                 throw new EmptyQueueException("Stats");
             var increasedAttack = AttackGainedQueue.Dequeue();
             var decreasedDefense = DefenseLostQueue.Dequeue();
-            caster.DecreaseAttackValue(increasedAttack);
+            caster.IncreaseAttackValue(-increasedAttack);
             caster.IncreaseDefenseValue(decreasedDefense);
             var toStr = $"{caster.GetName()}'s attack value and defense were brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

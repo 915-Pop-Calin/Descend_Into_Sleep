@@ -23,10 +23,12 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var difference = ScalingPerLevel * Level;
             if (opponent.GetAttackValue() <= difference)
                 throw new NegativeAttackException(opponent.GetName());
-            opponent.DecreaseAttackValue(difference);
+            opponent.IncreaseAttackValue(-difference);
             caster.IncreaseAttackValue(difference);
-            toStr += $"{caster.GetName()}'s attack was increased by {difference}!\n";
-            toStr += $"{opponent.GetName()}'s attack was decreased by {difference}!\n";
+            toStr += $"{caster.GetName()}'s attack was increased by {Math.Round(difference, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
+            toStr += $"{opponent.GetName()}'s attack was decreased by {Math.Round(difference, 2)}!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetAttackValue(), 2)} attack!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -35,9 +37,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             var difference = ScalingPerLevel * Level;
             opponent.IncreaseAttackValue(difference);
-            caster.DecreaseAttackValue(difference);
-            var toStr = $"{caster.GetName()}'s attack was decreased back by {difference}!\n";
-            toStr += $"{opponent.GetName()}'s attack was increased back by {difference}!\n";
+            caster.IncreaseAttackValue(-difference);
+            var toStr = $"{caster.GetName()}'s attack was decreased back by {Math.Round(difference, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
+            toStr += $"{opponent.GetName()}'s attack was increased back by {Math.Round(difference, 2)}!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetAttackValue(), 2)} attack!\n";
             return toStr;
         }
     }

@@ -22,9 +22,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             if (opponent.GetAttackValue() < valueDecreased || opponent.GetDefenseValue() < valueDecreased)
                 throw new NegativeAttackException(opponent.GetName());
             var toStr = GetCastingString(caster);
-            opponent.DecreaseAttackValue(valueDecreased);
-            opponent.DecreaseDefenseValue(valueDecreased);
-            toStr += $"{opponent.GetName()}'s attack and defense values were decreased by {valueDecreased}!\n";
+            opponent.IncreaseAttackValue(-valueDecreased);
+            opponent.IncreaseDefenseValue(-valueDecreased);
+            toStr += $"{opponent.GetName()}'s attack and defense values were decreased by {Math.Round(valueDecreased, 2)}!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(opponent.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -34,7 +36,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var valueDecreased = Math.Pow(ScalingPerLevel, Level);
             opponent.IncreaseAttackValue(valueDecreased);
             opponent.IncreaseDefenseValue(valueDecreased);
-            var toStr = $"{opponent.GetName()}'s attack and defense values were increased back by {valueDecreased}!\n";
+            var toStr = $"{opponent.GetName()}'s attack and defense values were increased back by {Math.Round(valueDecreased, 2)}!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(opponent.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

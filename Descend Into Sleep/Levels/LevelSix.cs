@@ -1,18 +1,20 @@
-﻿using ConsoleApp12.Characters.MainCharacters;
+﻿using System;
+using System.Collections.Generic;
+using ConsoleApp12.Characters;
+using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters.LevelSix;
+using ConsoleApp12.Characters.SideCharacters.LevelThree;
 
 namespace ConsoleApp12.Levels
 {
     public class LevelSix: Level
     {
-        public LevelSix(HumanPlayer humanPlayer) : base(6, humanPlayer)
+        public LevelSix(HumanPlayer humanPlayer) : base(6, humanPlayer, new Dictionary<Type, int>()
         {
-            MainEnemies.Enqueue(Sauron.MainBoss);
-            Shop = new Shop.Shop(Player, Number);
-            SideEnemies.Add(typeof(CorruptedProphet));
-            SideEnemies.Add(typeof(PossessedGoblin));
-            SideEnemies.Add(typeof(TentacledAvatar));
-            SideEnemies.Add(typeof(VoidInfusedOrc));
-        }        
+            {typeof(CorruptedProphet), 4}, {typeof(PossessedGoblin), 4}, {typeof(TentacledAvatar), 4}, {typeof(VoidInfusedOrc), 4}
+        }, new Queue<Character>(new[] {Sauron.MainBoss}), new Shop.Shop(humanPlayer, 6))
+        {
+        }
+
     }
 }

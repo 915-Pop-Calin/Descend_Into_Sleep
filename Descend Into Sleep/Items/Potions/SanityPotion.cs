@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
@@ -18,6 +19,7 @@ namespace ConsoleApp12.Items.Potions
         {
             humanPlayer.RestoreSanity(SanityRestoringValue);
             var toStr = $"{humanPlayer.GetName()}'s sanity was increased by {SanityRestoringValue}!\n";
+            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
     }

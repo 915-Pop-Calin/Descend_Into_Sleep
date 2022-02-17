@@ -4,6 +4,7 @@ using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters.LevelSeven;
 using ConsoleApp12.CombatSystem;
+using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Levels
 {
@@ -12,15 +13,16 @@ namespace ConsoleApp12.Levels
         private readonly List<PastSelf> PastSelves;
         private Queue<string> DialogueLines;
         
-        public LevelSeven(HumanPlayer humanPlayer) : base(7, humanPlayer)
+        
+        public LevelSeven(HumanPlayer humanPlayer) : base(7, humanPlayer, new Dictionary<Type, int>()
+        {
+            {typeof(RemnantOfIcarus), 5}, {typeof(RemnantOfSauron), 5}, {typeof(RemnantOfYogg), 6}
+        }, new Queue<Character>(), new Shop.Shop(humanPlayer, 7))
         {
             Shop = new Shop.Shop(Player, Number);
             if (humanPlayer != null)
                 PastSelves = humanPlayer.GetPastSelves();
             
-            SideEnemies.Add(typeof(RemnantOfIcarus));
-            SideEnemies.Add(typeof(RemnantOfSauron));
-            SideEnemies.Add(typeof(RemnantOfYogg));
 
             DialogueLines = new Queue<string>(    new[]
                 {
@@ -32,18 +34,12 @@ namespace ConsoleApp12.Levels
             );
         }
         
-        private bool PastSelfFight(Character pastSelf)
-        {
-            var genocideCombat = new GenocideCombat(Player, pastSelf);
-            return genocideCombat.Combat();
-        }
-
         protected override void BossFight()
         {
             if (Player.IsCheater())
             {
                 Console.WriteLine("Level cannot be played because you cheated!\n");
-                throw new ExitGameException();
+                throw new GameOverException();
             }
             StartUp();
             if (Player.GetKillCount() == 0)
@@ -52,7 +48,7 @@ namespace ConsoleApp12.Levels
                 return;
             }
 
-            if (Player.GetKillCount() >= 100)
+            if (Player.GetKillCount() == 109)
             {
                 GenocideEnding();
                 return;
@@ -79,33 +75,49 @@ namespace ConsoleApp12.Levels
             var mainEnemy = MainEnemies.Dequeue();
             var combat = new Fight(Player, mainEnemy);
             combat.Brawl();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("GOOD ENDING");
-            Console.ResetColor();
+            throw new PacifistEndingException();
         }
 
         private void NeutralEnding()
         {
-            
+            Console.WriteLine("Something appears in the battlefield...?\n");
+            Console.WriteLine("This is the final challenge.\n");
+            MainEnemies.Enqueue(FinalAmalgamation.MainBoss);
+
+            var mainEnemy = MainEnemies.Dequeue();
+            var combat = new Fight(Player, mainEnemy);
+            combat.Brawl();
+            throw new NeutralEndingException();
         }
         
         private void GenocideEnding()
         {
-            Console.WriteLine("Very Well.\n");
             for (int i = 0; i < 3; i++)
                 MainEnemies.Enqueue(PastSelves[i]);
+            GenocideFights();
+            throw new GenocideEndingException();
+        }
 
-            var goFurther = true;
-            while (goFurther && MainEnemies.Count != 0)
+        private void GenocideFights()
+        {
+            var statuses = new Queue<string>(new[]
             {
+                "You have a bad feeling about this",
+                "You think you're about to have a bad time",
+                "You're going to have a bad time."
+            });
+        while (MainEnemies.Count != 0)
+            {
+                
                 var currentPastSelf = MainEnemies.Dequeue();
-                goFurther = PastSelfFight(currentPastSelf);
+                var currentStatus = statuses.Dequeue();
+                Console.WriteLine($"{currentPastSelf.GetName()} appears into the fray.\n{currentStatus}\n");
+                var combat = new Fight(Player, currentPastSelf);
+                combat.Brawl();
+                var result  = Player.Weaken();
+                Console.WriteLine($"You feel sickened.\n{Math.Round(result.Item1, 2)} Health Points, {Math.Round(result.Item2, 2)} Attack" +
+                                  $" and {Math.Round(result.Item3,2)} Defense are lost.\n \n");
             }
-            
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("BAD ENDING");
-            Console.ResetColor();
-            throw new ExitGameException();
         }
     }
 }

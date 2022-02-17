@@ -36,8 +36,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             if (ArmourPenetrationQueue.Count == 0)
                 throw new EmptyQueueException("Armour Penetration");
             var armourPenetrationGained = ArmourPenetrationQueue.Dequeue();
-            caster.DecreaseArmourPenetration(armourPenetrationGained);
+            caster.IncreaseArmourPenetration(-armourPenetrationGained);
             var toStr = $"{caster.GetName()}'s armour penetration was brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetArmourPenetration(), 2)} armour penetration!\n";
             return toStr;
         }
     }

@@ -14,6 +14,7 @@ namespace ConsoleApp12.SaveFile
         private string CorruptionMessage;
         private HumanPlayer Player;
         private int GameLevel;
+        private List<int> Enemies;
         private DateTime Time;
 
         private SaveFile(int number)
@@ -34,7 +35,8 @@ namespace ConsoleApp12.SaveFile
                 var loadedInfo = HumanTxtSave.Load(Name);
                 Player = loadedInfo.Item1;
                 GameLevel = loadedInfo.Item2;
-                Time = loadedInfo.Item3;
+                Enemies = loadedInfo.Item3;
+                Time = loadedInfo.Item4;
             }
             catch (CorruptedFormatSaveFileException corruptedFormatSaveFileException)
             {
@@ -54,22 +56,22 @@ namespace ConsoleApp12.SaveFile
             }
         }
         
-        public Tuple<HumanPlayer, int, DateTime> LoadInfo()
+        public Tuple<HumanPlayer, int, List<int>, DateTime> LoadInfo()
         {
             CheckCorruptionMessage();
             if (CorruptionMessage != null)
                 throw new CorruptedSaveFileException(CorruptionMessage);
-            return new Tuple<HumanPlayer, int, DateTime>(Player, GameLevel, Time);
+            return new Tuple<HumanPlayer, int, List<int>, DateTime>(Player, GameLevel, Enemies, Time);
         }
         
-        public void SaveInfo(HumanPlayer humanPlayer, int gameLevel)
+        public void SaveInfo(HumanPlayer humanPlayer, int gameLevel, List<int> enemies)
         {
             DateTime currentTime = DateTime.Now;
             Player = humanPlayer;
             GameLevel = gameLevel;
             Time = currentTime;
             CorruptionMessage = null;
-            HumanTxtSave.Save(humanPlayer, gameLevel, currentTime, Name);
+            HumanTxtSave.Save(humanPlayer, gameLevel, enemies, currentTime, Name);
         }
         
         public override string ToString()

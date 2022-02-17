@@ -20,6 +20,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
             var amountHealed = missingHealth * ScalingPerLevel * Level;
             toStr += $"{caster.GetName()} has healed for {Math.Round(amountHealed, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints())} health!\n";
             caster.Heal(amountHealed);
             return toStr;
         }

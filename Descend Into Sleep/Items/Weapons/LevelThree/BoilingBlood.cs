@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
@@ -16,7 +17,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         {
             caster.DealDirectDamage(caster,40);
             var toStr = $"Boiling Blood has dealt 40 true damage to {caster.GetName()}!\n";
-            toStr += $"{caster.GetName()} is left with {caster.GetHealthPoints()} health!\n";
+            toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
     }

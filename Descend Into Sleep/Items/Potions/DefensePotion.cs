@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
@@ -22,9 +23,11 @@ namespace ConsoleApp12.Items.Potions
             var originalDefense = humanPlayer.GetInnateDefense();
             var newDefense = originalDefense + DefenseGained;
             humanPlayer.SetInnateDefense(newDefense);
-            humanPlayer.PermanentlyReduceHealthPoints(HealthLost);
+            humanPlayer.LoseHealthPoints(HealthLost);
             var toStr = $"{humanPlayer.GetName()}'s defense has been increased by {DefenseGained}," +
                         $"but their health points were reduced by {HealthLost}!\n";
+            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetDefenseValue())} defense and" +
+                     $"{Math.Round(humanPlayer.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
     }

@@ -1,4 +1,6 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mail;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters.LevelOne;
@@ -7,14 +9,12 @@ namespace ConsoleApp12.Levels
 {
     public class LevelOne: Level
     {
-        public LevelOne(HumanPlayer humanPlayer) : base(1, humanPlayer)
+        public LevelOne(HumanPlayer humanPlayer) : base(1, humanPlayer, new Dictionary<Type, int>()
         {
-            MainEnemies.Enqueue(Tem.MainBoss);
-            Shop = new Shop.Shop(Player, Number);
-            SideEnemies.Add(typeof(DogOfWisdom));
-            SideEnemies.Add(typeof(DogOfRashness));
-            SideEnemies.Add(typeof(DogOfWar));
-            SideEnemies.Add(typeof(DogOfWrath));
+            {typeof(DogOfRashness), 3}, {typeof(DogOfWar), 2}, {typeof(DogOfWrath), 3}, {typeof(DogOfWisdom), 2}
+        }, new Queue<Character>(new[] {Tem.MainBoss}), new Shop.Shop(humanPlayer, 1))
+        {
+
         }
     }
 }

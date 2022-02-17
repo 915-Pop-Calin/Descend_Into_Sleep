@@ -24,9 +24,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             var toStr = GetCastingString(caster);
             var armourLeeched = opponent.GetDefenseValue() * ScalingPerLevel * Level;
             caster.IncreaseDefenseValue(armourLeeched);
-            opponent.DecreaseDefenseValue(armourLeeched);
+            opponent.IncreaseDefenseValue(-armourLeeched);
             ArmourLeechedQueue.Enqueue(armourLeeched);
             toStr += $"{caster.GetName()} has leeched {Math.Round(armourLeeched, 2)} armour from {opponent.GetName()} for {TurnsUntilDecast} turns!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} armour, while " +
+                     $"{opponent.GetName()} has {Math.Round(opponent.GetDefenseValue(), 2)} armour.\n"; 
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -36,9 +38,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             if (ArmourLeechedQueue.Count == 0)
                 throw new EmptyQueueException("Armour Leeched");
             var armourLeeched = ArmourLeechedQueue.Dequeue();
-            caster.DecreaseDefenseValue(armourLeeched);
+            caster.IncreaseDefenseValue(-armourLeeched);
             opponent.IncreaseDefenseValue(armourLeeched);
             var toStr = "Leeched armour is now gone!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} armour, while " +
+                     $"{opponent.GetName()} has {Math.Round(opponent.GetDefenseValue(), 2)} armour.\n";
             return toStr;
         }
     }

@@ -26,7 +26,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var sanityRestored = RandomHelper.GenerateRandomInInterval(MinimumSanityRestored, MaximumSanityRestored);
             caster.RestoreSanity(sanityRestored);
             toStr += $"{caster.GetName()} has restored {sanityRestored} sanity!\n";
-            toStr += $"{caster.GetName()} is left with {caster.GetSanity()} sanity!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
 

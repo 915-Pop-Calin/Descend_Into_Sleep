@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
@@ -19,6 +20,7 @@ namespace ConsoleApp12.Items.Potions
         {
             humanPlayer.GainMana(RestoredValue);
             var toStr = $"{humanPlayer.GetName()} has restored {RestoredValue} of their mana!\n";
+            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetMana(), 2)} mana!\n";
             return toStr;
         }
     }

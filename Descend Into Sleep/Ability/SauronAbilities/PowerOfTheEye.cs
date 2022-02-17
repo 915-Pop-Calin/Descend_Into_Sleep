@@ -19,6 +19,7 @@ namespace ConsoleApp12.Ability.SauronAbilities
             opponent.ReduceSanity(SanityReduced);
             var toStr = $"{opponent.GetName()} has looked into the Eye of Sauron!\n";
             toStr += $"{opponent.GetName()}'s sanity is reduced by {SanityReduced}!\n";
+            toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetSanity())} sanity!\n";
             return toStr;
         }
 

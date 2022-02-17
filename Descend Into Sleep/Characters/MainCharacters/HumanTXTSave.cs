@@ -16,7 +16,7 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         
 
-        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel, DateTime currentTime)
+        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel, List<int> enemies, DateTime currentTime)
         {
             var toStr = humanPlayer.GetName() + "\n";
             toStr += humanPlayer.GetLevel() + "\n";
@@ -50,6 +50,14 @@ namespace ConsoleApp12.Characters.MainCharacters
             toStr += AllItems.FindIdForItem(humanPlayer.GetArmour()) + "\n";
             toStr += currentTime + "\n";
             toStr += gameLevel + "\n";
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                toStr += enemies[i];
+                if (i != enemies.Count - 1)
+                    toStr += ",";
+                else
+                    toStr += "\n";
+            }
             toStr += humanPlayer.GetPastSelves().Count + "\n";
             foreach (var pastSelf in humanPlayer.GetPastSelves())
             {
@@ -64,20 +72,20 @@ namespace ConsoleApp12.Characters.MainCharacters
             return toStr;
         }
         
-        public static void Save(HumanPlayer humanPlayer, int gameLevel, DateTime currentTime, string filename)
+        public static void Save(HumanPlayer humanPlayer, int gameLevel, List<int> enemies, DateTime currentTime, string filename)
         {
-            var textString = GetTextString(humanPlayer, gameLevel, currentTime);
+            var textString = GetTextString(humanPlayer, gameLevel, enemies, currentTime);
             File.WriteAllText(filename, textString);
         }
 
-        public static Tuple<HumanPlayer, int, DateTime> Load(string filename)
+        public static Tuple<HumanPlayer, int,List<int>, DateTime> Load(string filename)
         {
             var lines = File.ReadAllLines(filename);
 
             if (lines.Length == 0)
                 throw new EmptyFileException(filename);
 
-            if (lines.Length < 31)
+            if (lines.Length < 32)
                 throw new CorruptedLengthException(filename, lines.Length);
             
             var name = lines[0];
@@ -212,55 +220,63 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (gameLevel < 0 || gameLevel > 7)
                 throw new CorruptedInvalidValuesException(filename, 30);
 
-            if (!int.TryParse(lines[30], out var pastSelvesCount))
-                throw new CorruptedFormatSaveFileException(filename, 31, typeof(int));
+            List<int> enemies = new List<int>();
+            var integersString = lines[30].Split(",");
+            foreach (var integer in integersString)
+            {
+                if (!int.TryParse(integer, out var enemiesNumber))
+                    throw new CorruptedFormatSaveFileException(filename, 30, typeof(int));
+                enemies.Add(enemiesNumber);
+            }
+
+            if (!int.TryParse(lines[31], out var pastSelvesCount))
+                throw new CorruptedFormatSaveFileException(filename, 32, typeof(int));
 
             if (pastSelvesCount > 3 || pastSelvesCount < 0)
             {
-                throw new CorruptedInvalidValuesException(filename, 31);
+                throw new CorruptedInvalidValuesException(filename, 32);
             }
-
-
-            if (lines.Length < 30 + 6 * pastSelvesCount)
+            
+            if (lines.Length < 32 + 6 * pastSelvesCount)
                 throw new CorruptedLengthException(filename, lines.Length);
             
             var pastSelves = new List<PastSelf>();
             for (int i = 0; i < pastSelvesCount; i++)
             {
-                var currentName = lines[31 + 6 * i];
-                if (!double.TryParse(lines[32 + 6 * i], out var currentAttack))
-                    throw new CorruptedFormatSaveFileException(filename, 33 + 6 * i, typeof(double));
+                var currentName = lines[32 + 7 * i];
+                if (!double.TryParse(lines[33 + 7 * i], out var currentAttack))
+                    throw new CorruptedFormatSaveFileException(filename, 34 + 7 * i, typeof(double));
                 if (currentAttack < 0)
-                    throw new CorruptedInvalidValuesException(filename, 34 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 34 + 7 * i);
                 
-                if (!double.TryParse(lines[33 + 6 * i], out var currentDefense))
-                    throw new CorruptedFormatSaveFileException(filename, 34 + 6 * i, typeof(double));
+                if (!double.TryParse(lines[34 + 7 * i], out var currentDefense))
+                    throw new CorruptedFormatSaveFileException(filename, 35 + 7 * i, typeof(double));
 
-                if (!int.TryParse(lines[34 + 6 * i], out var currentWeapon))
-                    throw new CorruptedFormatSaveFileException(filename, 35 + 6 * i, typeof(int));
+                if (!int.TryParse(lines[35 + 7 * i], out var currentWeapon))
+                    throw new CorruptedFormatSaveFileException(filename, 36 + 7 * i, typeof(int));
                 if (!AllItems.Items.ContainsKey(currentWeapon))
-                    throw new CorruptedInvalidValuesException(filename, 36 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 36 + 7 * i);
                 var weaponItem = AllItems.Items[currentWeapon];
                 if (weaponItem is not Weapon pastSelfWeapon)
-                    throw new CorruptedInvalidValuesException(filename, 36 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 36 + 7 * i);
                 
-                if (!int.TryParse(lines[35 + 6 * i], out var currentArmour))
-                    throw new CorruptedFormatSaveFileException(filename, 36 + 6 * i, typeof(int));
+                if (!int.TryParse(lines[36 + 7 * i], out var currentArmour))
+                    throw new CorruptedFormatSaveFileException(filename, 37 + 7 * i, typeof(int));
                 if (!AllItems.Items.ContainsKey(currentArmour))
-                    throw new CorruptedInvalidValuesException(filename, 37 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 37 + 7 * i);
                 var armourItem = AllItems.Items[currentArmour];
                 if (armourItem is not Armour pastSelfArmour)
-                    throw new CorruptedInvalidValuesException(filename, 37 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 37 + 7 * i);
                 
-                if (!double.TryParse(lines[36 + 6 * i], out var currentHealth))
-                    throw new CorruptedFormatSaveFileException(filename, 37 + 6 * i, typeof(double));
+                if (!double.TryParse(lines[37 + 7 * i], out var currentHealth))
+                    throw new CorruptedFormatSaveFileException(filename, 38 + 7 * i, typeof(double));
                 if (currentHealth < 0)
-                    throw new CorruptedInvalidValuesException(filename, 38 + 6 * i);
+                    throw new CorruptedInvalidValuesException(filename, 38 + 7 * i);
                 
-                var currentDescription = lines[37 + 6 * i];
+                var currentDescription = lines[38 + 7 * i];
                 
                 var pastSelf = new PastSelf(currentName, currentAttack, currentDefense, pastSelfWeapon, pastSelfArmour,
-                    currentHealth, currentDescription);
+                    currentHealth, currentDescription, i + 1);
                 pastSelves.Add(pastSelf);
             }
 
@@ -268,7 +284,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 innateDefense, innateCriticalChance, innateArmourPenetration, manaRegenerationRate,
                 mana, health, maximumHealth, totalMana, inventory, gold, school, sanity, maximumSanity,
                 killCount, difficulty, weap, arm, pastSelves);
-            return new Tuple<HumanPlayer, int, DateTime>(humanPlayer, gameLevel, dateTime);
+            return new Tuple<HumanPlayer, int, List<int>,DateTime>(humanPlayer, gameLevel, enemies, dateTime);
         }
         
     }

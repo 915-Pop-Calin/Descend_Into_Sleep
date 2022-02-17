@@ -28,7 +28,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var damagePerTurn = totalDamageDealt / NumberOfTurns;
             var damageOverTime = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(damageOverTime);
-            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage over {NumberOfTurns} turns!\n";
+            toStr += $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage over {NumberOfTurns} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             Available = false;
             return toStr;

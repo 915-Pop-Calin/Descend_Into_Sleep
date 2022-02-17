@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Armours.LevelTwo
 {
@@ -15,7 +16,7 @@ namespace ConsoleApp12.Items.Armours.LevelTwo
         {
             caster.DealDirectDamage(caster, 5);
             var toStr = $"Steel Plateau has dealt 5 True Damage to {caster.GetName()}!\n";
-            toStr += $"{caster.GetName()} is left with {caster.GetHealthPoints()} health!\n";
+            toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
     }

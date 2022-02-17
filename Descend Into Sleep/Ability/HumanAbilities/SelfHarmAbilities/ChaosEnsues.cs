@@ -11,8 +11,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
     public class ChaosEnsues: Ability
     {
-        private Queue<Weapon> WeaponQueue;
-        private Queue<double> LifeStealQueue;
         private readonly double SetHealthPoints;
         private readonly int TurnCooldown;
 
@@ -20,8 +18,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         {
             Description = "You lose all your lifesteal and health, but your opponent is stunned.\n";
             ManaCost = 50;
-            LifeStealQueue = new Queue<double>();
-            WeaponQueue = new Queue<Weapon>();
             TurnsUntilDecast = 3;
             SetHealthPoints = 0.5;
             TurnCooldown = 7;
@@ -32,14 +28,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             if (!Available)
                 throw new CooldownException(Name);
             var toStr = GetCastingString(caster);
-            var currentWeapon = caster.GetWeapon();
-            var removedLifesteal = currentWeapon.GetLifeSteal();
-            LifeStealQueue.Enqueue(removedLifesteal);
-            WeaponQueue.Enqueue(currentWeapon);
-            if (caster is HumanPlayer humanPlayer)
-                humanPlayer.RemoveLifeStealFromWeapon(removedLifesteal);
-            else
-                throw new SchoolException("SelfHarm");
+            caster.SetLifeStealStatus(false);
             caster.SetHealthPoints(SetHealthPoints);
             opponent.Stun();
             Available = false;
@@ -60,16 +49,13 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 
         public override string Decast(Character caster, Character opponent)
         {
-            if (WeaponQueue.Count == 0 || LifeStealQueue.Count == 0)
-                throw new EmptyQueueException("Life Steal");
-            var debuffedWeapon = WeaponQueue.Dequeue();
-            var debuffValue = LifeStealQueue.Dequeue();
-            debuffedWeapon.SetLifeSteal(debuffValue);
+            caster.SetLifeStealStatus(true);
+            opponent.Unstun();
             var toStr = $"{caster.GetName()} can now life steal!\n{opponent.GetName()} is no longer stunned!\n";
             return toStr;
         }
 
-        public string SecondDecast(Character caster, Character opponent)
+        private string SecondDecast(Character caster, Character opponent)
         {
             Available = true;
             var toStr = $"{Name} is now available!\n";

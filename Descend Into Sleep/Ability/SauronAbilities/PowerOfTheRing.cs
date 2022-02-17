@@ -28,9 +28,13 @@ namespace ConsoleApp12.Ability.SauronAbilities
             DefenseGainedQueue.Enqueue(increasedDefenseValue);
             caster.IncreaseAttackValue(increasedAttackValue);
             caster.IncreaseDefenseValue(increasedDefenseValue);
-            
-            var toStr = $"{caster.GetName()}'s defense and attack were multiplied by 5!\n";
-            toStr += $"{caster.GetName()} gained {increasedAttackValue} attack and {increasedDefenseValue} defense!\n";
+
+            var toStr = $"{caster.GetName()}'s ring empowers him!\n";
+            toStr += $"{caster.GetName()}'s defense and attack were multiplied by 5!\n";
+            toStr += $"{caster.GetName()} gained {Math.Round(increasedAttackValue, 2)} attack and " +
+                     $"{Math.Round(increasedDefenseValue,2)} defense!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -39,9 +43,11 @@ namespace ConsoleApp12.Ability.SauronAbilities
         {
             var increasedAttackValue = AttackGainedQueue.Dequeue();
             var increasedDefenseValue = DefenseGainedQueue.Dequeue();
-            caster.DecreaseAttackValue(increasedAttackValue);
-            caster.DecreaseDefenseValue(increasedDefenseValue);
+            caster.IncreaseAttackValue(-increasedAttackValue);
+            caster.IncreaseDefenseValue(-increasedDefenseValue);
             var toStr = $"{caster.GetName()}'s defense and attack were brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

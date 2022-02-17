@@ -41,7 +41,7 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(15, question, actions);
+                var choice = Utils.keysWork.Utils.MultipleChoice(10, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];

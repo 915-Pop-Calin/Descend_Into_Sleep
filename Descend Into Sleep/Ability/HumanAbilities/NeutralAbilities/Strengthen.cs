@@ -20,7 +20,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var valueIncreased = Math.Pow(ScalingPerLevel, Level);
             caster.IncreaseAttackValue(valueIncreased);
             caster.IncreaseDefenseValue(valueIncreased);
-            toStr += $"{caster.GetName()}'s attack and defense values were increased by {valueIncreased}!\n";
+            toStr += $"{caster.GetName()}'s attack and defense values were increased by {Math.Round(valueIncreased, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -28,9 +30,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         public override string Decast(Character caster, Character opponent)
         {
             var valueIncreased = Math.Pow(ScalingPerLevel, Level);
-            caster.DecreaseAttackValue(valueIncreased);
-            caster.DecreaseDefenseValue(valueIncreased);
-            var toStr = $"{caster.GetName()}'s attack and defense values were decreased back by {valueIncreased}!\n";
+            caster.IncreaseAttackValue(-valueIncreased);
+            caster.IncreaseDefenseValue(-valueIncreased);
+            var toStr = $"{caster.GetName()}'s attack and defense values were decreased back by {Math.Round(valueIncreased, 2)}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

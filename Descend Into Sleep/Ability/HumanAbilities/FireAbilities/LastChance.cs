@@ -26,7 +26,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
-            caster.DecreaseDefenseValue(DefenseLost);
+            caster.IncreaseDefenseValue(-DefenseLost);
             var addedLifesteal = ScalingPerLevel * Level;
             if (caster is HumanPlayer humanPlayer)
             {
@@ -36,7 +36,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             }
             else
                 throw new SchoolException("Mage");
-            toStr += $"{caster.GetName()}'s lifesteal was increased by {addedLifesteal} and defense value was reduced by {DefenseLost}!\n";
+            
+            toStr += $"{caster.GetName()}'s life steal was increased by {Math.Round(addedLifesteal, 2)} and defense value " +
+                     $"was reduced by {DefenseLost}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetWeapon().GetLifeSteal(), 2)} life steal and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -50,7 +54,10 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var currentLifesteal = changedWeapon.GetLifeSteal();
             changedWeapon.SetLifeSteal(currentLifesteal - addedLifesteal);
             caster.IncreaseDefenseValue(DefenseLost);
-            var toStr = $"{caster.GetName()}'s defense and lifesteal were brought back to normal!\n";
+            
+            var toStr = $"{caster.GetName()}'s defense and life steal were brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetWeapon().GetLifeSteal(), 2)} lifesteal and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

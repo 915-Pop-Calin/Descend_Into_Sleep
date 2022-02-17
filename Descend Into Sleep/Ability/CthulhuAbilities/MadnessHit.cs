@@ -25,10 +25,11 @@ namespace ConsoleApp12.Ability.CthulhuAbilities
             var enhancer = FixedDamageEnhancer + LinearDamageEnhancer * percentageMissing;
             var attackValue = caster.GetAttackValue();
             var damageTaken = attackValue * enhancer;
-
-            var sanityLeft = opponent.GetSanity();
-            var toStr = $"{opponent.GetName()} has taken {Math.Round(damageTaken, 2)} true damage due to their missing sanity!\n";
-            toStr += $"{opponent.GetName()} is left with {Math.Round(sanityLeft, 2)} sanity!\n";
+            opponent.ReduceHealthPoints(damageTaken);
+            
+            var toStr = $"{caster.GetName()} hits everything around it in its madness!\n";
+            toStr += $"{opponent.GetName()} has taken {Math.Round(damageTaken, 2)} true damage due to their missing sanity!\n";
+            toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
 

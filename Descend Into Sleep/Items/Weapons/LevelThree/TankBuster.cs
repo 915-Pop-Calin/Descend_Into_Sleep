@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
@@ -14,7 +15,8 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         public override string Effect(double damageDealt, Character caster, Character opponent)
         {
             caster.DealDirectDamage(opponent, damageDealt);
-            var toStr = $"{caster.GetName()} did a double hit and dealt {damageDealt} damage!\n";
+            var toStr = $"{caster.GetName()} did a double hit and dealt {Math.Round(damageDealt, 2)} damage!\n";
+            toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
     }

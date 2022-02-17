@@ -25,8 +25,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             var attackDamage = caster.GetAttackValue();
             var gainedArmour = ScalingPerLevel * Level * attackDamage;
             GainedArmourQueue.Enqueue(gainedArmour);
-            toStr += $"{caster.GetName()} has gained {gainedArmour} armour for {TurnsUntilDecast} turns!\n";
             caster.IncreaseDefenseValue(gainedArmour);
+            toStr += $"{caster.GetName()} has gained {Math.Round(gainedArmour, 2)} armour for {TurnsUntilDecast} turns!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -36,8 +37,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             if (GainedArmourQueue.Count == 0)
                 throw new EmptyQueueException("Gained Armour");
             var gainedArmour = GainedArmourQueue.Dequeue();
-            caster.DecreaseDefenseValue(gainedArmour);
+            caster.IncreaseDefenseValue(-gainedArmour);
             var toStr = $"{caster.GetName()}'s armour was brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

@@ -23,7 +23,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var toStr = GetCastingString(caster);
             var currentAttackValue = opponent.GetAttackValue();
             AttackValues.Enqueue(currentAttackValue);
-            opponent.DecreaseAttackValue(currentAttackValue);
+            opponent.IncreaseAttackValue(-currentAttackValue);
             toStr += $"{opponent.GetName()}'s attack value was decreased to 0!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
@@ -36,6 +36,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
             var attackValue = AttackValues.Dequeue();
             opponent.IncreaseAttackValue(attackValue);
             var toStr = $"{opponent.GetName()}'s attack was brought back to normal!\n";
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetAttackValue(), 2)} attack!\n";
             return toStr;
         }
     }

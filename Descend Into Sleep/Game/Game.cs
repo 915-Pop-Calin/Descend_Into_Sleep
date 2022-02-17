@@ -42,6 +42,8 @@ namespace ConsoleApp12.Game
             
             Player = humanPlayer;
             SetLevels();
+            Player.JumpToGivenLevel(34);
+            Level = 7;
         }
 
         private void SetLevels()
@@ -108,7 +110,7 @@ namespace ConsoleApp12.Game
                 if (Level == 7 && Player.IsCheater())
                 {
                     Console.WriteLine("Last Level cannot be played because you cheated!\n");
-                    throw new ExitGameException();
+                    throw new GameOverException();
                 }
             }
         }
@@ -143,7 +145,9 @@ namespace ConsoleApp12.Game
             
             Player = loadType.Item1;
             Level = loadType.Item2;
+            List<int> enemies = loadType.Item3;
             SetLevels();
+            Levels[Level - 1].SetEnemies(enemies);
             Console.WriteLine("File successfully loaded!");
         }
         

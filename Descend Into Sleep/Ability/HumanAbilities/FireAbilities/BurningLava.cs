@@ -27,7 +27,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var damagePerTurn = totalDamageDealt / NumberOfTurns;
             var dotEffect = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(dotEffect);
-            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage per turn for {NumberOfTurns} turns!\n";
+            toStr += $"Due to {caster.GetName()} missing {Math.Round(missingHealth, 2)} health," +
+                     $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage per turn for {NumberOfTurns} turns!\n";
             return toStr;
         }
 

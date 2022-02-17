@@ -6,20 +6,27 @@ namespace ConsoleApp12.Items.Armours.LevelThree
 {
     public class LastStand: Armour
     {
+        private readonly double DefenseLost;
+        private readonly double Threshhold;
+        
         public LastStand() : base(0, 400, 0)
         {
             Name = "Last Stand";
             Description = "Great armour which gets its defense decreased if under 30% HP";
             SetPassive();
+            DefenseLost = 100;
+            Threshhold = 0.3;
         }
 
         public override string Passive(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = "";
-            if (caster.GetHealthPoints() / caster.GetMaximumHealthPoints() < 0.3)
+            if (caster.GetHealthPoints() / caster.GetMaximumHealthPoints() < Threshhold)
             {
-                caster.DecreaseDefenseValue(100);
-                toStr = $"Due to {caster.GetName()} being under 30% HP, his defense was reduced by 100 for a turn!\n";
+                caster.IncreaseDefenseValue(DefenseLost);
+                toStr = $"Due to {caster.GetName()} being under {Threshhold * 100}% HP, his defense was reduced by {DefenseLost} " +
+                        $"for 3 turns!\n";
+                toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
                 
                 Func<Character, Character, string> decastFunction = delegate(Character caster, Character opponent)
                 {
@@ -42,6 +49,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
         {
             caster.IncreaseDefenseValue(100);
             var toStr = $"{caster.GetName()}'s defenses were brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

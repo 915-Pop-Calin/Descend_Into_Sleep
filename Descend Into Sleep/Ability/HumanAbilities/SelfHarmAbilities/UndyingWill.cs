@@ -22,13 +22,13 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
-            var casterName = caster.GetName();
             var attackValue = caster.GetAttackValue();
             var increasedAttackValue = PercentageIncreased * attackValue;
             AttackValuesQueue.Enqueue(increasedAttackValue);
             caster.IncreaseAttackValue(increasedAttackValue);
-            toStr += casterName + "'s attack value was increased with " + increasedAttackValue +
-                     ". You have 3 turns!\n";
+            toStr += $"{caster.GetName()}'s attack value was increased with {Math.Round(increasedAttackValue, 2)}. " +
+                     $"You have 3 turns until you die!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -43,7 +43,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             if (AttackValuesQueue.Count == 0)
                     throw new EmptyQueueException("Attack Values");
             var increasedAttackValue = AttackValuesQueue.Dequeue();
-            caster.DecreaseAttackValue(increasedAttackValue);
+            caster.IncreaseAttackValue(-increasedAttackValue);
             return $"{caster.GetName()}'s attack value was brought back to normal!\n";
             }
     }

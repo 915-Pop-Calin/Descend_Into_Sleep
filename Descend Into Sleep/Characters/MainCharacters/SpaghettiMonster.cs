@@ -7,15 +7,13 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class SpaghettiMonster: Character
     {
-        private SpaghettiMonster(): base("Spaghetti Monster", 10, 300, AllItems.Words, AllItems.TemArmour, 100, "Represents the Developer\n")
+        private SpaghettiMonster(): base("Spaghetti Monster", 10, 300, AllItems.Words, AllItems.TemArmour, 100, "Represents the Developer")
         {
             Level = 2;
-            var entangleAbility = new Entangle();
-            var defensiveStanceAbility = new DefensiveStance();
-            AddAbility(entangleAbility);
-            AddAbility(defensiveStanceAbility);
+            AddAbility(new Entangle());
+            AddAbility(new DefensiveStance());
         }
 
-        public static SpaghettiMonster MainBoss = new SpaghettiMonster();
+        public static readonly SpaghettiMonster MainBoss = new SpaghettiMonster();
     }
 }

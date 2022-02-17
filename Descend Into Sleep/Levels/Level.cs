@@ -16,7 +16,7 @@ namespace ConsoleApp12.Levels
     {
         protected int Number;
         protected Queue<Character> MainEnemies;
-        protected List<Type> SideEnemies;
+        protected Dictionary<Type, int> SideEnemies;
         protected Shop.Shop Shop;
         protected HumanPlayer Player;
         protected Cheats Cheats;
@@ -24,17 +24,19 @@ namespace ConsoleApp12.Levels
         protected bool InCombat;
         protected List<SaveFile.SaveFile> ListOfSaveFiles;
 
-        public Level(int levelNumber, HumanPlayer humanPlayer)
+        public Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies, Queue<Character> mainEnemies,
+            Shop.Shop shop)
         {
             Number = levelNumber;
-            MainEnemies = new Queue<Character>();
-            SideEnemies = new List<Type>();
-            Shop = null;
+            MainEnemies = mainEnemies;
+            SideEnemies = sideEnemies;
+            Shop = shop;
             Player = humanPlayer;
             Cheats = new Cheats(Player);
             Passed = false;
             InCombat = false;
 
+            // why do we check this? remind me again
             FileHelper.CheckSaveDirectory();
             for (int i = 0; i <= 9; i++)
                 FileHelper.CheckSaveFile(i);
@@ -51,11 +53,62 @@ namespace ConsoleApp12.Levels
                 found = RandomHelper.IsSuccessfulTry(0.25);
                 Thread.Sleep(1000);
             }
-            var randomSideBoss = RandomHelper.GenerateRandomInInterval(0, SideEnemies.Count);
-            var foundEnemy = (SideEnemy)Activator.CreateInstance(SideEnemies[randomSideBoss]);
+
+            var foundEnemy = FindEnemy();
+            if (foundEnemy == null)
+            {
+                Console.WriteLine("But nobody came.");
+                return;
+            }
             SideBossFight(foundEnemy);
         }
 
+        private List<int> GetNumberOfEnemies()
+        {
+            var enemies = new List<int>();
+            foreach (var tuple in SideEnemies)
+            {
+                enemies.Add(tuple.Value);
+            }
+            return enemies;
+        }
+        
+        private SideEnemy FindEnemy()
+        {
+            List<int> intervals = new List<int>();
+            int current = 0;
+            var keys = SideEnemies.Keys;
+            foreach (var key in keys)
+            {
+                intervals.Add(current);
+                current += SideEnemies[key];
+            }
+
+            if (current == 0)
+                return null;
+            
+            int choice = RandomHelper.GenerateRandomInInterval(0, current);
+
+            int currentPosition = 0;
+            while (currentPosition < intervals.Count && intervals[currentPosition] <= choice)
+            {
+                currentPosition++;
+            }
+            currentPosition--;
+            int currentIndex = 0;
+            foreach (var key in keys)
+            {
+                if (currentPosition == currentIndex)
+                {
+                    SideEnemies[key]--;
+                    return (SideEnemy) Activator.CreateInstance(key);
+                }
+
+                currentIndex++;
+            }
+            return null;
+        }
+        
         private void Save()
         {
             if (Player.IsCheater())
@@ -85,8 +138,9 @@ namespace ConsoleApp12.Levels
                 if (choice == 1)
                     return;
             }
-            
-            ListOfSaveFiles[saveNumber].SaveInfo(Player, Number);
+
+            var enemies = GetNumberOfEnemies();
+            ListOfSaveFiles[saveNumber].SaveInfo(Player, Number, enemies);
 
             var conclusion = $"You have saved to Save File {saveNumber}";
             Console.WriteLine(conclusion);
@@ -156,7 +210,7 @@ namespace ConsoleApp12.Levels
         {
             int choice = Utils.keysWork.Utils.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
             if (choice == 0)
-                throw new ExitGameException();
+                throw new GameOverException();
         }
         
         // returns 2 if we want to proceed, 0 if we want to exit
@@ -328,7 +382,20 @@ namespace ConsoleApp12.Levels
             combat.Brawl();
         }
 
-        public virtual void PlayOut()
+        public void SetEnemies(List<int> enemies)
+        {
+            if (enemies.Count != SideEnemies.Count)
+                throw new Exception();
+
+            int position = 0;
+            foreach (var key in SideEnemies.Keys)
+            {
+                SideEnemies[key] = enemies[position];
+                position++;
+            }
+        }
+        
+        public void PlayOut()
         {
             while (!Passed)
             {

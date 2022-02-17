@@ -27,8 +27,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             var attackIncrease = caster.GetAttackValue() * damageIncrease;
             IncreasedDamageQueue.Enqueue(attackIncrease);
             caster.IncreaseAttackValue(attackIncrease);
-            toStr += $"Due to {caster.GetName()} missing {missingHealth} of its health, their attack is increased by " +
-                     $"{attackIncrease} for {TurnsUntilDecast} turns";
+            toStr += $"Due to {caster.GetName()} missing {Math.Round(missingHealth, 2)} of its health, their attack is increased by " +
+                     $"{Math.Round(attackIncrease, 2)} for {TurnsUntilDecast} turns!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -38,8 +39,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             if (IncreasedDamageQueue.Count == 0)
                 throw new EmptyQueueException("Increased Damage");
             var attackIncrease = IncreasedDamageQueue.Dequeue();
-            caster.DecreaseAttackValue(attackIncrease);
+            caster.IncreaseAttackValue(-attackIncrease);
             var toStr = $"{caster.GetName()}'s attack value was brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
             return toStr;
         }
     }

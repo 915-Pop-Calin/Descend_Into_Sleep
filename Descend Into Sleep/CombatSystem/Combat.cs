@@ -76,12 +76,13 @@ namespace ConsoleApp12.CombatSystem
                 while (index < dotEffects.Count)
                 {
                     Player.ReduceHealthPoints(dotEffects[index].DamagePerTurn);
-                    toStr += $"{Player.GetName()} has taken {dotEffects[index].DamagePerTurn} damage over time!\n";
+                    toStr += $"{Player.GetName()} has taken {Math.Round(dotEffects[index].DamagePerTurn, 2)} damage over time!\n";
                     var leftTurns = dotEffects[index].NumberOfTurns;
                     Player.DecreaseDotEffect(index);
                     if (leftTurns != 1)
                         index++;
                 }
+                toStr += $"{Player.GetName()} is left with {Math.Round(Player.GetHealthPoints(), 2)} health points!\n";
             }
             Console.WriteLine(toStr);
             if (Player.GetHealthPoints() <= 0)

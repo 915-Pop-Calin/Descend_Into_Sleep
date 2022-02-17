@@ -21,8 +21,8 @@ namespace ConsoleApp12.Ability.IcarusAbilities
             var damagePerTurn = NumberOfTurns * TurnScaling;
             var dotEffect = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(dotEffect);
-            var toStr = $"{caster.GetName()} has cast {Name}!\n";
-            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage every turn for {NumberOfTurns} turns!\n";
+            var toStr = $"{caster.GetName()} burns everything around it!\n";
+            toStr += $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage every turn for {NumberOfTurns} turns!\n";
             return toStr;
         }
 

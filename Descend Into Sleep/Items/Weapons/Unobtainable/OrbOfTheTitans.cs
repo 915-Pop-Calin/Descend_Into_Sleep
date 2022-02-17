@@ -23,15 +23,16 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
             var toStr = "";
             if (opponent is FinalBoss finalBoss)
             {
-                var casterName = caster.GetName();
                 var maximumHealthRatio = opponent.GetMaximumHealthPoints() / caster.GetMaximumHealthPoints();
                 var attackValue = caster.GetAttackValue();
                 var increasedAttackValue = PercentageIncreased * maximumHealthRatio * attackValue;
                 caster.IncreaseAttackValue(increasedAttackValue);
-                toStr += casterName + "'s attack was increased by " + increasedAttackValue + "!\n";
+                toStr += $"{caster.GetName()}'s attack was increased by {increasedAttackValue}!\n";
                 caster.IncreaseArmourPenetration(IncreasedArmourPenetration);
                 toStr += "The power of the titans activates!\n";
-                toStr += casterName + "'s armour penetration was increased by " + IncreasedArmourPenetration + "!\n";
+                toStr += $"{caster.GetName()}'s armour penetration was increased by {IncreasedArmourPenetration}!\n";
+                toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                         $"{caster.GetArmourPenetration() * 100}% armour penetration!\n";
             }
             return toStr;
         }

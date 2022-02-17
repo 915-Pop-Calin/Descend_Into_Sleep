@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp12.Items.Armours.Unobtainable
+﻿using System;
+
+namespace ConsoleApp12.Items.Armours.Unobtainable
 {
     public class SaroniteScales: Armour
     {
@@ -21,7 +23,7 @@
             }
 
             var toStr = $"{Name} have taken {attackValue} damage!\n";
-            toStr += $"{Name} are left with {HealthPoints} health!\n";
+            toStr += $"{Name} are left with {Math.Round(HealthPoints, 2)} health!\n";
             return toStr;
         }
     }

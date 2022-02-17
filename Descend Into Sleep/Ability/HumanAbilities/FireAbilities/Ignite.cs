@@ -26,18 +26,19 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var damagePerTurn = ScalingPerLevel * Level;
             var damageOverTime = new DotEffect(NumberOfTurns, damagePerTurn);
             opponent.AddDotEffect(damageOverTime);
-            opponent.DecreaseDefenseValue(DefenseLost);
-            toStr += $"{opponent.GetName()} will take {damagePerTurn} damage over {NumberOfTurns} turns and their defense was decreased by " + 
-                     $"{DefenseLost}!\n";
+            opponent.IncreaseDefenseValue(-DefenseLost);
+            toStr += $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage over {NumberOfTurns} turns" +
+                     $" and their defense was decreased by {DefenseLost}!\n";
+            toStr += $"{opponent.GetName()} has now {Math.Round(opponent.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
         public override string Decast(Character caster, Character opponent)
         {
-            var opponentName = opponent.GetName();
-            var toStr = $"{opponentName}'s defense value was brought back to normal!\n";
+            var toStr = $"{opponent.GetName()}'s defense value was brought back to normal!\n";
             opponent.IncreaseDefenseValue(DefenseLost);
+            toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

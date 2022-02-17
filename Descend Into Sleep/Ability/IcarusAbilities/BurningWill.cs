@@ -24,7 +24,7 @@ namespace ConsoleApp12.Ability.IcarusAbilities
             opponent.AddDotEffect(firstDOTEffect);
             opponent.AddDotEffect(secondDOTEffect);
             opponent.AddDotEffect(thirdDOTEffect);
-            var toStr = $"{caster.GetName()} has cast {Name}!\n";
+            var toStr = $"{caster.GetName()} sets everything ablaze!\n";
             toStr += $"{opponent.GetName()} will take {DamagePerTurn} every turn for {NumberOfTurns} turns THRICE!\n";
             return toStr;
         }

@@ -48,6 +48,9 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             caster.IncreaseDefenseValue(armourGained);
             toStr += $"{caster.GetName()}'s health was increased by {healthGained}, their attack value was increased by ";
             toStr += $"{attackGained} and their defense was increased by {armourGained}!\n";
+            toStr +=
+                $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints(), 2)} health, {Math.Round(caster.GetAttackValue(), 2)} " +
+                $" attack and {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             Available = false;
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
 
@@ -73,9 +76,12 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             var healthGained = statsGained[1];
             var attackGained = statsGained[2];
             caster.LoseHealthPoints(healthGained);
-            caster.DecreaseAttackValue(attackGained);
-            caster.DecreaseDefenseValue(armourGained);
+            caster.IncreaseAttackValue(-attackGained);
+            caster.IncreaseDefenseValue(-armourGained);
             var toStr = $"{casterName}'s shapeshift has ended!\n Their stats were brought back to normal!\n";
+            toStr +=
+                $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints(), 2)} health, {Math.Round(caster.GetAttackValue(), 2)} " +
+                $" attack and {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
 

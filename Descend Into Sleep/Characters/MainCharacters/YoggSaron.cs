@@ -11,15 +11,21 @@ namespace ConsoleApp12.Characters.MainCharacters
         private int DiscourageCounter;
         
         private YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
-            int.MaxValue, "The God Of Death.\n")
+            int.MaxValue, "The God Of Death")
         {
             Level = 3;
             DiscourageCounter = 3;
         }
 
-        public override void DecreaseAttackValue(double attackValue)
+        public override void IncreaseAttackValue(double attackValue)
         {
-            if (attackValue - Attack < 0.0001)
+            if (attackValue > 0)
+            {
+                base.IncreaseAttackValue(attackValue);
+                return;
+            }
+
+            if (attackValue + Attack < 0.0001)
             {
                 Attack = 0;
                 if (DiscourageCounter > 0)
@@ -33,7 +39,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             }
             else
             {
-                Attack -= attackValue;
+                Attack += attackValue;
             }
         }
 
@@ -50,11 +56,16 @@ namespace ConsoleApp12.Characters.MainCharacters
             Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
             CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
             ArmourPenetration = Weapon.GetArmorPenetration();
-            var madnessAbility = new Madness();
-            AddAbility(madnessAbility);
-            IsAutoAttacker = false;
+            AddAbility(new Madness());
         }
 
-        public static YoggSaron MainBoss = new YoggSaron();
+        public override double GetOddsOfAttacking()
+        {
+            if (Name == "YoggSaron")
+                return 1;
+            return 0;
+        }
+
+        public static readonly YoggSaron MainBoss = new YoggSaron();
     }
 }

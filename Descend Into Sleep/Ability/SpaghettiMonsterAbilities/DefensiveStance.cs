@@ -22,11 +22,12 @@ namespace ConsoleApp12.Ability.SpaghettiMonsterAbilities
         {
             var currentAttack = caster.GetAttackValue();
             var attackDecreased = currentAttack - AttackLeft;
-            caster.DecreaseAttackValue(attackDecreased);
+            caster.IncreaseAttackValue(-attackDecreased);
             AttackReducedQueue.Enqueue(attackDecreased);
             caster.IncreaseDefenseValue(IncreasedDefense);
             var toStr = $"{caster.GetName()} enters into a defensive stance!\n";
             toStr += $"{caster.GetName()} gains {IncreasedDefense} but their attack is set to {AttackLeft}!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
@@ -35,8 +36,10 @@ namespace ConsoleApp12.Ability.SpaghettiMonsterAbilities
         {
             var attackDecreased = AttackReducedQueue.Dequeue();
             caster.IncreaseAttackValue(attackDecreased);
-            caster.DecreaseDefenseValue(IncreasedDefense);
+            caster.IncreaseDefenseValue(-IncreasedDefense);
             var toStr = $"{caster.GetName()}'s defense and attack were brought back to normal!\n";
+            toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack and " +
+                     $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

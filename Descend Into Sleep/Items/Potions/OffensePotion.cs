@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Characters;
+﻿using System;
+using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
@@ -26,6 +27,8 @@ namespace ConsoleApp12.Items.Potions
             humanPlayer.SetInnateDefense(newDefense);
             var toStr = $"{humanPlayer.GetName()}'s attack was increased by {AttackGained}, but their defense was " +
                         $"decreased by {DefenseLost}!\n";
+            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetAttackValue(), 2)} attack and" +
+                     $"{Math.Round(humanPlayer.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

@@ -21,9 +21,10 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             var damageTaken = caster.TakeMitigatedDamage(damageDealt);
             var damageMitigated = damageDealt - damageTaken;
             opponent.ReduceHealthPoints(damageMitigated);
-            toStr += $"{caster.GetName()} took {damageDealt} damage, but mitigated {damageMitigated} of it!\n";
+            toStr += $"{caster.GetName()} took {Math.Round(damageDealt, 2)} damage, but mitigated {Math.Round(damageMitigated, 2)} of it!\n";
+            toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints())} health!\n";
             toStr += $"{opponent.GetName()} took the mitigated damage!\n";
-            toStr += $"{opponent.GetName()} is left with {opponent.GetHealthPoints()} health!\n";
+            toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
 
