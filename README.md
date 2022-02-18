@@ -4,7 +4,7 @@ Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the 
   
 Some bosses may be unfair, the last bosses are all overtuned or undertuned and some sidebosses are extremely overtuned or extremely undertuned - and that's fine because I'll tune their number with time, so if you feel a boss is unfair or if you find a bug, just bring it up to me
   
-To run the game, you'll need to download the latest release (1.0.0.0), change in each component the dot with space (because the game is Descend Into Sleep) so, for example, instead of "Descend.Into.Sleep.dll" you would have "Descend Into Sleep.dll" and then run into command line "Descend Into Sleep.exe"</b>
+To run the game, you'll need to download the latest release (1.0.0.0) and then run into command line "Descend Into Sleep.exe"</b>
 
 <b>Patch Notes 1.0.0</b>
 
