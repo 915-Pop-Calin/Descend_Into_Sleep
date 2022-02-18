@@ -13,12 +13,12 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
         {
             Name = "Dreams";
             Description = "Makes your enemy go insane. Has no effect on monsters";
-            SetEffect();
+            SetActive();
             MinimumSanityReduced = 15;
             MaximumSanityReduced = 26;
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var randomInsanityReduced =
                 RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);

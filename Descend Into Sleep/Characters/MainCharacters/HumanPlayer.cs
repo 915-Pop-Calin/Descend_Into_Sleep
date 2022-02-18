@@ -137,6 +137,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             return -1;
         }
 
+        // one use, might as well just return the IDs for safety purposes
         public List<Item> GetInventory()
         {
             return Inventory;
@@ -158,13 +159,14 @@ namespace ConsoleApp12.Characters.MainCharacters
             return -1;
         }
 
-        public string DropItem(string itemName)
+        public string DropItem(int position)
         {
-            int itemIndex = FindItemByName(itemName);
-            if (itemIndex == -1)
-                throw new InvalidItemException();
-            string toStr = $"{itemName} has been dropped!\n";
-            Inventory[itemIndex] = null;
+            if (position < 0 || position >= 8)
+                throw new InventoryOutOfBoundsException();
+            if (Inventory[position] == null)
+                throw new NullItemException();
+            var toStr = $"{Inventory[position].GetName()} has been dropped!\n";
+            Inventory[position] = null;
             return toStr;
         }
 
@@ -251,7 +253,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             IncreaseDefenseValue(defenseValue);
             var supposedHealth = Math.Max(1, MaximumHealth + healthValue);
             SetInnateMaximumHealth(supposedHealth);
-            var supposedSanity = Math.Max(1, Sanity + sanityValue);
+            var supposedSanity = Math.Max(1, MaxSanity + sanityValue);
             SetMaximumSanity(supposedSanity);
         }
         
@@ -291,20 +293,36 @@ namespace ConsoleApp12.Characters.MainCharacters
             return toStr;
 
         }
-        
-        public string UseItem(string itemName)
+
+        public string EquipItem(int position)
         {
-            var itemIndex = FindItemByName(itemName);
-            if (itemIndex == -1)
-                throw new InvalidItemException();
-            var item = Inventory[itemIndex];
+            if (position < 0 || position >= 8)
+                throw new InventoryOutOfBoundsException();
+            var item = Inventory[position];
+            if (item == null)
+                throw new NullItemException();
             if (item is Weapon weapon)
-                return UseWeapon(weapon, itemIndex);
+                return UseWeapon(weapon, position);
             if (item is Armour armour)
-                return UseArmour(armour, itemIndex);
+                return UseArmour(armour, position);
             if (item is Potion potion)
-                return UsePotion(potion, itemIndex);
-            return "";
+                return UsePotion(potion, position);
+            throw new InvalidItemTypeException();
+        }
+
+        public string[] GetInventoryItems()
+        {
+            var items = new string[9];
+            var currentPosition = 0;
+            foreach (var item in Inventory)
+            {
+                if (item == null)
+                    items[currentPosition] = "Empty Position";
+                else
+                    items[currentPosition] = item.GetName();
+                currentPosition++;
+            }
+            return items;
         }
         
         public bool GainExperience(double experiencePoints)
@@ -379,11 +397,18 @@ namespace ConsoleApp12.Characters.MainCharacters
         public string ShowInventory()
         {
             var toStr = "";
+            var empty = true;
             foreach (var item in Inventory)
             {
                 if (item != null)
+                {
                     toStr += item.ToString();
+                    empty = false;
+                }
             }
+
+            if (empty)
+                return "Empty Inventory\n";
             return toStr;
         }
 
@@ -439,7 +464,9 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (Mana < abilityManaCost)
                 throw new InsufficientManaException(Mana, abilityManaCost, Name, abilityName);
             Mana -= abilityManaCost;
-            return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+            var toStr = RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+            toStr += ItemEffects(opponent, listOfTurns, turnCounter);
+            return toStr;
         }
 
         private PastSelf CreateCharacterCopy(string copyName, string copyDescription, int level)
@@ -476,7 +503,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             {
                 var schools = new String[3] {"fire", "self-harm", "nature"};
                 const string question = "Choose a school to be a part of";
-                    var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "fire", "self-harm", "nature");
+                    var choice = Utils.keysWork.ConsoleHelper.MultipleChoice(20, question, "fire", "self-harm", "nature");
                     schoolChoice = schools[choice];
             }
 

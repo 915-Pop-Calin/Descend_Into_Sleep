@@ -37,11 +37,10 @@ namespace ConsoleApp12.Game
             var difficulties = new String[] {"easy", "medium", "hard", "impossible"};
             const string question = "Choose the difficulty you want to play on";
 
-            var choice = Utils.keysWork.Utils.MultipleChoice(20, question, difficulties);
+            var choice = Utils.keysWork.ConsoleHelper.MultipleChoice(20, question, difficulties);
             var difficulty = difficulties[choice];
             
             var humanPlayer = new HumanPlayer(name, difficulty, AllItems.ToyKnife, AllItems.Bandage);
-            
             Player = humanPlayer;
             SetLevels();
         }
@@ -57,7 +56,7 @@ namespace ConsoleApp12.Game
         public void StartGame()
         {
             const string question = "Do you want to load your save file?";
-            var decision = Utils.keysWork.Utils.MultipleChoice(20,question, "yes", "no");
+            var decision = Utils.keysWork.ConsoleHelper.MultipleChoice(20,question, "yes", "no");
 
             switch (decision)
             {

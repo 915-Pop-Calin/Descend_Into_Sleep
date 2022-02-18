@@ -62,7 +62,7 @@ namespace ConsoleApp12.Levels
             while (DialogueLines.Count != 1)
             {
                 var question = DialogueLines.Dequeue();
-                Utils.keysWork.Utils.MultipleChoice(20, question, "proceed");
+                Utils.keysWork.ConsoleHelper.MultipleChoice(20, question, "proceed");
             }
         }
         

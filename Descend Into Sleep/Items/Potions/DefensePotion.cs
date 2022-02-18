@@ -25,8 +25,8 @@ namespace ConsoleApp12.Items.Potions
             humanPlayer.SetInnateDefense(newDefense);
             humanPlayer.LoseHealthPoints(HealthLost);
             var toStr = $"{humanPlayer.GetName()}'s defense has been increased by {DefenseGained}," +
-                        $"but their health points were reduced by {HealthLost}!\n";
-            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetDefenseValue())} defense and" +
+                        $" but their health points were reduced by {HealthLost}!\n";
+            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetDefenseValue())} defense and " +
                      $"{Math.Round(humanPlayer.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }

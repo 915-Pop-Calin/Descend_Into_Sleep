@@ -10,10 +10,10 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
             Description = "Very strong DOTer";
             var dotEffect = new DotEffect(5, 3);
             DotEffect = dotEffect;
-            SetEffect();
+            SetActive();
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             opponent.AddDotEffect(DotEffect);
             var toStr = $"{opponent.GetName()} will take {DotEffect.DamagePerTurn} damage every turn for " +

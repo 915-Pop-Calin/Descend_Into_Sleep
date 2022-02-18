@@ -299,12 +299,20 @@ namespace ConsoleApp12.Characters
             GainMana(regeneratedMana);
             toStr += $"{Name} has regenerated {regeneratedMana} of its mana!\n";
             toStr += $"{Name} now has {Math.Round(Mana, 2)} mana!\n";
-            if (Weapon.HasEffect())
-                toStr += Weapon.Effect(dealtDamage, this, opponent);
-            if (CanLifeSteal && Weapon.GetLifeSteal() != 0)
+            toStr += ItemEffects(opponent, listOfTurns, turnCounter, dealtDamage);
+            return toStr;
+        }
+
+        public string ItemEffects(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, 
+            int turnCounter, double dealtDamage = 0)
+        {
+            var toStr = "";
+            if (Weapon.HasActive() && dealtDamage != 0)
+                toStr += Weapon.Active(dealtDamage, this, opponent);
+            if (CanLifeSteal && Weapon.GetLifeSteal() != 0 && dealtDamage != 0)
                 toStr += LifeSteal(dealtDamage);
-            if (Armour.HasEffect())
-                toStr += Armour.Effect(dealtDamage, this, opponent);
+            if (Armour.HasActive() && dealtDamage != 0)
+                toStr += Armour.Active(dealtDamage, this, opponent);
             if (Weapon.HasPassive())
                 toStr += Weapon.Passive(this, opponent, listOfTurns, turnCounter);
             if (Armour.HasPassive())
@@ -353,7 +361,10 @@ namespace ConsoleApp12.Characters
         public virtual string Cast(string abilityName, Character opponent,
             Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+            // return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+            var toStr = RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
+            toStr += ItemEffects(opponent, listOfTurns, turnCounter);
+            return toStr;
         }
 
         public void Stun()
@@ -517,7 +528,7 @@ namespace ConsoleApp12.Characters
                     int actsLeft = OrderOfActions.Count, totalActs = Actions.Count;
                     // we might have to change Attack for InnateAttack, or compute differently
                     var lostAttack = FormulaHelper.GetAttackValueDifference(actsLeft, totalActs, Attack);
-                    toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!";
+                    toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!\n";
                     InnateAttack -= lostAttack;
                     Attack -= lostAttack;
                 }

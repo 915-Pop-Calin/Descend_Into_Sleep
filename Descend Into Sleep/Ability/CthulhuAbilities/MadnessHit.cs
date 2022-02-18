@@ -19,8 +19,7 @@ namespace ConsoleApp12.Ability.CthulhuAbilities
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
-            var currentSanity = opponent.GetSanity();
-            var missingSanity = 100 - currentSanity;
+            var missingSanity = opponent.GetMaximumSanity() - opponent.GetSanity();
             var percentageMissing = missingSanity / 100;
             var enhancer = FixedDamageEnhancer + LinearDamageEnhancer * percentageMissing;
             var attackValue = caster.GetAttackValue();

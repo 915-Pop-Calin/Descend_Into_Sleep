@@ -9,13 +9,13 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         
         public TacosWhisper() : base(5, 0, 0)
         {
-            SetEffect();
+            SetActive();
             _turnCounter = 0;
             Description = "Each fourth shot strikes thrice";
             Name = "Taco's Whisper";
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             if (_turnCounter == 3)

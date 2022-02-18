@@ -11,10 +11,10 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             SetLifeSteal(0.75);
             Description = "Strong life stealer which helps you not go insane";
             Name = "Xalatath";
-            SetEffect();
+            SetActive();
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var minimumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt / 2));
             var maximumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt));

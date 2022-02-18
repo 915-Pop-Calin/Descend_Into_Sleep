@@ -13,12 +13,12 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
         public OrbOfTheTitans() : base(1000, 1000, 0)
         {
             Name = "Orb of the Titans";
-            SetEffect();
+            SetActive();
             PercentageIncreased = 0.15;
             IncreasedArmourPenetration = 0.3;
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             if (opponent is FinalBoss finalBoss)

@@ -9,6 +9,7 @@ using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game;
 using ConsoleApp12.SaveFile;
 using ConsoleApp12.Utils;
+using ConsoleApp12.Utils.keysWork;
 
 namespace ConsoleApp12.Levels
 {
@@ -47,20 +48,20 @@ namespace ConsoleApp12.Levels
         private void Explore()
         {
             var found = false;
-            while (!found)
-            {
-                Console.WriteLine("Exploring...\n");
-                found = RandomHelper.IsSuccessfulTry(0.25);
-                Thread.Sleep(1000);
-            }
+                while (!found)
+                {
+                    Console.WriteLine("Exploring...\n");
+                    found = RandomHelper.IsSuccessfulTry(0.25);
+                    Thread.Sleep(1000);
+                }
 
-            var foundEnemy = FindEnemy();
-            if (foundEnemy == null)
-            {
-                Console.WriteLine("But nobody came.");
-                return;
-            }
-            SideBossFight(foundEnemy);
+                var foundEnemy = FindEnemy();
+                if (foundEnemy == null)
+                {
+                    Console.WriteLine("But nobody came.");
+                    return;
+                }
+                SideBossFight(foundEnemy);
         }
 
         private List<int> GetNumberOfEnemies()
@@ -134,7 +135,7 @@ namespace ConsoleApp12.Levels
             if (!ListOfSaveFiles[saveNumber].IsEmpty())
             {
                 var question = $"Do you want to overwrite Save File {saveNumber}?";
-                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "yes", "no");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "yes", "no");
                 if (choice == 1)
                     return;
             }
@@ -148,26 +149,34 @@ namespace ConsoleApp12.Levels
 
         }
 
+        private void SeeInventory()
+        {
+            var inventory = Player.ShowInventory();
+            Console.WriteLine(inventory);
+        }
+        
         private void EquipItem()
         {
-            Console.WriteLine(Player.ShowInventory());
-            Console.WriteLine("The item you want to equip is:\n");
-            var itemChoice = Console.ReadLine();
-            if (itemChoice == "Back")
+            var itemsString = Player.GetInventoryItems();
+            itemsString[8] = "back";
+            int option =
+                ConsoleHelper.MultipleChoice(15, "The item you want to equip is:", itemsString);
+            if (option == 8)
                 return;
-            var toStr = Player.UseItem(itemChoice);
-            Console.WriteLine(toStr);
+            var equippedString = Player.EquipItem(option);
+            Console.WriteLine(equippedString);
         }
 
         private void DropItem()
         {
-            Console.WriteLine(Player.ShowInventory());
-            Console.WriteLine("The item you want to drop is:\n");
-            var itemChoice = Console.ReadLine();
-            if (itemChoice == "Back")
+            var itemsString = Player.GetInventoryItems();
+            itemsString[8] = "back";
+            int option =
+                ConsoleHelper.MultipleChoice(15, "The item you want to drop is:", itemsString);
+            if (option == 8)
                 return;
-            var toStr = Player.DropItem(itemChoice);
-            Console.WriteLine(toStr);
+            var equippedString = Player.DropItem(option);
+            Console.WriteLine(equippedString);
         }
 
         private void CheckStats()
@@ -177,9 +186,8 @@ namespace ConsoleApp12.Levels
 
         private void DropCurrentItem()
         {
-            Console.WriteLine("What do you want to drop?");
             const string question = "What do you want to drop?";
-            int choice = Utils.keysWork.Utils.MultipleChoice(50, question, "drop current weapon", "drop current armour");
+            int choice = ConsoleHelper.MultipleChoice(50, question, "drop current weapon", "drop current armour", "back");
             switch (choice)
             {
                 case 0:
@@ -187,6 +195,8 @@ namespace ConsoleApp12.Levels
                     break;
                 case 1:
                     Player.MoveArmourToInventory();
+                    break;
+                case 2:
                     break;
             }
         }
@@ -208,20 +218,20 @@ namespace ConsoleApp12.Levels
 
         private void Exit()
         {
-            int choice = Utils.keysWork.Utils.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
+            int choice = ConsoleHelper.MultipleChoice(20, "Are you really sure you want to exit?", "yes", "no");
             if (choice == 0)
                 throw new GameOverException();
         }
         
         // returns 2 if we want to proceed, 0 if we want to exit
-        private int GameOptions()
+        private bool GameOptions()
         {
             const string question = "";
-            int choice = Utils.keysWork.Utils.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
+            int choice = ConsoleHelper.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
             switch (choice)
             {
                 case 0:
-                    return 2;
+                    return true;
                 case 1:
                     Explore();
                     break;
@@ -234,32 +244,35 @@ namespace ConsoleApp12.Levels
                 case 4:
                     break;
             }
-            return 1;
+            return false;
         }
 
         private void PlayerOptions()
         {
             const string question = "";
-            int choice = Utils.keysWork.Utils.MultipleChoice(20,question, "equip item", "drop item", "check stats", "drop current item",
+            int choice = ConsoleHelper.MultipleChoice(20,question, "see inventory", "equip item", "drop item", "check stats", "drop current item",
                 "see abilities", "back");
             switch (choice)
             {
                 case 0:
-                    EquipItem();
+                    SeeInventory();
                     break;
                 case 1:
-                    DropItem();
+                    EquipItem();
                     break;
                 case 2:
-                    CheckStats();
+                    DropItem();
                     break;
                 case 3:
-                    DropCurrentItem();
+                    CheckStats();
                     break;
                 case 4:
-                    SeeAbilities();
+                    DropCurrentItem();
                     break;
                 case 5:
+                    SeeAbilities();
+                    break;
+                case 6:
                     break;
             }
         }
@@ -267,7 +280,7 @@ namespace ConsoleApp12.Levels
         private void ShopOptions()
         {
             const string question = "";
-            int choice = Utils.keysWork.Utils.MultipleChoice(20, question, "buy", "sell", "back");
+            int choice = ConsoleHelper.MultipleChoice(20, question, "buy", "sell", "back");
             switch (choice)
             {
                 case 0:
@@ -295,17 +308,18 @@ namespace ConsoleApp12.Levels
             {
 
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "game options", "player options", "shop options");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "game options", "player options", "shop options");
                 try
                 {
                     switch (choice)
                     {
                         case 0:
                             var finalResult = GameOptions();
-                            if (finalResult == 2)
+                            if (finalResult)
                             {
-                                if (Player.GetLevel() < 5 * Number - 1)
-                                    Console.WriteLine("Too low level to proceed!\n");
+                                int requiredLevel = 5 * Number - 1;
+                                if (Player.GetLevel() < requiredLevel)
+                                    Console.WriteLine($"Too low level to proceed, you must be level {requiredLevel}!\n");
                                 else
                                     decision = "Proceed";
                             }
@@ -317,6 +331,18 @@ namespace ConsoleApp12.Levels
                             ShopOptions();
                             break;
                     }
+                }
+                catch (InvalidItemTypeException invalidItemTypeException)
+                {
+                    Console.WriteLine(invalidItemTypeException.Message);
+                }
+                catch (NullItemException nullEquipException)
+                {
+                    Console.WriteLine(nullEquipException.Message);
+                }
+                catch (InventoryOutOfBoundsException inventoryOutOfBoundsException)
+                {
+                    Console.WriteLine(inventoryOutOfBoundsException.Message);
                 }
                 catch (InvalidSaveFileException invalidSaveFileException)
                 {
@@ -364,7 +390,7 @@ namespace ConsoleApp12.Levels
                 var mainEnemy = MainEnemies.Dequeue();
                 var toStr = $"WILD {mainEnemy.GetName()} APPEARED!\n";
                 Console.WriteLine(toStr);
-                Combat(mainEnemy);
+                Combat(mainEnemy); 
             }
             Passed = true;
         }

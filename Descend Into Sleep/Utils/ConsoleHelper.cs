@@ -5,7 +5,7 @@ namespace ConsoleApp12.Utils
 {
     namespace keysWork
 {
-    public class Utils
+    public class ConsoleHelper
     {
         public static int MultipleChoice(int spacingPerLine, string question, params string[] options)
         {

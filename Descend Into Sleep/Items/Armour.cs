@@ -15,7 +15,7 @@ namespace ConsoleApp12.Items
             Attack = attack;
             Defense = defense;
             Health = health;
-            _Effect = false;
+            _Active = false;
             Dodge = 0;
             Sanity = 0;
             Description = null;

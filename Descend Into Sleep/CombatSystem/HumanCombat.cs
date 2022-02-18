@@ -4,6 +4,7 @@ using System.Linq;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
@@ -41,7 +42,7 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(14, question, actions);
+                var choice = ConsoleHelper.MultipleChoice(10, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];
@@ -89,11 +90,12 @@ namespace ConsoleApp12.CombatSystem
             String[] allActions = new String[actionsLength + 1];
             actionsList.CopyTo(allActions);
             allActions[actionsLength] = "back";
-            var choice = Utils.keysWork.Utils.MultipleChoice(20, "",allActions);
+            var choice = ConsoleHelper.MultipleChoice(20, "",allActions);
             if (choice == actionsLength)
                 return false;
             var actionChoice = allActions[choice];
             var toStr = secondCharacter.Act(actionChoice);
+            toStr += Player.ItemEffects(secondCharacter, ListOfTurns, TurnCounter);
             Console.WriteLine(toStr);
             return true;
         }
@@ -107,7 +109,7 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
                 // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
@@ -132,23 +134,37 @@ namespace ConsoleApp12.CombatSystem
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                         }
-
                         Console.WriteLine(secondCharacter);
                         Console.ResetColor();
                         break;
                     case 3:
                         try
                         {
-                            Console.WriteLine(humanPlayer.ShowInventory());
-                            Console.WriteLine("The item you want to equip:\n");
-                            var toStrEquip = Console.ReadLine();
-                            var toStrEquipped = humanPlayer.UseItem(toStrEquip);
-                            Console.WriteLine(toStrEquipped);
+                            var itemsString = humanPlayer.GetInventoryItems();
+                            itemsString[8] = "back";
+                            int option =
+                                ConsoleHelper.MultipleChoice(15, "The item you want to equip is:", itemsString);
+                            if (option == 8)
+                                break;
+                            var equippedString = humanPlayer.EquipItem(option);
+                            Console.WriteLine(equippedString);
                             InvalidInput = false;
                         }
                         catch (InvalidItemException invalidItemException)
                         {
                             Console.WriteLine(invalidItemException.Message);
+                        }
+                        catch (InvalidItemTypeException invalidItemTypeException)
+                        {
+                            Console.WriteLine(invalidItemTypeException.Message);
+                        }
+                        catch (NullItemException nullEquipException)
+                        {
+                            Console.WriteLine(nullEquipException.Message);
+                        }
+                        catch (InventoryOutOfBoundsException inventoryOutOfBoundsException)
+                        {
+                            Console.WriteLine(inventoryOutOfBoundsException.Message);
                         }
                         break;
                     case 4:

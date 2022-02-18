@@ -23,7 +23,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
             var toStr = "";
             if (caster.GetHealthPoints() / caster.GetMaximumHealthPoints() < Threshhold)
             {
-                caster.IncreaseDefenseValue(DefenseLost);
+                caster.IncreaseDefenseValue(-DefenseLost);
                 toStr = $"Due to {caster.GetName()} being under {Threshhold * 100}% HP, his defense was reduced by {DefenseLost} " +
                         $"for 3 turns!\n";
                 toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
@@ -47,7 +47,7 @@ namespace ConsoleApp12.Items.Armours.LevelThree
 
         public string Decast(Character caster, Character opponent)
         {
-            caster.IncreaseDefenseValue(100);
+            caster.IncreaseDefenseValue(DefenseLost);
             var toStr = $"{caster.GetName()}'s defenses were brought back to normal!\n";
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;

@@ -18,7 +18,7 @@ namespace ConsoleApp12.Items
             Defense = defense;
             Health = health;
             LifeSteal = 0;
-            _Effect = false;
+            _Active = false;
             DotEffect = null;
             CriticalChance = 0;
             Description = null;

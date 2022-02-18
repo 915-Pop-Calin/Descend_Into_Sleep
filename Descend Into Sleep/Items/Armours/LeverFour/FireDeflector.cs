@@ -8,12 +8,12 @@ namespace ConsoleApp12.Items.Armours.LeverFour
     {
         public FireDeflector(): base(0, 75, 0)
         {
-            SetEffect();
+            SetActive();
             Name = "Fire Deflector";
             Description = "Has the chance to deflect all DOT effects on his enemies";
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var willDeflect = RandomHelper.IsSuccessfulTry(0.1);
             var toStr = "";

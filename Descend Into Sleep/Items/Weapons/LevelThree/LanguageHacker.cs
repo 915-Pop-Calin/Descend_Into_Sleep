@@ -10,12 +10,12 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
     {
         public LanguageHacker() : base(10, 0, 0)
         {
-            SetEffect();
+            SetActive();
             Name = "Language Hacker";
             Description = "After each attack, you gain a Grain of Salt potion";
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             try

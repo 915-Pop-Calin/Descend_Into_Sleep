@@ -10,13 +10,13 @@ namespace ConsoleApp12.Items.Armours.LevelSix
         
         public TheRing() : base(1, 0, 0)
         {
-            SetEffect();
+            SetActive();
             Name = "The Ring";
             DamageIncrease = 1;
             Description = "Scaling weapon. Starts off very weak but gains one attack on each attack";
         }
 
-        public override string Effect(double damageDealt, Character caster, Character opponent)
+        public override string Active(double damageDealt, Character caster, Character opponent)
         {
             var attackValue = GetAttackValue();
             var willCast = RandomHelper.IsSuccessfulTry(0.2);

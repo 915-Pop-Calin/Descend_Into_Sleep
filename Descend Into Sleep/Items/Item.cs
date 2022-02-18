@@ -9,7 +9,7 @@ namespace ConsoleApp12.Items
         protected double Attack;
         protected double Defense;
         protected double Health;
-        protected bool _Effect;
+        protected bool _Active;
         protected string Description;
         protected bool _Passive;
         protected bool Reflector;
@@ -42,14 +42,14 @@ namespace ConsoleApp12.Items
             Health = newHealth;
         }
         
-        public bool HasEffect()
+        public bool HasActive()
         {
-            return _Effect;
+            return _Active;
         }
 
-        public void SetEffect()
+        public void SetActive()
         {
-            _Effect = true;
+            _Active = true;
         }
 
         public bool HasPassive()
@@ -82,11 +82,11 @@ namespace ConsoleApp12.Items
             return "";
         }
 
-        public virtual string Effect(double damageDealt, Character caster, Character opponent)
+        public virtual string Active(double damageDealt, Character caster, Character opponent)
         {
             return "";
         }
-
+        
         public virtual string Passive(Character caster, Character opponent,
             Dictionary<int, List<Func<Character, Character, string>>>
                 listOfTurns, int turnCounter)
