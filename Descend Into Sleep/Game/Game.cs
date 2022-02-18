@@ -86,6 +86,11 @@ namespace ConsoleApp12.Game
                         Console.WriteLine(corruptedSaveFileException.Message);
                         StartCharacter();
                     }
+                    catch (InvalidEnemiesNumberException invalidEnemiesNumberException)
+                    {
+                        Console.WriteLine(invalidEnemiesNumberException.Message);
+                        StartCharacter();
+                    }
                     break;
                 case 1:
                     StartCharacter();

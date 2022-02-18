@@ -421,7 +421,7 @@ namespace ConsoleApp12.Levels
         public void SetEnemies(List<int> enemies)
         {
             if (enemies.Count != SideEnemies.Count)
-                throw new Exception();
+                throw new InvalidEnemiesNumberException(SideEnemies.Count, enemies.Count);
 
             int position = 0;
             foreach (var key in SideEnemies.Keys)
