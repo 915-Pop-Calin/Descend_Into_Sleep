@@ -11,16 +11,23 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public Bolster(): base("Bolster")
         {
-            Description = "Your attack is increased while your opponent's attack is decreased for 3 turns\n";
             ManaCost = 15;
             TurnsUntilDecast = 3;
             ScalingPerLevel = 2.5;
+            Description = $"Your attack is increased by {Math.Pow(ScalingPerLevel, Level)} while your opponent's attack " +
+                          $"is decreased by {Math.Pow(ScalingPerLevel, Level)} for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"Your attack is increased by {Math.Pow(ScalingPerLevel, Level)} while your opponent's attack " +
+                          $"is decreased by {Math.Pow(ScalingPerLevel, Level)} for {TurnsUntilDecast} Turns\n";    
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
-            var difference = ScalingPerLevel * Level;
+            var difference = Math.Pow(ScalingPerLevel, Level);
             if (opponent.GetAttackValue() <= difference)
                 throw new NegativeAttackException(opponent.GetName());
             opponent.IncreaseAttackValue(-difference);

@@ -12,10 +12,11 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
         public Dreams() : base(2, 0, 0)
         {
             Name = "Dreams";
-            Description = "Makes your enemy go insane. Has no effect on monsters";
             SetActive();
             MinimumSanityReduced = 15;
             MaximumSanityReduced = 26;
+            Description = $"Makes your enemy lose between {MinimumSanityReduced} and {MaximumSanityReduced} sanity," +
+                          $" but it has no effect on monsters";
         }
 
         public override string Active(double damageDealt, Character caster, Character opponent)

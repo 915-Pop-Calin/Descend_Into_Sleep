@@ -8,11 +8,16 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public CCImmunity(): base("CC Immunity")
         {
-            Description = "You become immune to CC for a number of turns\n";
             ManaCost = 20;
             TurnsUntilDecast = 5;
+            Description = $"You become immune to CC for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You become immune to CC for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

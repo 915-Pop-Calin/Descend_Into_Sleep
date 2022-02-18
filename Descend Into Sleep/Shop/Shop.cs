@@ -143,7 +143,7 @@ namespace ConsoleApp12.Shop
             foreach (var option in TotalOptions)
             {
                 var itemType = option.Key;
-                toStr += $"{itemType} cost: {option.Value} gold\n";
+                toStr += $"{itemType}cost: {option.Value} gold\n";
             }
             Console.WriteLine(toStr);
             
@@ -158,7 +158,7 @@ namespace ConsoleApp12.Shop
                 if (currentItem != null)
                 {
                     var newCost = ReturnRate * FindCostByName(currentItem.GetName());
-                    toStr += $"{currentItem} gold: {newCost}\n";
+                    toStr += $"{currentItem}gold: {newCost}\n";
                 }
             }
             Console.WriteLine(toStr);
@@ -204,7 +204,7 @@ namespace ConsoleApp12.Shop
 
             var itemPair = SearchItemByName(itemChoice);
             if (itemPair is null)
-                throw new NotFoundItemException();
+                throw new InvalidBuyException(itemChoice);
             
             var itemPairNotNull = (KeyValuePair<Item, int>) itemPair;
             
@@ -223,6 +223,8 @@ namespace ConsoleApp12.Shop
 
         public void SellItem()
         {
+            if (HumanPlayer.IsInventoryEmpty())
+                throw new EmptyInventorySellException();
             PrintCurrentItems();
             Console.WriteLine("The item you want to sell:\n");
             var choice = Console.ReadLine();

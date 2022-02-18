@@ -33,7 +33,18 @@ namespace ConsoleApp12.CombatSystem
             return abilitiesString;
         }
 
-        private bool Action(Character secondCharacter)
+        private void CheckAbility()
+        {
+            var actions = GetActions();
+            const string question = "";
+            var choice = ConsoleHelper.MultipleChoice(14, question, actions);
+            if (choice == actions.Length - 1)
+                return;
+            var chosenAbilityDescription = Player.GetAbilityDescriptionByName(actions[choice]);
+            Console.WriteLine(chosenAbilityDescription);
+        }
+        
+        private bool Ability(Character secondCharacter)
         {
             var actions = GetActions();
 
@@ -42,7 +53,7 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(10, question, actions);
+                var choice = ConsoleHelper.MultipleChoice(14, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];
@@ -109,7 +120,7 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "check abilities", "abilities", "check stats", "equip item", "act", "spare");
                 // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
@@ -119,9 +130,12 @@ namespace ConsoleApp12.CombatSystem
                         InvalidInput = false;
                         break;
                     case 1:
+                        CheckAbility();
+                        break;
+                    case 2:
                         try
                         {
-                            if (Action(secondCharacter))
+                            if (Ability(secondCharacter))
                                 InvalidInput = false;
                         }
                         catch (NoAbilitiesException noAbilitiesException)
@@ -129,7 +143,7 @@ namespace ConsoleApp12.CombatSystem
                             Console.WriteLine(noAbilitiesException.Message);
                         }
                         break;
-                    case 2:
+                    case 3:
                         if (secondCharacter.IsSpareable())
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -137,7 +151,7 @@ namespace ConsoleApp12.CombatSystem
                         Console.WriteLine(secondCharacter);
                         Console.ResetColor();
                         break;
-                    case 3:
+                    case 4:
                         try
                         {
                             var itemsString = humanPlayer.GetInventoryItems();
@@ -167,10 +181,10 @@ namespace ConsoleApp12.CombatSystem
                             Console.WriteLine(inventoryOutOfBoundsException.Message);
                         }
                         break;
-                    case 4:
+                    case 5:
                         InvalidInput = !Act(secondCharacter);
                         break;
-                    case 5:
+                    case 6:
                         try
                         {
                             secondCharacter.Spare();

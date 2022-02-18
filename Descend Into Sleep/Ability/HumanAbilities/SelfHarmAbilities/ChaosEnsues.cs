@@ -16,11 +16,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 
         public ChaosEnsues() : base("Chaos Ensues")
         {
-            Description = "You lose all your lifesteal and health, but your opponent is stunned.\n";
             ManaCost = 50;
             TurnsUntilDecast = 3;
             SetHealthPoints = 0.5;
             TurnCooldown = 7;
+            Description = $"You are unable to life steal and your health is set to {SetHealthPoints}, but your opponent is stunned" +
+                          $" for {TurnsUntilDecast} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"You are unable to life steal and your health is set to {SetHealthPoints}, but your opponent is stunned" +
+                          $" for {TurnsUntilDecast} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

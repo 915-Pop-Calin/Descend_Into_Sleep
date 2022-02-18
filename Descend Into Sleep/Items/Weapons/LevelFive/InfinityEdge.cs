@@ -6,7 +6,7 @@
         {
             CriticalChance = 0.35;
             Name = "Infinity Edge";
-            Description = "Increases your critical strike chance by 35%";
+            Description = $"Increases your critical strike chance by {CriticalChance * 100}%";
         }        
     }
 }

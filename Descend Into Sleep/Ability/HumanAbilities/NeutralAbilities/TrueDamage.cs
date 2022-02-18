@@ -13,13 +13,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         
         public TrueDamage() : base("True Damage")
         {
-            Description = "Your armour penetration is increased for 3 turns\n";
             ManaCost = 35;
             ArmourPenetrationQueue = new Queue<double>();
             SetArmourPenetration = 0.75;
             TurnsUntilDecast = 3;
+            Description = $"Your armour penetration is increased to {SetArmourPenetration} for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"Your armour penetration is increased to {SetArmourPenetration} for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

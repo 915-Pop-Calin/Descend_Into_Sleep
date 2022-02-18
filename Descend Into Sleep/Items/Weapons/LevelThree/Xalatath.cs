@@ -9,7 +9,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         public Xalatath() : base(10, 0,0)
         {
             SetLifeSteal(0.75);
-            Description = "Strong life stealer which helps you not go insane";
+            Description = "Strong life stealer which lifesteals sanity as well";
             Name = "Xalatath";
             SetActive();
         }

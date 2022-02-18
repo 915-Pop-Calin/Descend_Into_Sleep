@@ -10,9 +10,16 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public TickingBomb() : base("Ticking Bomb")
         {
             ManaCost = 25;
-            Description = "You place a bomb upon your enemy which will deal damage to him later\n";
             ScalingPerLevel = 0.75;
             TurnsUntilDecast = 5;
+            Description = $"You place a bomb upon your enemy which will deal {ScalingPerLevel * Level} * AttackValue " +
+                          $"true damage in {TurnsUntilDecast} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"You place a bomb upon your enemy which will deal {ScalingPerLevel * Level} * AttackValue " +
+                          $"true damage in {TurnsUntilDecast} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

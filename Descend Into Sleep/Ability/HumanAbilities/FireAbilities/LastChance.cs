@@ -16,11 +16,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public LastChance() : base("Last Chance")
         {
             ManaCost = 15;
-            Description = "Your life steal is greatly increased but your defense is decreased by 200\n";
             WeaponQueue = new Queue<Weapon>();
             DefenseLost = 200;
             ScalingPerLevel = 1.5;
             TurnsUntilDecast = 2;
+            Description = $"Your Life Steal is increased by {ScalingPerLevel * Level}, but your" +
+                          $" defense is decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"Your Life Steal is increased by {ScalingPerLevel * Level}, but your" +
+                          $" defense is decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

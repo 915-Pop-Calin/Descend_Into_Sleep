@@ -12,8 +12,8 @@ namespace ConsoleApp12.Items.Potions
         public HealthPotion() : base()
         {
             Name = "Health Potion";
-            Description = "You heal for 10 health points.\n";
             HealingValue = 10;
+            Description = $"You heal for {HealingValue} health points.\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

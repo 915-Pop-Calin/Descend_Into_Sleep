@@ -12,12 +12,17 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         
         public Discourage() : base("Discourage")
         {
-            Description = "Enemy's attack value is reduced to 0 for a turn\n";
             ManaCost = 10;
             AttackValues = new Queue<double>();
             TurnsUntilDecast = 1;
+            Description = "Enemy's attack value is reduced to 0 for a Turn\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = "Enemy's attack value is reduced to 0 for a Turn\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

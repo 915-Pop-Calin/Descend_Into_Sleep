@@ -6,7 +6,7 @@
         {
             Dodge = 0.15;
             Name = "Boots Of Dodge";
-            Description = "Gives you a small change of dodging auto attacks";
+            Description = $"Gives you {Dodge * 100}% chances of dodging auto attacks";
         }        
     }
 }

@@ -12,9 +12,9 @@ namespace ConsoleApp12.Items.Potions
         public OffensePotion() : base()
         {
             Name = "Offense Potion";
-            Description = "You gain attack, but lose defense points in return.\n";
             AttackGained = 20;
             DefenseLost = 20;
+            Description = $"You gain {AttackGained} attack, but you lose {DefenseLost} defense permanently\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

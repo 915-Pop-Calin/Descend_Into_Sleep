@@ -14,9 +14,16 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public BurningLava() : base("Burning Lava")
         {
             ManaCost = 20;
-            Description = "Your opponent takes damage over some turns proportional to your missing health.\n";
             NumberOfTurns = 5;
             MissingHealthPercentageTransformed = 0.5;
+            Description = $"Your opponent takes {Level * MissingHealthPercentageTransformed} * missingHealth true " +
+                          $"damage over {NumberOfTurns} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"Your opponent takes {Level * MissingHealthPercentageTransformed} * missingHealth true " +
+                          $"damage over {NumberOfTurns} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

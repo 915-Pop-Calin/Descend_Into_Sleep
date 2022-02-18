@@ -12,11 +12,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 
         public Pyroblast() : base("Pyroblast")
         {
-            ManaCost = 50;
-            Description = "Your opponent takes damage over 7 turns proportional to your attack and this ability's level\n";
+            ManaCost = 50; 
             ScalingPerLevel = 1.5;
             NumberOfTurns = 7;
             TurnsUntilDecast = 7;
+            Description = $"Your opponent takes {ScalingPerLevel * Level} * AttackValue true damage over " +
+                          $"{NumberOfTurns} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"Your opponent takes {ScalingPerLevel * Level} * AttackValue true damage over " +
+                          $"{NumberOfTurns} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

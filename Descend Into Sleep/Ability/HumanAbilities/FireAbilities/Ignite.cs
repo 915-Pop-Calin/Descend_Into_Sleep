@@ -12,12 +12,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
         public Ignite() : base("Ignite")
         {
             ManaCost = 25;
-            Description =  "Your opponent takes damage proportional to the level of the ability over 5 turns and has " +
-                           "their defense decreased\n";
             ScalingPerLevel = 5;
             NumberOfTurns = 5;
             DefenseLost = 20;
             TurnsUntilDecast = 3;
+            Description =  $"Your opponent takes {ScalingPerLevel * Level} true damage over {NumberOfTurns} Turns" +
+                           $" and have their defense decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description =  $"Your opponent takes {ScalingPerLevel * Level} true damage over {NumberOfTurns} Turns" +
+                           $" and have their defense decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

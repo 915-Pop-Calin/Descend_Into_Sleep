@@ -14,12 +14,17 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         
         public Focus() : base("Focus")
         {
-            Description = "You gain some of your sanity back\n";
             ManaCost = 15;
             MinimumSanityRestored = 10;
             MaximumSanityRestored = 41;
+            Description = $"You restore between {MinimumSanityRestored} and {MaximumSanityRestored} sanity back\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You restore between {MinimumSanityRestored} and {MaximumSanityRestored} sanity back\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

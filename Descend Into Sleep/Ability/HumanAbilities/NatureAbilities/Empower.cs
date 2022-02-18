@@ -9,9 +9,14 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
     {
         public Empower() : base("Empower")
         {
-            Description = "You heal based on your missing health.\n";
             ManaCost = 25;
             ScalingPerLevel = 0.1;
+            Description = $"You heal {ScalingPerLevel * Level} * missingHealth health\n";
+        }
+
+        public override void ResetDescription()
+        {
+            Description = $"You heal {ScalingPerLevel * Level} * missingHealth health\n";
         }
 
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

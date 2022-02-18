@@ -11,8 +11,8 @@ namespace ConsoleApp12.Items.Potions
         public ManaElixir() : base()
         {
             Name = "Mana Elixir";
-            Description = "You restore 1.5 mana per level.\n";
             ManaRestoredPerLevel = 1.5;
+            Description = $"You restore {ManaRestoredPerLevel} mana per level.\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

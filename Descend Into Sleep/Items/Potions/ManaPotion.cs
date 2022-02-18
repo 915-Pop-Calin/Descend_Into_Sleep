@@ -12,8 +12,8 @@ namespace ConsoleApp12.Items.Potions
         public ManaPotion(): base()
         {
             Name = "Mana Potion";
-            Description = "You restore 10 mana.\n";
             RestoredValue = 10;
+            Description = $"You restore {RestoredValue} mana\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

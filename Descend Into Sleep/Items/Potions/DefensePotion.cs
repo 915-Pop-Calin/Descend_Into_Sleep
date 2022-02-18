@@ -12,10 +12,10 @@ namespace ConsoleApp12.Items.Potions
         
         public DefensePotion(): base()
         {
-            Description = "You increase your defense points at the cost of your health.\n";
             Name = "Defense Potion";
             DefenseGained = 20;
             HealthLost = 5;
+            Description = $"You gain {DefenseGained} defense, but you lose {HealthLost} health permanently\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

@@ -20,7 +20,6 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
         
         public Shapeshift() : base("Shapeshift")
         {
-            Description = "You shapeshift and increase all your stats.\n";
             StatsGainedQueue = new Queue<List<double>>();
             ManaCost = 50;
             TurnsUntilDecast = 3;
@@ -28,8 +27,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             HealthScalingPerLevel = 30;
             AttackScalingPerLevel = 15;
             TurnCooldown = 7;
+            Description = $"You shapeshift and gain {ArmourScalingPerLevel * Level} armour, " +
+                          $"{HealthScalingPerLevel * Level} health and {AttackScalingPerLevel * Level} attack " +
+                          $"for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You shapeshift and gain {ArmourScalingPerLevel * Level} armour, " +
+                          $"{HealthScalingPerLevel * Level} health and {AttackScalingPerLevel * Level} attack " +
+                          $"for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             if (!Available)

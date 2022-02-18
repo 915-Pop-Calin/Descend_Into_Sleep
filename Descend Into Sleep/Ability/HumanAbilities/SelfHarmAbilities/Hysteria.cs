@@ -11,18 +11,25 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         
         public Hysteria() : base("Hysteria")
         {
-            Description = "You gain attack depending on your missing health.\n";
             ManaCost = 25;
             IncreasedDamageQueue = new Queue<double>();
             TurnsUntilDecast = 3;
+            Description = $"You gain (0.3 + percentageMissingHealth) ** {Level} attack for" +
+                          $" {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You gain (0.3 + percentageMissingHealth) ** {Level} attack for" +
+                          $" {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
             var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
             var totalHealth = caster.GetMaximumHealthPoints();
-            var percentageMissing = missingHealth / totalHealth;
+            var percentageMissing = 0.3 + missingHealth / totalHealth;
             var damageIncrease = Math.Pow(percentageMissing, Level);
             var attackIncrease = caster.GetAttackValue() * damageIncrease;
             IncreasedDamageQueue.Enqueue(attackIncrease);

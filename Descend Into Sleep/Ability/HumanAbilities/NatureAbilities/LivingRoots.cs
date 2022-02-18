@@ -11,13 +11,20 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
         
         public LivingRoots() : base("Living Roots")
         {
-            Description = "You stun your opponent for 2 turns, but he becomes immune to stuns afterwards\n";
             ManaCost = 25;
             TurnsUntilDecast = 3;
             MinimumNumberOfImmuneTurns = 11;
+            Description = $"You stun your opponent for {TurnsUntilDecast} Turns, but they become immune to stuns " +
+                          $"for {MinimumNumberOfImmuneTurns - Level} Turns\n";
 
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You stun your opponent for {TurnsUntilDecast} Turns, but they become immune to stuns " +
+                          $"for {MinimumNumberOfImmuneTurns - Level} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

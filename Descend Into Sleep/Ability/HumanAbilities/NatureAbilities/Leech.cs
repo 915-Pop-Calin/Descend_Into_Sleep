@@ -12,13 +12,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
         
         public Leech() : base("Leech")
         {
-            Description = "You leech your opponent off armour proportional to your opponent's defense value\n";
             ManaCost = 30;
             ArmourLeechedQueue = new Queue<double>();
             TurnsUntilDecast = 3;
-            ScalingPerLevel = 0.04;
+            ScalingPerLevel = 0.04; 
+            Description = $"You leech {ScalingPerLevel * Level} * OpponentDefenseValue armour off your opponent\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You leech {ScalingPerLevel * Level} * OpponentDefenseValue armour off your opponent\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

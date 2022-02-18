@@ -9,10 +9,15 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public CleanseDOT() : base("Cleanse DOT")
         {
-            Description = "You clear all the DOT effects which are currently affecting you\n";
             ManaCost = 15;
+            Description = "You clear all the DOT effects which are currently affecting you\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = "You clear all the DOT effects which are currently affecting you\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

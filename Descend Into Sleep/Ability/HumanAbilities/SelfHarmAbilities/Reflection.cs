@@ -9,11 +9,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
     {
         public Reflection() : base("Reflection")
         {
-            Description = "You take some damage and all mitigated damage is reflected on your opponent.\n";
             ManaCost = 30;
             ScalingPerLevel = 70;
+            Description = $"You take {ScalingPerLevel * Level} damage and all the mitigated damage is " +
+                          $"reflected upon your opponent\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You take {ScalingPerLevel * Level} damage and all the mitigated damage is " +
+                          $"reflected upon your opponent\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

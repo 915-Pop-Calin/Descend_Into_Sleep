@@ -6,16 +6,19 @@ namespace ConsoleApp12.Items.Armours.LeverFour
 {
     public class FireDeflector:  Armour
     {
+        private readonly double DeflectionChance;
+        
         public FireDeflector(): base(0, 75, 0)
         {
             SetActive();
+            DeflectionChance = 0.1;
             Name = "Fire Deflector";
-            Description = "Has the chance to deflect all DOT effects on his enemies";
+            Description = $"Has {DeflectionChance * 100}% chance to deflect all DOT effects on the enemy";
         }
 
         public override string Active(double damageDealt, Character caster, Character opponent)
         {
-            var willDeflect = RandomHelper.IsSuccessfulTry(0.1);
+            var willDeflect = RandomHelper.IsSuccessfulTry(DeflectionChance);
             var toStr = "";
             if (willDeflect)
             {

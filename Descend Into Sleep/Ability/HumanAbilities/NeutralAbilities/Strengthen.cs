@@ -8,12 +8,19 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public Strengthen() : base("Strengthen")
         {
-            Description = "Your attack and defense are increased for 3 turns\n";
             ManaCost = 15;
             TurnsUntilDecast = 3;
             ScalingPerLevel = 2.5;
+            Description = $"Your attack and defense are increased by {Math.Pow(ScalingPerLevel, Level)} " +
+                          $"for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"Your attack and defense are increased by {Math.Pow(ScalingPerLevel, Level)} " +
+                          $"for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

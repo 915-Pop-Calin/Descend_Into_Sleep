@@ -12,13 +12,20 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         
         public UndyingWill() : base("Undying Will")
         {
-            Description = "Your attack damage is greatly increased, but you die after 3 turns\n";
             ManaCost = 75;
             TurnsUntilDecast = 3;
             AttackValuesQueue = new Queue<double>();
             PercentageIncreased = 2;
+            Description = $"Your attack damage is increased by {PercentageIncreased} * AttackValue, " +
+                          $"but you die after {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"Your attack damage is increased by {PercentageIncreased} * AttackValue, " +
+                          $"but you die after {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
@@ -27,7 +34,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             AttackValuesQueue.Enqueue(increasedAttackValue);
             caster.IncreaseAttackValue(increasedAttackValue);
             toStr += $"{caster.GetName()}'s attack value was increased with {Math.Round(increasedAttackValue, 2)}. " +
-                     $"You have 3 turns until you die!\n";
+                     $"You have {TurnsUntilDecast} turns until you die!\n";
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)}!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;

@@ -319,10 +319,12 @@ namespace ConsoleApp12.Levels
                             {
                                 int requiredLevel = 5 * Number - 1;
                                 if (Player.GetLevel() < requiredLevel)
-                                    Console.WriteLine($"Too low level to proceed, you must be level {requiredLevel}!\n");
+                                    Console.WriteLine(
+                                        $"Too low level to proceed, you must be level {requiredLevel}!\n");
                                 else
                                     decision = "Proceed";
                             }
+
                             break;
                         case 1:
                             PlayerOptions();
@@ -379,6 +381,14 @@ namespace ConsoleApp12.Levels
                 catch (InvalidInputTypeException invalidInputTypeException)
                 {
                     Console.WriteLine(invalidInputTypeException.Message);
+                }
+                catch (InvalidBuyException invalidBuyException)
+                {
+                    Console.WriteLine(invalidBuyException.Message);
+                }
+                catch (EmptyInventorySellException emptyInventorySellException)
+                {
+                    Console.WriteLine(emptyInventorySellException.Message);
                 }
             }
         }

@@ -5,8 +5,8 @@
         public WillPower() : base(0, 10, 0)
         {
             Name = "Will Power";
-            Description = "Gives you a little sanity";
             Sanity = 50;
+            Description = $"Gives you {Sanity} extra sanity";
         }
     }
 }

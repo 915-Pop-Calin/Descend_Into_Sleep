@@ -11,8 +11,8 @@ namespace ConsoleApp12.Items.Potions
         public SanityPotion(): base()
         {
             Name = "Sanity Potion";
-            Description = "You restore 30 of your sanity.\n";
             SanityRestoringValue = 30;
+            Description = $"You restore {SanityRestoringValue} of your sanity.\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

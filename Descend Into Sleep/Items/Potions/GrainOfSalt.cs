@@ -11,8 +11,8 @@ namespace ConsoleApp12.Items.Potions
         public GrainOfSalt() : base()
         {
             Name = "Grain Of Salt";
-            Description = "You heal for 1.5 health points per level.\n";
             HealingPerLevel = 1.5;
+            Description = $"You heal for {HealingPerLevel} * Level.\n";
         }
 
         public override string UseItem(HumanPlayer humanPlayer)

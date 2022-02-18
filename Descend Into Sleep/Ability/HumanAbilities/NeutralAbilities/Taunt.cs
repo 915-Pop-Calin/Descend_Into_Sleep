@@ -10,12 +10,19 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
     {
         public Taunt() : base("Taunt")
         {
-            Description = "Your opponent's attack and defense values are decreased for 3 turns\n";
             ManaCost = 15;
             TurnsUntilDecast = 3;
             ScalingPerLevel = 2.5;
+            Description = $"Your opponent's attack and defense values are decreased by {Math.Pow(ScalingPerLevel, Level)}" +
+                          $" for {TurnsUntilDecast} turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"Your opponent's attack and defense values are decreased by {Math.Pow(ScalingPerLevel, Level)}" +
+                          $" for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var valueDecreased = Math.Pow(ScalingPerLevel, Level);

@@ -396,19 +396,14 @@ namespace ConsoleApp12.Characters.MainCharacters
         
         public string ShowInventory()
         {
+            if (IsInventoryEmpty())
+                return "Inventory is Empty!\n";
             var toStr = "";
-            var empty = true;
             foreach (var item in Inventory)
             {
                 if (item != null)
-                {
                     toStr += item.ToString();
-                    empty = false;
-                }
             }
-
-            if (empty)
-                return "Empty Inventory\n";
             return toStr;
         }
 
@@ -462,6 +457,14 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             for (int i = 0; i < 8; i++)
                 Inventory[i] = null;
+        }
+
+        public bool IsInventoryEmpty()
+        {
+            foreach (var item in Inventory)
+                if (item != null)
+                    return false;
+            return true;
         }
         
         public override string Cast(string abilityName, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)

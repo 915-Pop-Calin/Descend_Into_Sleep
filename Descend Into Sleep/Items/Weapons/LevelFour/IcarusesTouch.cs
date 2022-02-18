@@ -7,10 +7,10 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
         public IcarusesTouch() : base(0, 3, 0)
         {
             Name = "Icarus's Touch";
-            Description = "Very strong DOTer";
             var dotEffect = new DotEffect(5, 3);
             DotEffect = dotEffect;
             SetActive();
+            Description = "Puts a DOT on the enemy taking 3 damage per turn for 5 turns";
         }
 
         public override string Active(double damageDealt, Character caster, Character opponent)

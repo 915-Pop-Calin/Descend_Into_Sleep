@@ -6,7 +6,7 @@
         {
             Name = "Ninja Yoroi";
             Dodge = 0.5;
-            Description = "Armour with no defense points but gives 50% dodge chance";
+            Description = $"Armour with no defense points but gives {100 * Dodge}% dodge chance";
         }
     }
 }

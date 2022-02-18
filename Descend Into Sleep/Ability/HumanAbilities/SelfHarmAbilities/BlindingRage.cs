@@ -15,15 +15,22 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
         
         public BlindingRage() : base("Blinding Rage")
         {
-            Description = "Your Attack doubles while your defense is halved for 3 turns.\n";
             ManaCost = 15;
             DefenseLostQueue = new Queue<double>();
             AttackGainedQueue = new Queue<double>();
             DefensePercentageLost = 0.5;
             AttackPercentageGained = 1;
             TurnsUntilDecast = 3;
+            Description = $"You gain {AttackPercentageGained} * AttackValue while losing " +
+                          $"{DefensePercentageLost} * DefenseValue for {TurnsUntilDecast} Turns\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You gain {AttackPercentageGained} * AttackValue while losing " +
+                          $"{DefensePercentageLost} * DefenseValue for {TurnsUntilDecast} Turns\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

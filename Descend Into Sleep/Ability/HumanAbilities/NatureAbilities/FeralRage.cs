@@ -12,13 +12,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 
         public FeralRage() : base("Feral Rage")
         {
-            Description = "You gain armour proportional to your attack value and to the level of this ability\n";
             ManaCost = 25;
             GainedArmourQueue = new Queue<double>();
             ScalingPerLevel = 0.2;
             TurnsUntilDecast = 3;
+            Description = $"You gain {ScalingPerLevel * Level} * AttackValue armour\n";
         }
 
+        public override void ResetDescription()
+        {
+            Description = $"You gain {ScalingPerLevel * Level} * AttackValue armour\n";
+        }
+        
         public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);

@@ -13,7 +13,7 @@ namespace ConsoleApp12.Items.Armours.LevelSix
             SetActive();
             Name = "The Ring";
             DamageIncrease = 1;
-            Description = "Scaling weapon. Starts off very weak but gains one attack on each attack";
+            Description = $"You gain {DamageIncrease} attack each attack";
         }
 
         public override string Active(double damageDealt, Character caster, Character opponent)

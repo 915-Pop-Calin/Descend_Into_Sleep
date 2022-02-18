@@ -29,24 +29,20 @@ namespace ConsoleApp12.Ability
             return $"{Description}level:{Level}\nmana cost:{ManaCost}\n";
         }
 
+        public virtual void ResetDescription()
+        {
+            
+        }
+
         public void LevelUp()
         {
             Level++;
+            ResetDescription();
         }
 
         public int GetLevel()
         {
             return Level;
-        }
-
-        public void SetAvailability(bool availability)
-        {
-            Available = availability;
-        }
-
-        public bool IsAvailable()
-        {
-            return Available;
         }
 
         public double GetManaCost()

@@ -358,6 +358,11 @@ namespace ConsoleApp12.Characters
             RespectiveAbilities[abilityName] = ability;
         }
 
+        public string GetAbilityDescriptionByName(string name)
+        {
+            return RespectiveAbilities[name].GetDescription();
+        }
+        
         public virtual string Cast(string abilityName, Character opponent,
             Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {

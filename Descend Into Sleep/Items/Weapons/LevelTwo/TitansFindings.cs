@@ -13,9 +13,9 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         {
             SetActive();
             Name = "Titan's Findings";
-            Description = "You restore sanity whenever you attack";
             MinimumSanityReduced = 1;
-            MaximumSanityReduced = 10;
+            MaximumSanityReduced = 10;       
+            Description = $"You restore between {MinimumSanityReduced} and {MaximumSanityReduced} sanity whenever you attack";
         }
 
         public override string Active(double damageDealt, Character caster, Character opponent)
