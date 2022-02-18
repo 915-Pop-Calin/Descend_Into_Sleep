@@ -1,6 +1,59 @@
 Welcome to Descend into Sleep, my C# RPG Game! Here are the patch notes for the past few patches
 
-<b>PLAY THE GAME WITH THE CONSOLE ON FULL SCREEN TO REDUCE THE NUMBER OF BUGS</b>
+<b>PLAY THE GAME WITH THE CONSOLE ON FULL SCREEN - Game becomes buggy when the Console is not maximized
+  
+Some bosses may be unfair, the last bosses are all overtuned or undertuned and some sidebosses are extremely overtuned or extremely undertuned - and that's fine because I'll tune their number with time, so if you feel a boss is unfair or if you find a bug, just bring it up to me
+  
+To run the game, you'll need to download the latest release (1.0.0.0) and then run into command line "Descend Into Sleep.exe"</b>
+
+<b>Patch Notes 1.0.0</b>
+
+Finally, I consider that all implementations that I wanted to implement were done, so I am releasing the 1.0.0.0 Version.
+Of course, there are going to be several bugs and there will be balance patches required to balance the game, but the implementations are mostly done!
+- <i>TentacleMenace</i>'s <i>Armour</i> was nerfed from 10 to -100
+- Fixed a bug where you couldn't buy items containing the letter X
+- Fixed a bug where <i>Titan's Findings</i> wouldn't restore <i>Sanity</i> on hit
+- Now, to buy multiple items you must use * instead of X
+- <i>RandomHelper</i> helps us generate random stuff and decide random outcomes instead of reusing the same code every time
+- Each character has a bool <i>Spared</i>, a list of <i>Actions</i> which must be performed in a certain order and a <i>ChanceOfSuccessfulAct</i> in order to spare it
+- You can <i>Act</i> in a fight and <i>Spare</i> a character instead of killing it
+- You can't run multiple instances of <i>Descend Into Sleep</i> by running a <i>Mutex</i> with a specific name
+- <i>Game</i> now exists through <i>Exit Game Exceptions</i> so we can free the mutex
+- We have 4 possible <i>Exit Game Exceptions</i>: <i>Game Over Exception</i> and one for each ending: <i>Pacifist/Neutral/Genocide Ending Exception</i>
+- Some <i>SideEnemy</i> classes are now abstract
+- <i>Spareable</i> enemies are yellow when checking their stats
+- When you <i>Act</i> successfully in combat, the <i>Attack</i> of the enemy is reduced according to a formula given by <i>FormulaHelper</i> for which I have studied several functions, but I observed one function that is best for this purpose
+- <i>Serialization</i> is now done manually instead of using JSON, so <i>corruption</i> is easier to spot and easier to point out to the user
+- Depending on <i>file corruption</i> type, we can have three types of exceptions: <i>Invalid Length Exception</i> (file is too short), <i>Invalid Values Exception</i> (values in the file are not valid) and <i>Invalid Format Exception</i> (format is not proper on a line, for example we need an integer but we have a string literal there)
+- All sums of strings are now done using string <i>interpolation</i> because it looks nicer
+- <i>PastSelf</i> is now its own class for one of the endings
+- Now we don't open the files every time we can, but we keep the information stored after start-up and change it when we save, so a change there while the app is running can cause chaos, but it runs way faster than before
+- Now, whenever a stat changes (Health, Attack, etc.) its new value is written for clarity and debugging purposes
+- Some unnecessary functions were removed
+- Everything printed on the console is rounded to 2 digits
+- <i>Genocide</i> and <i>Neutral</i> ending bosses added
+- Now you can level up multiple times after a fight
+- Now there's a finite number of sidebosses and they're saved in the file
+- Instead of <i>IsAutoattacker</i>, now it works by a <i>GetAutoattackOdds</i> which tells us how likely a character is to attack
+- The list of enemies is given to a level when you load
+- <i>Acts</i> have been implemented for each boss
+- Due to a bug with the <i>ConsoleHelper</i>, I was required to change the following ability names due to their names being too long: <i>NatureCleansing</i> was changed into <i>Empower</i>, <i>UltimateMadness</i> was changed into <i>Hysteria</i> and <i>ChaoticReflection</i> was changed into <i>Reflection</i>
+- Now you start with 30 <i>Gold</i> instead of 0 <i>Gold</i> so you don't depend on RNG early on
+- <i>SonOfTheSun</i> was renamed into <i>FlameOfTheSun</i>
+- <i>Experience</i> gained after each battle isn't written anymore on the Console 
+- <i>ExperiencePoints</i> were buffed so that you don't have to grind for Maximum Level
+- Fixed a bug with <i>Madness Hit</i> where it would consider <i>MaximumSanity</i> to always be 100
+- Now you can see your <i>Inventory</i> as a table and choose items to equip with the keys instead of having to write their names
+- <i>Effect</i> is now called <i>Active</i> so an item can have either an <i>Active</i> or a <i>Passive</i>
+- <i>SteelPlateau</i> and <i>BoilingBlood</i> now have <i>Passives</i> instead of <i>Actives</i> because it makes more sense
+- The last boss can realistically be beaten now only by going through all his phases, because <i>Reflector</i> Items do not take ability damage
+- Changed a small detail in the <i>Genocide Route</i> regarding the dialogue
+- Now the descriptions of abilities and items are detailed with regard to the numbers
+- Now you can see abilities description while in combat
+- Now it will show an error message when the inventory is empty and you're trying to sell something
+- The order of the actions shown when trying to <i>Act</i> is randomized so you can't figure out the exact order easily
+- <i>Save File</i> errors now mention their Save File number, not their exact file path
+- Now <i>Enemies</i> lose attack when successfully acting depending on their unbuffed attack value
 
 <b>Patch Notes 0.4.0</b>
 - Fixed a bug where you couldn't sell any item
