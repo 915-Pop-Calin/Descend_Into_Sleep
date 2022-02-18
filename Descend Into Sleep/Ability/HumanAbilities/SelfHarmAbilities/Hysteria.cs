@@ -5,11 +5,11 @@ using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
-    public class UltimateMadness: Ability
+    public class Hysteria: Ability
     {
         private Queue<double> IncreasedDamageQueue;
         
-        public UltimateMadness() : base("Ultimate Madness")
+        public Hysteria() : base("Hysteria")
         {
             Description = "You gain attack depending on your missing health.\n";
             ManaCost = 25;

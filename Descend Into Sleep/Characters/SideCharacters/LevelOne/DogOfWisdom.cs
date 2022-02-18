@@ -7,12 +7,9 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
 {
     public class DogOfWisdom: SideEnemy
     {
-        public DogOfWisdom() : base("Dog of Wisdom", 3, 3, AllItems.ToyKnife, AllItems.Bandage, 25)
+        public DogOfWisdom() : base("Dog of Wisdom", 3, 3, AllItems.ToyKnife, AllItems.Bandage, 
+            25, new List<string> { "pet", "run at", "love"}, 0.99, 1)
         {
-            Level = 1;
-            Actions = new List<string> { "pet", "run at", "love"};
-            OrderOfActions = new Queue<string>(new [] {"run at", "pet", "love"});
-            ChanceOfSuccessfulAct = 0.99;
         }
     }
 }

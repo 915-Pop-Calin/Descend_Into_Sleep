@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Ability.CthulhuAbilities;
+﻿using System.Collections.Generic;
+using ConsoleApp12.Ability.CthulhuAbilities;
 using ConsoleApp12.Ability.IcarusAbilities;
 using ConsoleApp12.Ability.SauronAbilities;
 using ConsoleApp12.Items;
@@ -9,7 +10,8 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
 
         private FinalAmalgamation() : base("Final Amalgamation", 40, 300, AllItems.InfinityEdge, AllItems.LastStand,
-            1000, "We actually don't know where this came from")
+            1000, new List<string>{"feed", "caress", "tame", "take care of", "reassure", "enlighten"},
+            0.2, 7,"We actually don't know where this came from")
         {
             Level = 7;
             AddAbility(new Burn());

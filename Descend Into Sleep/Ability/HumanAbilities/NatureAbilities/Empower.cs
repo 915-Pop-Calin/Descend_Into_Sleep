@@ -5,9 +5,9 @@ using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 {
-    public class NatureCleansing: Ability
+    public class Empower: Ability
     {
-        public NatureCleansing() : base("Nature Cleansing")
+        public Empower() : base("Empower")
         {
             Description = "You heal based on your missing health.\n";
             ManaCost = 25;

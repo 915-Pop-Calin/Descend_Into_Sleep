@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ConsoleApp12.Ability.PastSelfAbilities;
+using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
@@ -42,10 +44,8 @@ namespace ConsoleApp12.Game
             
             Player = humanPlayer;
             SetLevels();
-            Player.JumpToGivenLevel(34);
-            Level = 7;
         }
-
+        
         private void SetLevels()
         {
             Levels = new List<Level>()

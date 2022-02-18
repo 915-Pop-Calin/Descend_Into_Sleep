@@ -12,7 +12,8 @@ namespace ConsoleApp12.Characters.SideCharacters
         private readonly double MaximumPercentageReduced;
         
         public VoidSideEnemy(string name, double attackValue, double defenseValue, Weapon weapon, Armour armour,
-            double healthValue) : base(name, attackValue, defenseValue, weapon, armour, healthValue)
+            double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) : 
+            base(name, attackValue, defenseValue, weapon, armour, healthValue, actions, chanceOfSuccessfulAct, level)
         {
             MinimumPercentageReduced = 0.75;
             MaximumPercentageReduced = 1.25;

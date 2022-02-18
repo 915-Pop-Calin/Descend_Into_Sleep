@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ConsoleApp12.Ability.YoggSaronAbilities;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelThree;
@@ -11,9 +12,8 @@ namespace ConsoleApp12.Characters.MainCharacters
         private int DiscourageCounter;
         
         private YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
-            int.MaxValue, "The God Of Death")
+            int.MaxValue, new List<string>{"beg for mercy", "pray", "worship"}, 0, 3, "The God Of Death")
         {
-            Level = 3;
             DiscourageCounter = 3;
         }
 
@@ -46,6 +46,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         private void FormChange()
         {
             Console.WriteLine("Avatar of Yogg Saron appears!\n");
+            ChanceOfSuccessfulAct = 0.6;
             Name = "Avatar of Yogg Saron";
             InnateAttack = 10;
             InnateDefense = 100;

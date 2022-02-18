@@ -5,9 +5,9 @@ using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
-    public class ChaoticReflection: Ability
+    public class Reflection: Ability
     {
-        public ChaoticReflection() : base("Chaotic Reflection")
+        public Reflection() : base("Reflection")
         {
             Description = "You take some damage and all mitigated damage is reflected on your opponent.\n";
             ManaCost = 30;

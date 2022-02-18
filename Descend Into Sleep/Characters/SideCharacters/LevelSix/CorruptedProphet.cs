@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Items;
+﻿using System.Collections.Generic;
+using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelThree;
 
@@ -6,9 +7,9 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelSix
 {
     public class CorruptedProphet: PhysicalVoidSideEnemy
     {
-        public CorruptedProphet() : base("Corrupted Prophet", 60, -20, AllItems.BoilingBlood, AllItems.LastStand, 100)
+        public CorruptedProphet() : base("Corrupted Prophet", 60, -20, AllItems.BoilingBlood, AllItems.LastStand, 
+            100, new List<string>{"analyse", "understand", "explain yourself", "purify"}, 0.5, 6)
         {
-            Level = 6;
         }
     }
 }

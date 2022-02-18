@@ -6,12 +6,9 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
 {
     public class DogOfWrath: SideEnemy
     {
-        public DogOfWrath() : base("Dog Of Wrath", 6, 3, AllItems.Eclipse, AllItems.NoArmour, 15)
+        public DogOfWrath() : base("Dog Of Wrath", 6, 3, AllItems.Eclipse, AllItems.NoArmour, 
+            15, new List<string> { "pet", "run at", "love"}, 0.99, 1)
         {
-            Level = 1;
-            Actions = new List<string> { "pet", "run at", "love"};
-            OrderOfActions = new Queue<string>(new [] {"run at", "pet", "love"});
-            ChanceOfSuccessfulAct = 0.99;
         }
     }
 }

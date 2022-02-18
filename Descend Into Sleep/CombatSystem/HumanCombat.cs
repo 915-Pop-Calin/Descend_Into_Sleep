@@ -41,7 +41,7 @@ namespace ConsoleApp12.CombatSystem
                 if (actions.Length == 0)
                     throw new NoAbilitiesException();
                 const string question = "";
-                var choice = Utils.keysWork.Utils.MultipleChoice(10, question, actions);
+                var choice = Utils.keysWork.Utils.MultipleChoice(14, question, actions);
                 if (choice == actions.Length - 1)
                     return false;
                 var chosenAbilityKey = actions[choice];
@@ -107,8 +107,8 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
-                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
+                var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item", "act", "spare");
+                // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
                     case 0:
@@ -176,7 +176,7 @@ namespace ConsoleApp12.CombatSystem
         {
             var humanPlayer = (HumanPlayer) Player;
             var hasLeveled = humanPlayer.GainExperience(experienceToGain);
-            Console.WriteLine($"You have gained {experienceToGain} experience!\n");
+            // Console.WriteLine($"You have gained {experienceToGain} experience!\n");
             if (hasLeveled)
                 Console.WriteLine($"Level up! Level {humanPlayer.GetLevel()}!\n");
             Console.WriteLine($"You have gained {goldToGain} gold!\n");

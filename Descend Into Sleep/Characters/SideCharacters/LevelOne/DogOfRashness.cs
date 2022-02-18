@@ -9,12 +9,9 @@ namespace ConsoleApp12.Characters.SideCharacters.LevelOne
     {
         
         
-        public DogOfRashness(): base("Dog Of Rashness", 7, 1, AllItems.Eclipse, AllItems.Bandage, 15)
+        public DogOfRashness(): base("Dog Of Rashness", 7, 1, AllItems.Eclipse, AllItems.Bandage, 
+            15, new List<string> { "pet", "run at", "love"}, 0.99, 1)
         {
-            Level = 1;
-            Actions = new List<string> { "pet", "run at", "love"};
-            OrderOfActions = new Queue<string>(new [] {"run at", "pet", "love"});
-            ChanceOfSuccessfulAct = 0.99;
         }
         
     }

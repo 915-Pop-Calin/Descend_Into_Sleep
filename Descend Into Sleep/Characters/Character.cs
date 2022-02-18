@@ -23,7 +23,7 @@ namespace ConsoleApp12.Characters
         protected double MaximumHealth;
         protected string Description;
         protected int Level;
-        protected Dictionary<string, Ability.Ability> RespectiveAbilities;
+        protected readonly Dictionary<string, Ability.Ability> RespectiveAbilities;
         private int Stunned;
         private List<DotEffect> DotEffects;
         protected double MaxSanity;
@@ -33,13 +33,13 @@ namespace ConsoleApp12.Characters
         protected double Mana;
         protected double ManaRegenerationRate;
         private bool Spared;
-        protected List<string> Actions;
-        protected Queue<string> OrderOfActions;
+        private readonly List<string> Actions;
+        private readonly Queue<string> OrderOfActions;
         protected double ChanceOfSuccessfulAct;
-        private bool CanLifesteal;
+        private bool CanLifeSteal;
 
-        public Character(string name, double innateAttack, double innateDefense, Weapon weapon, Armour armour,
-            double health, string description = null)
+        protected Character(string name, double innateAttack, double innateDefense, Weapon weapon, Armour armour,
+            double health, List<string> actions = null, double chanceOfSuccessfulAct = -1,  int level = 0, string description = null)
         {
             Name = name;
             InnateAttack = innateAttack;
@@ -65,12 +65,14 @@ namespace ConsoleApp12.Characters
             Mana = 100;
             ManaRegenerationRate = 0.03125;
             Spared = false;
-            OrderOfActions = new Queue<string>();
-            Actions = new List<string>();
-            ChanceOfSuccessfulAct = 1;
-            CanLifesteal = true;
+            Actions = actions;
+            // shuffle Actions
+            OrderOfActions = actions != null ? new Queue<string>(actions) : null;
+            ChanceOfSuccessfulAct = chanceOfSuccessfulAct;
+            CanLifeSteal = true;
+            Level = level;
         }
-
+        
         public int GetLevel()
         {
             return Level;
@@ -299,7 +301,7 @@ namespace ConsoleApp12.Characters
             toStr += $"{Name} now has {Math.Round(Mana, 2)} mana!\n";
             if (Weapon.HasEffect())
                 toStr += Weapon.Effect(dealtDamage, this, opponent);
-            if (CanLifesteal && Weapon.GetLifeSteal() != 0)
+            if (CanLifeSteal && Weapon.GetLifeSteal() != 0)
                 toStr += LifeSteal(dealtDamage);
             if (Armour.HasEffect())
                 toStr += Armour.Effect(dealtDamage, this, opponent);
@@ -432,7 +434,7 @@ namespace ConsoleApp12.Characters
 
         public void SetLifeStealStatus(bool status)
         {
-            CanLifesteal = status;
+            CanLifeSteal = status;
         }
         
         public void SetStunResistant(bool truthValue)
@@ -511,7 +513,10 @@ namespace ConsoleApp12.Characters
                 if (OrderOfActions.Count != 0)
                 {
                     OrderOfActions.Dequeue();
-                    var lostAttack = 0.005;
+
+                    int actsLeft = OrderOfActions.Count, totalActs = Actions.Count;
+                    // we might have to change Attack for InnateAttack, or compute differently
+                    var lostAttack = FormulaHelper.GetAttackValueDifference(actsLeft, totalActs, Attack);
                     toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!";
                     InnateAttack -= lostAttack;
                     Attack -= lostAttack;
@@ -542,7 +547,8 @@ namespace ConsoleApp12.Characters
         public override string ToString()
         {
             return $"{Name}: {Health} HEALTH, {Defense} DEFENSE, {Attack} ATTACK" +
-                        $"\n{Description}\n{Weapon}{Armour}{GetStatus()}";
+                   $"\n{Description}\n{Weapon}{Armour}";
+            // + $"{GetStatus()}";
         }
     }
 }

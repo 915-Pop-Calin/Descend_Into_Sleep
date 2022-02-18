@@ -36,7 +36,6 @@ namespace ConsoleApp12.Utils
                     var emptySpaces = spacingPerLine + 2 - options[i].Length;
                     if (emptySpaces % 2 == 1)
                         emptySpaces += 1;
-                    
                     currentPosition += emptySpaces / 2;
                     Console.SetCursorPosition(currentPosition, topConsole + 1);
                     if(i == currentSelection)

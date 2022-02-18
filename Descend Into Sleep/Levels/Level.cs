@@ -14,15 +14,15 @@ namespace ConsoleApp12.Levels
 {
     public class Level
     {
-        protected int Number;
-        protected Queue<Character> MainEnemies;
-        protected Dictionary<Type, int> SideEnemies;
+        protected readonly int Number;
+        protected readonly Queue<Character> MainEnemies;
+        private readonly Dictionary<Type, int> SideEnemies;
         protected Shop.Shop Shop;
-        protected HumanPlayer Player;
-        protected Cheats Cheats;
-        protected bool Passed;
-        protected bool InCombat;
-        protected List<SaveFile.SaveFile> ListOfSaveFiles;
+        protected readonly HumanPlayer Player;
+        private readonly Cheats Cheats;
+        private bool Passed;
+        private bool InCombat;
+        private readonly List<SaveFile.SaveFile> ListOfSaveFiles;
 
         public Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies, Queue<Character> mainEnemies,
             Shop.Shop shop)
@@ -190,7 +190,7 @@ namespace ConsoleApp12.Levels
                     break;
             }
         }
-
+        
         private void SeeAbilities()
         {
             Console.WriteLine(Player.GetAbilitiesDescription());

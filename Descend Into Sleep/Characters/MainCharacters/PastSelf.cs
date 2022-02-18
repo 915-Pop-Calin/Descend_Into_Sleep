@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Ability.PastSelfAbilities;
+﻿using System.Collections.Generic;
+using ConsoleApp12.Ability.PastSelfAbilities;
 using ConsoleApp12.Items;
 
 namespace ConsoleApp12.Characters.MainCharacters
@@ -7,9 +8,9 @@ namespace ConsoleApp12.Characters.MainCharacters
     {
         public PastSelf(string name, double innateAttack, double innateDefense, Weapon weapon, Armour armour,
             double health,
-            string description, int level) : base(name, innateAttack, innateDefense, weapon, armour, health, description)
+            string description, int level) : base(name, innateAttack, innateDefense, weapon, armour, health, 
+            new List<string>(), 0, 7, description)
         {
-            Level = 7;
             AddAbility(new Condemn(level));
             AddAbility(new Judge(level));
         }

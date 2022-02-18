@@ -30,14 +30,14 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             SetDifficulty();
             SetInitialAbilities();
-            Level = 0;
             ExperiencePoints = 0;
             Inventory = new List<Item>()
             {
                 null, null, null, null, null, null, null, null
             };
 
-            Gold = 0;
+            // 30 Gold => game should be beatable on pacifist
+            Gold = 30;
             Cheater = false;
             PastSelves = new List<PastSelf>();
             School = null;
@@ -543,8 +543,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             var selfHarmAbilities = new List<Ability.Ability>();
             selfHarmAbilities.Add(new BlindingRage());
             selfHarmAbilities.Add(new UndyingWill());
-            selfHarmAbilities.Add(new UltimateMadness());
-            selfHarmAbilities.Add(new ChaoticReflection());
+            selfHarmAbilities.Add(new Hysteria());
+            selfHarmAbilities.Add(new Reflection());
             selfHarmAbilities.Add(new ChaosEnsues());
             SetUpSchool(selfHarmAbilities);
         }
@@ -554,7 +554,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             var natureAbilities = new List<Ability.Ability>();
             natureAbilities.Add(new LivingRoots());
             natureAbilities.Add(new FeralRage());
-            natureAbilities.Add(new NatureCleansing());
+            natureAbilities.Add(new Empower());
             natureAbilities.Add(new Leech());
             natureAbilities.Add(new Shapeshift());
             SetUpSchool(natureAbilities);

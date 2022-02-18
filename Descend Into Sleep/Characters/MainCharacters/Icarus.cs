@@ -1,4 +1,5 @@
-﻿using ConsoleApp12.Ability.IcarusAbilities;
+﻿using System.Collections.Generic;
+using ConsoleApp12.Ability.IcarusAbilities;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelTwo;
 using ConsoleApp12.Items.Weapons.LevelFour;
@@ -8,9 +9,9 @@ namespace ConsoleApp12.Characters.MainCharacters
     public class Icarus: Character
     {
         private Icarus() : base("Icarus", 0, 100, AllItems.IcarusesTouch, AllItems.SteelPlateau, 200,
+            new List<string>{"extinguish", "heal", "explain yourself", "enlighten"}, 0.35,5, 
             "The corrupted mythological figure by flying too close to the sun")
         {
-            Level = 5;
             AddAbility(new Burn());
             AddAbility(new BurningWill());
         }

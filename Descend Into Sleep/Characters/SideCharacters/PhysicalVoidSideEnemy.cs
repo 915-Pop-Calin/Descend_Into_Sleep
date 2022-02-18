@@ -7,8 +7,8 @@ namespace ConsoleApp12.Characters.SideCharacters
     public abstract class PhysicalVoidSideEnemy: VoidSideEnemy
     {
         public PhysicalVoidSideEnemy(string name, double attack, double defense, Weapon weapon, Armour armour,
-            double health) :
-            base(name, attack, defense, weapon, armour, health)
+            double health, List<string> actions, double chanceOfSuccessfulAct, int level) :
+            base(name, attack, defense, weapon, armour, health, actions, chanceOfSuccessfulAct, level)
         {
         }
 
