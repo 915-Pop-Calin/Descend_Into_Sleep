@@ -458,6 +458,12 @@ namespace ConsoleApp12.Characters.MainCharacters
             
         }
 
+        public void DropInventory()
+        {
+            for (int i = 0; i < 8; i++)
+                Inventory[i] = null;
+        }
+        
         public override string Cast(string abilityName, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             var abilityManaCost = RespectiveAbilities[abilityName].GetManaCost();

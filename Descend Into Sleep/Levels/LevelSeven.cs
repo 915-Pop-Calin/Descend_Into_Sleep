@@ -68,7 +68,7 @@ namespace ConsoleApp12.Levels
         
         private void PacifistEnding()
         {
-            Console.WriteLine("A strange figure appears from the shadows.\n");
+            Console.WriteLine("A strange figure appears from the shadows.");
             Console.WriteLine("This is the end.\n");
             MainEnemies.Enqueue(FinalBoss.MainBoss);
 
@@ -80,7 +80,7 @@ namespace ConsoleApp12.Levels
 
         private void NeutralEnding()
         {
-            Console.WriteLine("Something appears in the battlefield...?\n");
+            Console.WriteLine("Something appears in the battlefield...?");
             Console.WriteLine("This is the final challenge.\n");
             MainEnemies.Enqueue(FinalAmalgamation.MainBoss);
 
@@ -106,6 +106,10 @@ namespace ConsoleApp12.Levels
                 "You think you're about to have a bad time",
                 "You're going to have a bad time."
             });
+            
+            Console.WriteLine("You lost everything that kept you bound to your past.\n");
+            Console.WriteLine("All your Inventory was dropped!\n");
+            Player.DropInventory();
         while (MainEnemies.Count != 0)
             {
                 

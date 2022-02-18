@@ -44,6 +44,7 @@ namespace ConsoleApp12.CombatSystem
             Console.WriteLine("ENOUGH of this!\nYou have NO chances of defeating me!\n");
             humanPlayer.DeleteOptions();
             Console.WriteLine("All your abilities have been deleted!\n");
+            Console.WriteLine($"{Player.GetName()} loses grasp with reality and is left with 10000 health!\n");
             ((FinalBoss)Player).SetAttackType("physical");
         }
 
