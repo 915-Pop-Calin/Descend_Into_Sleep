@@ -32,7 +32,7 @@ namespace ConsoleApp12.SaveFile
             Time = DateTime.UnixEpoch;
             try
             {
-                var loadedInfo = HumanTxtSave.Load(Name);
+                var loadedInfo = HumanTxtSave.Load(Name, Number);
                 Player = loadedInfo.Item1;
                 GameLevel = loadedInfo.Item2;
                 Enemies = loadedInfo.Item3;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
 using ConsoleApp12.Utils;
@@ -66,8 +67,10 @@ namespace ConsoleApp12.Characters
             ManaRegenerationRate = 0.03125;
             Spared = false;
             Actions = actions;
-            // shuffle Actions
             OrderOfActions = actions != null ? new Queue<string>(actions) : null;
+            var random = new Random();
+            if (Actions != null)
+                Actions = Actions.OrderBy(element => random.Next()).ToList();
             ChanceOfSuccessfulAct = chanceOfSuccessfulAct;
             CanLifeSteal = true;
             Level = level;
@@ -531,8 +534,8 @@ namespace ConsoleApp12.Characters
                     OrderOfActions.Dequeue();
 
                     int actsLeft = OrderOfActions.Count, totalActs = Actions.Count;
-                    // we might have to change Attack for InnateAttack, or compute differently
-                    var lostAttack = FormulaHelper.GetAttackValueDifference(actsLeft, totalActs, Attack);
+                    var unbuffedAttack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
+                    var lostAttack = FormulaHelper.GetAttackValueDifference(actsLeft, totalActs, unbuffedAttack);
                     toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!\n";
                     InnateAttack -= lostAttack;
                     Attack -= lostAttack;
