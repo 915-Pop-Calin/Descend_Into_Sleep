@@ -53,6 +53,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             List<PastSelf> pastSelves): base(name, innateAttack, innateDefense, weapon, armour, maximumHealth)
         {
             School = school;
+            Difficulty = difficulty;
             SetDifficulty();
             SetInitialAbilities();
             ExperiencePoints = experiencePoints;
@@ -67,7 +68,6 @@ namespace ConsoleApp12.Characters.MainCharacters
             Sanity = sanity;
             MaxSanity = maxSanity;
             KillCount = killCount;
-            Difficulty = difficulty;
             PastSelves = pastSelves;
             Cheater = false;
             JumpToGivenLevel(humanLevel, School);
