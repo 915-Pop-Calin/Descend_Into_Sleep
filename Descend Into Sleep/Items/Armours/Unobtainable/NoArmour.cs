@@ -7,5 +7,10 @@
             Description = "You are wearing no weapon";
             Name = "No Armour";
         }
+        
+        public override double GetPrice()
+        {
+            return -1;
+        }
     }
 }

@@ -7,5 +7,10 @@
             Name = "Toy Knife";
             Description = "Is this a game?";
         }        
+        
+        public override double GetPrice()
+        {
+            return 50;
+        }
     }
 }

@@ -7,6 +7,10 @@
             Name = "Eye Of Sauron";
             Description = "Strong armour with no drawbacks";
         }
-        
+
+        public override double GetPrice()
+        {
+            return 5000;
+        }
     }
 }

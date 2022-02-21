@@ -8,5 +8,10 @@
             Name = "Infinity Edge";
             Description = $"Increases your critical strike chance by {CriticalChance * 100}%";
         }        
+        
+        public override double GetPrice()
+        {
+            return 2500;
+        }
     }
 }

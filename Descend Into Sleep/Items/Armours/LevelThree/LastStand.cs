@@ -55,5 +55,10 @@ namespace ConsoleApp12.Items.Armours.LevelThree
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 1800;
+        }
     }
 }

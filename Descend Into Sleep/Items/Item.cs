@@ -98,6 +98,8 @@ namespace ConsoleApp12.Items
         {
             return Broken;
         }
+
+        public abstract double GetPrice();
     }
     
     

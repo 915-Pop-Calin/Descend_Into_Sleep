@@ -12,7 +12,7 @@ namespace ConsoleApp12.Levels
         public LevelTwo(HumanPlayer humanPlayer) : base(2, humanPlayer, new Dictionary<Type, int>()
         {
             {typeof(Amalgamation), 3}, {typeof(Cyclope), 3}, {typeof(PoisonousHare), 3}, {typeof(TortoiseOfWisdom), 4}
-        }, new Queue<Character>(new[] {SpaghettiMonster.MainBoss}), new Shop.Shop(humanPlayer, 2))
+        }, new Queue<Character>(new[] {SpaghettiMonster.MainBoss}))
         {
         }
     }

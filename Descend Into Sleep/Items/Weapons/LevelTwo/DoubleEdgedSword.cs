@@ -48,6 +48,11 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
         return toStr;
         }
         
+        public override double GetPrice()
+        {
+            return 800;
+        }
+        
     }
         
         

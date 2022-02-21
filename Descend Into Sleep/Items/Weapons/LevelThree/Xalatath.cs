@@ -24,5 +24,10 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 1800;
+        }
     }
 }

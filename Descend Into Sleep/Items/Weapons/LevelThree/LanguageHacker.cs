@@ -30,5 +30,10 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             }
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 1800;
+        }
     }
 }

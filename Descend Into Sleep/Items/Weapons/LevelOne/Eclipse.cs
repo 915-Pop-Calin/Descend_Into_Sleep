@@ -8,5 +8,10 @@
             Name = "Eclipse";
             Description = "Strong life stealer at the cost of your defense";
         }
+        
+        public override double GetPrice()
+        {
+            return 400;
+        }
     }
 }

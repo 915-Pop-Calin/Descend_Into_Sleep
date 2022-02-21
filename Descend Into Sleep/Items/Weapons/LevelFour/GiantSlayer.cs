@@ -8,5 +8,10 @@
             Description = "Great against high armour monsters";
             ArmorPenetration = 0.4;
         }        
+        
+        public override double GetPrice()
+        {
+            return 3600;
+        }
     }
 }

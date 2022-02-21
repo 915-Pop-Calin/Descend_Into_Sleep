@@ -19,5 +19,10 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 1500;
+        }
     }
 }

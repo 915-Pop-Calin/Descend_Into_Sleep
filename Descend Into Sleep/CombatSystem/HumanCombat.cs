@@ -155,7 +155,6 @@ namespace ConsoleApp12.CombatSystem
                         try
                         {
                             var itemsString = humanPlayer.GetInventoryItems();
-                            itemsString[8] = "back";
                             int option =
                                 ConsoleHelper.MultipleChoice(15, "The item you want to equip is:", itemsString);
                             if (option == 8)

@@ -28,6 +28,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         public HumanPlayer(string name, string difficulty, Weapon weapon, Armour armour) : 
             base(name, 10, 0, weapon, armour, 20)
         {
+            Difficulty = difficulty;
             SetDifficulty();
             SetInitialAbilities();
             ExperiencePoints = 0;
@@ -41,7 +42,6 @@ namespace ConsoleApp12.Characters.MainCharacters
             Cheater = false;
             PastSelves = new List<PastSelf>();
             School = null;
-            Difficulty = difficulty;
             KillCount = 0;
         }
 
@@ -322,6 +322,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                     items[currentPosition] = item.GetName();
                 currentPosition++;
             }
+            items[8] = "back";
             return items;
         }
         
@@ -435,24 +436,26 @@ namespace ConsoleApp12.Characters.MainCharacters
             return Gold;
         }
 
-        public void BuyItem(double cost, Item item)
+        
+        public void BuyItem(Item item)
         {
+            var cost = item.GetPrice();
             if (Gold < cost)
                 throw new InsufficientGoldException(item.GetName());
             PickUp(item);
             Gold -= cost;
         }
-
-        public void SellItem(double cost, Item item)
+        
+        public string SellItem(int position)
         {
-            int itemIndex = FindItemByName(item.GetName());
-            if (itemIndex == -1)
-                throw new NotFoundItemException();
-            Inventory[itemIndex] = null;
-            Gold += cost;
-            
+            if (Inventory[position] == null)
+                throw new NullItemException();
+            Gold += Inventory[position].GetPrice();
+            var itemName = Inventory[position].GetName();
+            Inventory[position] = null;
+            return $"You have sold {itemName}!\n";
         }
-
+        
         public void DropInventory()
         {
             for (int i = 0; i < 8; i++)

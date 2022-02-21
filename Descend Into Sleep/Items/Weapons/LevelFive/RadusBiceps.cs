@@ -8,5 +8,10 @@
             Name = "Radu's Biceps";
             Description = "Huge attack value, but it cannot critical strike";
         }
+        
+        public override double GetPrice()
+        {
+            return 3700;
+        }
     }
 }

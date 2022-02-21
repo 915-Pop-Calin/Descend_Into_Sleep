@@ -12,7 +12,7 @@ namespace ConsoleApp12.Levels
         public LevelFive(HumanPlayer humanPlayer) : base(5, humanPlayer, new Dictionary<Type, int>()
         {
             {typeof(BurningCitizen), 4}, {typeof(ExtinguishedFlame), 4}, {typeof(FlameOfTheSun), 4}, {typeof(WorshipperOfTheSun), 4}
-        }, new Queue<Character>(new[] {Icarus.MainBoss}), new Shop.Shop(humanPlayer, 4))
+        }, new Queue<Character>(new[] {Icarus.MainBoss}))
         {
         }
 

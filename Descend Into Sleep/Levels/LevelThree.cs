@@ -12,7 +12,7 @@ namespace ConsoleApp12.Levels
         public LevelThree(HumanPlayer humanPlayer) : base(3, humanPlayer, new Dictionary<Type, int>()
         {
             {typeof(VoidCorruptedCyclope), 4}, {typeof(VoidCorruptedDog), 4}, {typeof(VoidPossessedAmalgamation), 4}, {typeof(TentacledMenace), 4}
-        }, new Queue<Character>(new[] {YoggSaron.MainBoss}), new Shop.Shop(humanPlayer, 3))
+        }, new Queue<Character>(new[] {YoggSaron.MainBoss}))
         {
         }
         

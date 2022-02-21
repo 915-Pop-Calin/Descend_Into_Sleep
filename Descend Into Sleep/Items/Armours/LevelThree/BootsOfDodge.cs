@@ -8,5 +8,10 @@
             Name = "Boots Of Dodge";
             Description = $"Gives you {Dodge * 100}% chances of dodging auto attacks";
         }        
+        
+        public override double GetPrice()
+        {
+            return 1500;
+        }
     }
 }

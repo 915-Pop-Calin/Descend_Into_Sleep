@@ -17,5 +17,10 @@ namespace ConsoleApp12.Items.Armours.LeverFour
             var toStr = $"{caster.GetName()} has decreased the number of turns of all DOT effects by 1!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 2800;
+        }
     }
 }

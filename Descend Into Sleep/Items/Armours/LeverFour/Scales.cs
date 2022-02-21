@@ -7,5 +7,10 @@
             Name = "Scales";
             Description = "Scales of C'Thulhu. Does not serve as a great armour";
         }        
+        
+        public override double GetPrice()
+        {
+            return 1000;
+        }
     }
 }

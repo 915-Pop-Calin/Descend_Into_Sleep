@@ -17,9 +17,8 @@ namespace ConsoleApp12.Levels
         public LevelSeven(HumanPlayer humanPlayer) : base(7, humanPlayer, new Dictionary<Type, int>()
         {
             {typeof(RemnantOfIcarus), 5}, {typeof(RemnantOfSauron), 5}, {typeof(RemnantOfYogg), 6}
-        }, new Queue<Character>(), new Shop.Shop(humanPlayer, 7))
+        }, new Queue<Character>())
         {
-            Shop = new Shop.Shop(Player, Number);
             if (humanPlayer != null)
                 PastSelves = humanPlayer.GetPastSelves();
             

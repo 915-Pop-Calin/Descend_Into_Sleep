@@ -7,5 +7,10 @@
             Name = "Tem Armour";
             Description = "Strongest armour ever crafted by cats";
         }
+        
+        public override double GetPrice()
+        {
+            return 450;
+        }
     }
 }

@@ -8,5 +8,10 @@
             Sanity = 50;
             Description = $"Gives you {Sanity} extra sanity";
         }
+        
+        public override double GetPrice()
+        {
+            return 800;
+        }
     }
 }

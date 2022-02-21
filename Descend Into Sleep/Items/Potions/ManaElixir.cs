@@ -24,5 +24,10 @@ namespace ConsoleApp12.Items.Potions
             toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetMana(), 2)} mana!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 100;
+        }
     }
 }

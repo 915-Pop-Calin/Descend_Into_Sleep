@@ -9,5 +9,10 @@ namespace ConsoleApp12.Items
             Description = "You are wearing no weapon";
             Name = "No Weapon";
         }
+        
+        public override double GetPrice()
+        {
+            return -1;
+        }
     }
 }

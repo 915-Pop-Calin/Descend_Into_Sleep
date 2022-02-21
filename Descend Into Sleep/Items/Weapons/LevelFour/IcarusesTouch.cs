@@ -20,5 +20,10 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
                         $"{DotEffect.NumberOfTurns} turns!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 3600;
+        }
     }
 }

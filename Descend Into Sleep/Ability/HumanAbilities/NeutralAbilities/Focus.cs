@@ -15,8 +15,8 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         public Focus() : base("Focus")
         {
             ManaCost = 15;
-            MinimumSanityRestored = 10;
-            MaximumSanityRestored = 41;
+            MinimumSanityRestored = 25;
+            MaximumSanityRestored = 46;
             Description = $"You restore between {MinimumSanityRestored} and {MaximumSanityRestored} sanity back\n";
         }
 

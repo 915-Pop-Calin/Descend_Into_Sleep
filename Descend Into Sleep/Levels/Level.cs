@@ -7,7 +7,7 @@ using ConsoleApp12.Characters.SideCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Game;
-using ConsoleApp12.SaveFile;
+using ConsoleApp12.Items;
 using ConsoleApp12.Utils;
 using ConsoleApp12.Utils.keysWork;
 
@@ -18,20 +18,17 @@ namespace ConsoleApp12.Levels
         protected readonly int Number;
         protected readonly Queue<Character> MainEnemies;
         private readonly Dictionary<Type, int> SideEnemies;
-        protected Shop.Shop Shop;
         protected readonly HumanPlayer Player;
         private readonly Cheats Cheats;
         private bool Passed;
         private bool InCombat;
         private readonly List<SaveFile.SaveFile> ListOfSaveFiles;
 
-        public Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies, Queue<Character> mainEnemies,
-            Shop.Shop shop)
+        protected Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies, Queue<Character> mainEnemies)
         {
             Number = levelNumber;
             MainEnemies = mainEnemies;
             SideEnemies = sideEnemies;
-            Shop = shop;
             Player = humanPlayer;
             Cheats = new Cheats(Player);
             Passed = false;
@@ -125,8 +122,7 @@ namespace ConsoleApp12.Levels
             Console.WriteLine("Choose the number of the Save File to Save On:\n");
             var readLine = Console.ReadLine();
             
-            int saveNumber;
-            var isParseable = int.TryParse(readLine.Trim(), out saveNumber);
+            var isParseable = int.TryParse(readLine!.Trim(), out var saveNumber);
             if (!isParseable)
                 throw new InvalidInputTypeException(typeof(int), readLine.GetType());
             if (saveNumber < 0 || saveNumber > 9)
@@ -170,7 +166,6 @@ namespace ConsoleApp12.Levels
         private void DropItem()
         {
             var itemsString = Player.GetInventoryItems();
-            itemsString[8] = "back";
             int option =
                 ConsoleHelper.MultipleChoice(15, "The item you want to drop is:", itemsString);
             if (option == 8)
@@ -208,12 +203,12 @@ namespace ConsoleApp12.Levels
 
         private void BuyItem()
         {
-            Shop.BuyItem();
+            AllItems.BuyItem(Player, Number);
         }
 
         private void SellItem()
         {
-            Shop.SellItem();
+            AllItems.SellItem(Player);
         }
 
         private void Exit()

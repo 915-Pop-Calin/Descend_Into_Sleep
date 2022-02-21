@@ -36,6 +36,10 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
             }
             return toStr;
         }
-        
+
+        public override double GetPrice()
+        {
+            return -1;
+        }
     }
 }

@@ -7,5 +7,10 @@
             Name = "Cloth";
             Description = "Strong armour made out of cloth";
         }
+        
+        public override double GetPrice()
+        {
+            return 100;
+        }
     }
 }

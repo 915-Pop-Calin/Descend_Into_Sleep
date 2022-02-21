@@ -52,5 +52,10 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             var toStr = $"{caster.GetName()} can attack now!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 750;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace ConsoleApp12.Levels
         public LevelSix(HumanPlayer humanPlayer) : base(6, humanPlayer, new Dictionary<Type, int>()
         {
             {typeof(CorruptedProphet), 4}, {typeof(PossessedGoblin), 4}, {typeof(TentacledAvatar), 4}, {typeof(VoidInfusedOrc), 4}
-        }, new Queue<Character>(new[] {Sauron.MainBoss}), new Shop.Shop(humanPlayer, 6))
+        }, new Queue<Character>(new[] {Sauron.MainBoss}))
         {
         }
 

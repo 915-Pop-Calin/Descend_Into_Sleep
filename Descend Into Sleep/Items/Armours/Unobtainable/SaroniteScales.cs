@@ -26,5 +26,10 @@ namespace ConsoleApp12.Items.Armours.Unobtainable
             toStr += $"{Name} are left with {Math.Round(HealthPoints, 2)} health!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return -1;
+        }
     }
 }

@@ -31,5 +31,10 @@ namespace ConsoleApp12.Items.Potions
                      $" {Math.Round(humanPlayer.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 100;
+        }
     }
 }

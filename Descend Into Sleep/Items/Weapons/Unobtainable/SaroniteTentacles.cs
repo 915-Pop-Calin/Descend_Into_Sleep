@@ -27,5 +27,10 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
             toStr += $"{Name} are left with {HealthPoints} health!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return -1;
+        }
     }
 }

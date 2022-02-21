@@ -22,5 +22,10 @@ namespace ConsoleApp12.Items.Armours.LevelTwo
             toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 800;
+        }
     }
 }

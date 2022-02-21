@@ -26,5 +26,10 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 1000;
+        }
     }
 }

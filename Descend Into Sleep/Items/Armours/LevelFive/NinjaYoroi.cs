@@ -8,5 +8,10 @@
             Dodge = 0.5;
             Description = $"Armour with no defense points but gives {100 * Dodge}% dodge chance";
         }
+
+        public override double GetPrice()
+        {
+            return 5000;
+        }
     }
 }

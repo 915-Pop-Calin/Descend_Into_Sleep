@@ -30,5 +30,11 @@ namespace ConsoleApp12.Items.Armours.LeverFour
             }
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 3200;
+        }
+        
     }
 }

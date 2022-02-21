@@ -7,5 +7,10 @@
             Name = "Words";
             Description = "It is said that words cannot hurt you";
         }        
+        
+        public override double GetPrice()
+        {
+            return 50;
+        }
     }
 }

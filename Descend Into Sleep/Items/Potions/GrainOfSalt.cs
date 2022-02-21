@@ -24,5 +24,10 @@ namespace ConsoleApp12.Items.Potions
             toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetHealthPoints(), 2)} health points!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 50;
+        }
     }
 }

@@ -7,5 +7,10 @@
             Name = "Worn Bandage";
             Description = "Bandaid solution for beginners";
         }
+        
+        public override double GetPrice()
+        {
+            return 50;
+        }
     }
 }

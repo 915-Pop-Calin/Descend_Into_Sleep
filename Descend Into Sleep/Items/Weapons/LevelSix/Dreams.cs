@@ -28,5 +28,12 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
                         $"has {Math.Round(opponent.GetSanity(), 2)} sanity left!\n";
             return toStr;
         }
+        
+        public override double GetPrice()
+        {
+            return 2400;
+        }
     }
+    
+    
 }
