@@ -6,6 +6,11 @@ Some bosses may be unfair, the last bosses are all overtuned or undertuned and s
   
 To run the game, you'll need to download the latest release (1.0.0.0) and then run into command line "Descend Into Sleep.exe"</b>
 
+<b>Patch Notes 1.0.1</b>
+- Shop looks nicer now, less clunky
+- Each items stores its own price instead of the shop storing it
+- Focus has been buffed: MinimumSanityRestored = 10 -> 25 and MaximumSanityRestored = 41 -> 46
+
 <b>Patch Notes 1.0.0</b>
 
 Finally, I consider that all implementations that I wanted to implement were done, so I am releasing the 1.0.0.0 Version.
