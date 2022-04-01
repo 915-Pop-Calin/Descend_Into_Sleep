@@ -4,17 +4,31 @@ using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class Xalatath: Weapon
+    public class Xalatath: IWeapon, IActive, IObtainable, ILifeSteal
     {
-        public Xalatath() : base(10, 0,0)
+
+        public double GetAttackValue()
         {
-            SetLifeSteal(0.75);
-            Description = "Strong life stealer which lifesteals sanity as well";
-            Name = "Xalatath";
-            SetActive();
+            return 10;
+        }
+        
+        public string GetName()
+        {
+            return "Xalatath";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public string GetDescription()
+        {
+            return "Strong life stealer which lifesteals sanity as well";
+        }
+        
+
+        public double GetLifeSteal()
+        {
+            return 0.75;
+        }
+        
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var minimumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt / 2));
             var maximumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt));
@@ -25,7 +39,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 1800;
         }

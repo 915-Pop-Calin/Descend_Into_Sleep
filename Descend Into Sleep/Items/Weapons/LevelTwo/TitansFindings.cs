@@ -4,21 +4,33 @@ using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
-    public class TitansFindings: Weapon
+    public class TitansFindings: IWeapon, IActive, IObtainable
     {
         private readonly int MinimumSanityReduced;
         private readonly int MaximumSanityReduced;
         
-        public TitansFindings() : base(5, 0, 0)
+        public TitansFindings()
         {
-            SetActive();
-            Name = "Titan's Findings";
             MinimumSanityReduced = 1;
-            MaximumSanityReduced = 10;       
-            Description = $"You restore between {MinimumSanityReduced} and {MaximumSanityReduced} sanity whenever you attack";
+            MaximumSanityReduced = 10;
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetAttackValue()
+        {
+            return 5;
+        }
+
+        public string GetName()
+        {
+            return "Titan's Findings";
+        }
+
+        public string GetDescription()
+        {
+            return $"You restore between {MinimumSanityReduced} and {MaximumSanityReduced} sanity whenever you attack";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             int randomChoice = RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
             caster.RestoreSanity(randomChoice);
@@ -27,7 +39,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 1000;
         }

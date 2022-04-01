@@ -1,15 +1,30 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelThree
+﻿
+namespace ConsoleApp12.Items.Armours.LevelThree
 {
-    public class BootsOfDodge: Armour
+    public class BootsOfDodge: IArmour, IObtainable, IDodge
     {
-        public BootsOfDodge() : base(0, 10, 0)
+        public string GetName()
         {
-            Dodge = 0.15;
-            Name = "Boots Of Dodge";
-            Description = $"Gives you {Dodge * 100}% chances of dodging auto attacks";
-        }        
+            return "Boots Of Dodge";
+        }
+
+        public string GetDescription()
+        {
+            return $"Gives you {GetDodge() * 100}% chances of dodging auto attacks";
+        }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 10;
+        }
+        
+
+        public double GetDodge()
+        {
+            return 0.15;
+        }
+
+        public double GetPrice()
         {
             return 1500;
         }

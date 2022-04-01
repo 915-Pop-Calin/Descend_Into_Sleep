@@ -4,22 +4,34 @@ using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelSix
 {
-    public class Dreams: Weapon
+    public class Dreams: IWeapon, IActive, IObtainable
     {
         private readonly int MinimumSanityReduced;
         private readonly int MaximumSanityReduced;
 
-        public Dreams() : base(2, 0, 0)
+        public Dreams()
         {
-            Name = "Dreams";
-            SetActive();
             MinimumSanityReduced = 15;
             MaximumSanityReduced = 26;
-            Description = $"Makes your enemy lose between {MinimumSanityReduced} and {MaximumSanityReduced} sanity," +
-                          $" but it has no effect on monsters";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetAttackValue()
+        {
+            return 2;
+        }
+        
+        public string GetName()
+        {
+            return "Dreams";
+        }
+
+        public string GetDescription()
+        {
+            return  $"Makes your enemy lose between {MinimumSanityReduced} and {MaximumSanityReduced} sanity," +
+                    $" but it has no effect on monsters";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var randomInsanityReduced =
                 RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
@@ -29,7 +41,7 @@ namespace ConsoleApp12.Items.Weapons.LevelSix
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 2400;
         }

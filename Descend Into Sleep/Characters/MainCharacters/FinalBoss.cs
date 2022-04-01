@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using ConsoleApp12.Items;
-using ConsoleApp12.Items.Armours.LevelOne;
-using ConsoleApp12.Items.Weapons.LevelSix;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.MainCharacters
@@ -29,14 +27,14 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         public bool CheckIfFormChange()
         {
-            if (PhaseNumber == 1 && Weapon.IsBroken())
+            if (PhaseNumber == 1 && ((IReflector)Weapon).IsBroken())
             {
                 PhaseNumber = 2;
                 Health = 10000;
                 return true;
             }
 
-            if (PhaseNumber == 2 && Armour.IsBroken())
+            if (PhaseNumber == 2 && ((IReflector)Armour).IsBroken())
             {
                 PhaseNumber = 3;
                 return true;

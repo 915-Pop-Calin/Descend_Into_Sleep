@@ -1,15 +1,28 @@
 ﻿namespace ConsoleApp12.Items.Weapons.LevelFour
 {
-    public class GiantSlayer: Weapon
+    public class GiantSlayer: IWeapon, IObtainable, IArmourPenetration
     {
-        public GiantSlayer() : base(20, 0, 0)
+        public double GetAttackValue()
         {
-            Name = "Giant Slayer";
-            Description = "Great against high armour monsters";
-            ArmorPenetration = 0.4;
-        }        
+            return 20;
+        }
         
-        public override double GetPrice()
+        public string GetName()
+        {
+            return "Giant Slayer";
+        }
+
+        public string GetDescription()
+        {
+            return "Great against high armour monsters";
+        }
+
+        public double GetArmorPenetration()
+        {
+            return 0.4;
+        }
+        
+        public double GetPrice()
         {
             return 3600;
         }

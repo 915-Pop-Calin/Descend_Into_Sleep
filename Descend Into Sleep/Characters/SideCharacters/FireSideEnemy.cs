@@ -11,8 +11,8 @@ namespace ConsoleApp12.Characters.SideCharacters
         private readonly double MaximumDOTPercentage;
         private readonly int NumberOfTurns;
 
-        public FireSideEnemy(string name, double attackValue, double defenseValue, Weapon weapon,
-            Armour armour, double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) : 
+        public FireSideEnemy(string name, double attackValue, double defenseValue, IWeapon weapon,
+            IArmour armour, double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) : 
             base(name, attackValue, defenseValue, weapon, armour, healthValue, actions, chanceOfSuccessfulAct, level)
         {
             MinimumDOTPercentage = 0.25;

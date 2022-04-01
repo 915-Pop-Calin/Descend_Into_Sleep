@@ -1,15 +1,28 @@
 ﻿namespace ConsoleApp12.Items.Weapons.LevelFive
 {
-    public class InfinityEdge: Weapon
+    public class InfinityEdge: IWeapon, IObtainable, ICriticalChance
     {
-        public InfinityEdge() : base(20, 0, 0)
+        public double GetAttackValue()
         {
-            CriticalChance = 0.35;
-            Name = "Infinity Edge";
-            Description = $"Increases your critical strike chance by {CriticalChance * 100}%";
-        }        
+            return 20;
+        }
         
-        public override double GetPrice()
+        public string GetName()
+        {
+            return "Infinity Edge";
+        }
+
+        public string GetDescription()
+        {
+            return $"Increases your critical strike chance by {GetCriticalChance() * 100}%";
+        }
+        
+        public double GetCriticalChance()
+        {
+            return 0.35;
+        }
+
+        public double GetPrice()
         {
             return 2500;
         }

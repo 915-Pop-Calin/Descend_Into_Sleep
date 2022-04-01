@@ -1,16 +1,22 @@
-﻿namespace ConsoleApp12.Items
+﻿
+namespace ConsoleApp12.Items
 {
-    public class NoArmour: Armour
+    public class NoArmour: IArmour
     {
-        public NoArmour() : base(0, 0, 0)
+        public string GetName()
         {
-            Description = "You are wearing no weapon";
-            Name = "No Armour";
+            return "No Armour";
+        }
+
+        public string GetDescription()
+        {
+            return "You are wearing no weapon";
         }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
         {
-            return -1;
+            return 0;
         }
+
     }
 }

@@ -1,19 +1,36 @@
 ﻿using ConsoleApp12.Characters;
-
 namespace ConsoleApp12.Items.Weapons.LevelFour
 {
-    public class IcarusesTouch: Weapon
+    public class IcarusesTouch: IWeapon, IActive, IObtainable, IDefense
     {
-        public IcarusesTouch() : base(0, 3, 0)
+        private readonly DotEffect DotEffect;
+
+        public IcarusesTouch()
         {
-            Name = "Icarus's Touch";
-            var dotEffect = new DotEffect(5, 3);
-            DotEffect = dotEffect;
-            SetActive();
-            Description = "Puts a DOT on the enemy taking 3 damage per turn for 5 turns";
+            DotEffect = new DotEffect(5, 3);
+        }
+        public double GetAttackValue()
+        {
+            return 0;
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetDefenseValue()
+        {
+            return 3;
+        }
+        
+
+        public string GetName()
+        {
+            return "Icarus's Touch";
+        }
+
+        public string GetDescription()
+        {
+            return "Puts a DOT on the enemy taking 3 damage per turn for 5 turns";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             opponent.AddDotEffect(DotEffect);
             var toStr = $"{opponent.GetName()} will take {DotEffect.DamagePerTurn} damage every turn for " +
@@ -21,7 +38,7 @@ namespace ConsoleApp12.Items.Weapons.LevelFour
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 3600;
         }

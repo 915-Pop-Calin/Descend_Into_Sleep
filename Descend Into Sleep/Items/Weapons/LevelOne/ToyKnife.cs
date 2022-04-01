@@ -1,16 +1,27 @@
-﻿namespace ConsoleApp12.Items.Weapons.LevelOne
+﻿using ConsoleApp12.Utils;
+
+namespace ConsoleApp12.Items.Weapons.LevelOne
 {
-    public class ToyKnife: Weapon
+    public class ToyKnife: IWeapon, IObtainable
     {
-        public ToyKnife() : base(3, 0, 0)
+        public double GetAttackValue()
         {
-            Name = "Toy Knife";
-            Description = "Is this a game?";
-        }        
-        
-        public override double GetPrice()
+            return 3;
+        }
+        public string GetName()
+        {
+            return "Toy Knife";
+        }
+
+        public string GetDescription()
+        {
+            return "Is this a game?";
+        }
+
+        public double GetPrice()
         {
             return 50;
         }
+
     }
 }

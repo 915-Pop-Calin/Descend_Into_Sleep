@@ -1,14 +1,24 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelFive
+﻿
+namespace ConsoleApp12.Items.Armours.LevelFive
 {
-    public class EyeOfSauron: Armour
+    public class EyeOfSauron: IArmour, IObtainable
     {
-        public EyeOfSauron() : base(0, 200, 0)
+        public string GetName()
         {
-            Name = "Eye Of Sauron";
-            Description = "Strong armour with no drawbacks";
+            return "Eye Of Sauron";
         }
 
-        public override double GetPrice()
+        public string GetDescription()
+        {
+            return "Strong armour with no drawbacks";
+        }
+        
+        public double GetDefenseValue()
+        {
+            return 200;
+        }
+        
+        public double GetPrice()
         {
             return 5000;
         }

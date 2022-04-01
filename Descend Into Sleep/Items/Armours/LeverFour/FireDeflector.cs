@@ -1,22 +1,33 @@
 ﻿using System;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Utils;
-
 namespace ConsoleApp12.Items.Armours.LeverFour
 {
-    public class FireDeflector:  Armour
+    public class FireDeflector:  IArmour, IActive, IObtainable
     {
         private readonly double DeflectionChance;
         
-        public FireDeflector(): base(0, 75, 0)
+        public FireDeflector()
         {
-            SetActive();
             DeflectionChance = 0.1;
-            Name = "Fire Deflector";
-            Description = $"Has {DeflectionChance * 100}% chance to deflect all DOT effects on the enemy";
+        }
+        
+        public string GetName()
+        {
+            return "Fire Deflector";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public string GetDescription()
+        {
+            return $"Has {DeflectionChance * 100}% chance to deflect all DOT effects on the enemy";
+        }
+        
+        public double GetDefenseValue()
+        {
+            return 75;
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var willDeflect = RandomHelper.IsSuccessfulTry(DeflectionChance);
             var toStr = "";
@@ -31,7 +42,7 @@ namespace ConsoleApp12.Items.Armours.LeverFour
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 3200;
         }

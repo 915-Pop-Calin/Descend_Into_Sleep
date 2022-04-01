@@ -4,20 +4,29 @@ using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class OffensePotion: Potion
+    public class OffensePotion: IPotion, IObtainable
     {
         private double AttackGained;
         private double DefenseLost;
         
-        public OffensePotion() : base()
+        public OffensePotion()
         {
-            Name = "Offense Potion";
             AttackGained = 20;
             DefenseLost = 20;
-            Description = $"You gain {AttackGained} attack, but you lose {DefenseLost} defense permanently\n";
         }
 
-        public override string UseItem(HumanPlayer humanPlayer)
+        public string GetName()
+        {
+            return "Offense Potion";
+        }
+
+        public string GetDescription()
+        {
+            return $"You gain {AttackGained} attack, but you lose {DefenseLost} defense permanently\n";
+        }
+
+        
+        public string UseItem(HumanPlayer humanPlayer)
         {
             var originalDefense = humanPlayer.GetInnateDefense();
             var originalAttack = humanPlayer.GetInnateAttack();
@@ -32,7 +41,7 @@ namespace ConsoleApp12.Items.Potions
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 100;
         }

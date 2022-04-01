@@ -1,14 +1,24 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelOne
+﻿
+namespace ConsoleApp12.Items.Armours.LevelOne
 {
-    public class TemArmour: Armour
+    public class TemArmour: IArmour, IObtainable
     {
-        public TemArmour() : base(0, 100, 0)
+        public string GetName()
         {
-            Name = "Tem Armour";
-            Description = "Strongest armour ever crafted by cats";
+            return "Tem Armour";
+        }
+
+        public string GetDescription()
+        {
+            return "Strongest armour ever crafted by cats";
         }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 100;
+        }
+        
+        public double GetPrice()
         {
             return 450;
         }

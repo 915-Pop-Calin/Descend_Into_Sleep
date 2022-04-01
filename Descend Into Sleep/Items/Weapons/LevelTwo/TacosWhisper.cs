@@ -3,19 +3,30 @@ using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
-    public class TacosWhisper: Weapon
+    public class TacosWhisper: IWeapon, IActive, IObtainable
     {
         private int _turnCounter;
         
-        public TacosWhisper() : base(5, 0, 0)
+        public TacosWhisper()
         {
-            SetActive();
             _turnCounter = 0;
-            Description = "Each fourth shot strikes thrice";
-            Name = "Taco's Whisper";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetAttackValue()
+        {
+            return 5;
+        }
+        public string GetName()
+        {
+            return "Taco's Whisper";
+        }
+
+        public string GetDescription()
+        {
+            return  "Each fourth shot strikes thrice";
+        }
+        
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             if (_turnCounter == 3)
@@ -32,7 +43,7 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 1000;
         }

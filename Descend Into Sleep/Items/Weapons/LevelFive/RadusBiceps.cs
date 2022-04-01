@@ -1,15 +1,29 @@
 ﻿namespace ConsoleApp12.Items.Weapons.LevelFive
 {
-    public class RadusBiceps: Weapon
+    public class RadusBiceps: IWeapon, IObtainable, ICriticalChance
     {
-        public RadusBiceps() : base(75, 0, 0)
+        public double GetAttackValue()
         {
-            CriticalChance = -0.15;
-            Name = "Radu's Biceps";
-            Description = "Huge attack value, but it cannot critical strike";
+            return 75;
         }
         
-        public override double GetPrice()
+        public string GetName()
+        {
+            return "Radu's Biceps";
+        }
+
+        public string GetDescription()
+        {
+            return "Huge attack value, but it cannot critical strike";
+        }
+        
+
+        public double GetCriticalChance()
+        {
+            return -0.15;
+        }
+        
+        public double GetPrice()
         {
             return 3700;
         }

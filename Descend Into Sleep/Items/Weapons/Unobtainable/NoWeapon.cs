@@ -2,17 +2,21 @@
 
 namespace ConsoleApp12.Items
 {
-    public class NoWeapon: Weapon
+    public class NoWeapon: IWeapon
     {
-        public NoWeapon(): base(0, 0, 0)
+        public double GetAttackValue()
         {
-            Description = "You are wearing no weapon";
-            Name = "No Weapon";
+            return 0;
         }
         
-        public override double GetPrice()
+        public string GetName()
         {
-            return -1;
+            return "No Weapon";
+        }
+
+        public string GetDescription()
+        {
+            return "You are wearing no weapon";
         }
     }
 }

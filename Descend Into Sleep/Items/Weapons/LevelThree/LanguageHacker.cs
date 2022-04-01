@@ -6,16 +6,24 @@ using ConsoleApp12.Items.Potions;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class LanguageHacker: Weapon
+    public class LanguageHacker: IWeapon, IActive, IObtainable
     {
-        public LanguageHacker() : base(10, 0, 0)
+        public double GetAttackValue()
         {
-            SetActive();
-            Name = "Language Hacker";
-            Description = "After each attack, you gain a Grain of Salt potion";
+            return 10;
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public string GetName()
+        {
+            return "Language Hacker";
+        }
+
+        public string GetDescription()
+        {
+            return "After each attack, you gain a Grain of Salt potion";
+        }
+        
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             try
@@ -31,7 +39,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 1800;
         }

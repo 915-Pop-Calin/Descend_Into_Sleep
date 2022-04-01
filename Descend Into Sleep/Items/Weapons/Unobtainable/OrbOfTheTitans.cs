@@ -5,20 +5,38 @@ using Microsoft.VisualBasic;
 
 namespace ConsoleApp12.Items.Weapons.Unobtainable
 {
-    public class OrbOfTheTitans: Weapon
+    public class OrbOfTheTitans: IWeapon, IActive, IDefense
     {
         private readonly double PercentageIncreased;
         private readonly double IncreasedArmourPenetration;
         
-        public OrbOfTheTitans() : base(1000, 1000, 0)
+        public OrbOfTheTitans()
         {
-            Name = "Orb of the Titans";
-            SetActive();
             PercentageIncreased = 0.15;
             IncreasedArmourPenetration = 0.3;
         }
+        
+        public double GetAttackValue()
+        {
+            return 1000;
+        }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetDefenseValue()
+        {
+            return 1000;
+        }
+
+        public string GetName()
+        {
+            return "Orb of the Titans";
+        }
+
+        public string GetDescription()
+        {
+            return "Orb created by the Ancient Titans to defeat all evil";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var toStr = "";
             if (opponent is FinalBoss finalBoss)
@@ -35,11 +53,6 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
                          $"{caster.GetArmourPenetration() * 100}% armour penetration!\n";
             }
             return toStr;
-        }
-
-        public override double GetPrice()
-        {
-            return -1;
         }
     }
 }

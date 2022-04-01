@@ -20,6 +20,7 @@ using ConsoleApp12.Items.Weapons.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelTwo;
 using ConsoleApp12.Items.Weapons.Unobtainable;
 using ConsoleApp12.Levels;
+using ConsoleApp12.Utils;
 using ConsoleApp12.Utils.keysWork;
 
 namespace ConsoleApp12.Items
@@ -68,7 +69,7 @@ namespace ConsoleApp12.Items
         public static readonly SaroniteTentacles SaroniteTentacles = new SaroniteTentacles();
         public static readonly WillPower WillPower = new WillPower();
 
-        public static readonly Dictionary<int, Item> Items = new Dictionary<int, Item>
+        public static readonly Dictionary<int, IItem> Items = new Dictionary<int, IItem>
         {
             {1, NoArmour}, {2, NoWeapon}, {3, HealthPotion}, {4, ManaPotion}, {5, GrainOfSalt}, {6, ManaElixir},
             {7, SanityPotion}, {8, DefensePotion}, {9, OffensePotion}, {10, Bandage}, {11, Cloth}, {12, TemArmour},
@@ -80,32 +81,32 @@ namespace ConsoleApp12.Items
             {41, WillPower}
         };
 
-        private static readonly Dictionary<int, List<Item>> Weapons = new Dictionary<int, List<Item>>
+        private static readonly Dictionary<int, List<IObtainable>> Weapons = new Dictionary<int, List<IObtainable>>
         {
-            {2, new List<Item> {Eclipse, ToyKnife, Words}},
-            {3, new List<Item> {DoubleEdgedSword, TacosWhisper, TitansFindings, TwoHandedMace}},
-            {4, new List<Item> {BoilingBlood, LanguageHacker, TankBuster, Xalatath}},
-            {5, new List<Item> {GiantSlayer, IcarusesTouch}},
-            {6, new List<Item> {InfinityEdge, RadusBiceps}},
-            {7, new List<Item> {Dreams, TheRing}}
+            {2, new List<IObtainable> {Eclipse, ToyKnife, Words}},
+            {3, new List<IObtainable> {DoubleEdgedSword, TacosWhisper, TitansFindings, TwoHandedMace}},
+            {4, new List<IObtainable> {BoilingBlood, LanguageHacker, TankBuster, Xalatath}},
+            {5, new List<IObtainable> {GiantSlayer, IcarusesTouch}},
+            {6, new List<IObtainable> {InfinityEdge, RadusBiceps}},
+            {7, new List<IObtainable> {Dreams, TheRing}}
         };
 
-        private static readonly Dictionary<int, List<Item>> Armours = new Dictionary<int, List<Item>>
+        private static readonly Dictionary<int, List<IObtainable>> Armours = new Dictionary<int, List<IObtainable>>
         {
-            {2, new List<Item>{Bandage, Cloth, TemArmour}},
-            {3, new List<Item>{SteelPlateau, WillPower}},
-            {4, new List<Item>{BootsOfDodge, LastStand}},
-            {5, new List<Item>{FireDeflector, Scales, TidalArmour}},
-            {6, new List<Item>{EyeOfSauron, NinjaYoroi}},
-            {7, new List<Item>{}}
+            {2, new List<IObtainable>{Bandage, Cloth, TemArmour}},
+            {3, new List<IObtainable>{SteelPlateau, WillPower}},
+            {4, new List<IObtainable>{BootsOfDodge, LastStand}},
+            {5, new List<IObtainable>{FireDeflector, Scales, TidalArmour}},
+            {6, new List<IObtainable>{EyeOfSauron, NinjaYoroi}},
+            {7, new List<IObtainable>{}}
         };
 
-        private static readonly List<Item> Potions = new List<Item>
+        private static readonly List<IObtainable> Potions = new List<IObtainable>
         {
             DefensePotion, GrainOfSalt, HealthPotion, ManaElixir, ManaPotion, OffensePotion, SanityPotion
         };
         
-        public static int FindIdForItem(Item item)
+        public static int FindIdForItem(IItem item)
         {
             foreach (var element in Items)
             {
@@ -122,15 +123,15 @@ namespace ConsoleApp12.Items
             {
                 case "weapons":
                     foreach (var weapon in Weapons[level])
-                        Console.WriteLine($"{weapon}gold: {weapon.GetPrice()}\n");
+                        Console.WriteLine($"{ItemHelper.ItemToString(weapon)}gold: {weapon.GetPrice()}\n");
                     break;
                 case "armours":
                     foreach (var armour in Armours[level])
-                        Console.WriteLine($"{armour}gold: {armour.GetPrice()}\n");
+                        Console.WriteLine($"{ItemHelper.ItemToString(armour)}gold: {armour.GetPrice()}\n");
                     break;
                 case "potions":
                     foreach (var potion in Potions)
-                        Console.WriteLine($"{potion}gold: {potion.GetPrice()}\n");
+                        Console.WriteLine($"{ItemHelper.ItemToString(potion)}gold: {potion.GetPrice()}\n");
                     break;
             }
         }
@@ -162,6 +163,7 @@ namespace ConsoleApp12.Items
                 PrintCurrentOptions(type, chosenLevel);
                 
             }
+            Console.WriteLine($"{player.GetGold()} gold available\n");
             
             Console.WriteLine("The item you want to buy is:");
             var readString = Console.ReadLine();
@@ -200,9 +202,10 @@ namespace ConsoleApp12.Items
                 return;
             var toStr = player.SellItem(option);
             Console.WriteLine(toStr);
+            Console.WriteLine($"You have now {player.GetGold()} gold!\n");
         }
         
-        private static Item FindItem(string type, string name, int level = -1)
+        private static IObtainable FindItem(string type, string name, int level = -1)
         {
             switch (type)
             {

@@ -4,19 +4,31 @@ using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Armours.LevelSix
 {
-    public class TheRing: Weapon
+    public class TheRing: IWeapon, IActive, IObtainable
     {
         private readonly int DamageIncrease;
         
-        public TheRing() : base(1, 0, 0)
+        public TheRing()
         {
-            SetActive();
-            Name = "The Ring";
             DamageIncrease = 1;
-            Description = $"You gain {DamageIncrease} attack each attack";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public double GetAttackValue()
+        {
+            return 1;
+        }
+        
+        public string GetName()
+        {
+            return "The Ring";
+        }
+
+        public string GetDescription()
+        {
+            return $"You gain {DamageIncrease} attack each attack";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             var attackValue = GetAttackValue();
             var willCast = RandomHelper.IsSuccessfulTry(0.2);
@@ -35,7 +47,7 @@ namespace ConsoleApp12.Items.Armours.LevelSix
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 9000;
         }

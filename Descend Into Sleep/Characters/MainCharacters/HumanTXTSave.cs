@@ -49,7 +49,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             toStr += humanPlayer.GetDifficulty() + "\n";
             toStr += AllItems.FindIdForItem(humanPlayer.GetWeapon()) + "\n";
             toStr += AllItems.FindIdForItem(humanPlayer.GetArmour()) + "\n";
-            toStr += currentTime + "\n";
+            toStr += currentTime.ToString("dd/MM/yyyy HH:mm:ss") + "\n";
             toStr += gameLevel + "\n";
             for (int i = 0; i < enemies.Count; i++)
             {
@@ -143,7 +143,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (totalMana <= 0)
                 throw new CorruptedInvalidValuesException(number, 12);
             
-            List<Item> inventory = new List<Item>();
+            List<IItem> inventory = new List<IItem>();
             for (int i = 0; i < 8; i++)
             {
                 var currentLine = 12 + i;
@@ -196,8 +196,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (!AllItems.Items.ContainsKey(weaponId))
                             throw new CorruptedInvalidValuesException(number, 27);
                         
-            Item weapItem = AllItems.Items[weaponId];
-            if (weapItem is not Weapon weap)
+            IItem weapItem = AllItems.Items[weaponId];
+            if (weapItem is not IWeapon weap)
                 throw new CorruptedInvalidValuesException(number, 27);
 
             
@@ -207,8 +207,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (!AllItems.Items.ContainsKey(armourId))
                 throw new CorruptedInvalidValuesException(number, 28);
 
-            Item armItem = AllItems.Items[armourId];
-            if (armItem is not Armour arm)
+            IItem armItem = AllItems.Items[armourId];
+            if (armItem is not IArmour arm)
                 throw new CorruptedInvalidValuesException(number, 28);
 
             
@@ -258,7 +258,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 if (!AllItems.Items.ContainsKey(currentWeapon))
                     throw new CorruptedInvalidValuesException(number, 36 + 7 * i);
                 var weaponItem = AllItems.Items[currentWeapon];
-                if (weaponItem is not Weapon pastSelfWeapon)
+                if (weaponItem is not IWeapon pastSelfWeapon)
                     throw new CorruptedInvalidValuesException(number, 36 + 7 * i);
                 
                 if (!int.TryParse(lines[36 + 7 * i], out var currentArmour))
@@ -266,7 +266,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 if (!AllItems.Items.ContainsKey(currentArmour))
                     throw new CorruptedInvalidValuesException(number, 37 + 7 * i);
                 var armourItem = AllItems.Items[currentArmour];
-                if (armourItem is not Armour pastSelfArmour)
+                if (armourItem is not IArmour pastSelfArmour)
                     throw new CorruptedInvalidValuesException(number, 37 + 7 * i);
                 
                 if (!double.TryParse(lines[37 + 7 * i], out var currentHealth))

@@ -4,6 +4,7 @@ using ConsoleApp12.Ability.YoggSaronAbilities;
 using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelThree;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
@@ -45,6 +46,8 @@ namespace ConsoleApp12.Characters.MainCharacters
 
         private void FormChange()
         {
+            StatHelper weaponStats = ItemHelper.GetItemStats(Weapon),
+                armourStats = ItemHelper.GetItemStats(Armour);
             Console.WriteLine("Avatar of Yogg Saron appears!\n");
             ChanceOfSuccessfulAct = 0.6;
             Name = "Avatar of Yogg Saron";
@@ -53,10 +56,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             Health = 100;
             MaximumHealth = 100;
             Description = "A manifestation of the God of Death.\n";
-            Attack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
-            Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
-            CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
-            ArmourPenetration = Weapon.GetArmorPenetration();
+            Attack = InnateAttack + Weapon.GetAttackValue() + armourStats.Attack;
+            Defense = InnateDefense + weaponStats.Defense + Armour.GetDefenseValue();
+            CriticalChance = InnateCriticalChance + weaponStats.CriticalChance;
+            ArmourPenetration = weaponStats.ArmourPenetration;
             AddAbility(new Madness());
         }
 

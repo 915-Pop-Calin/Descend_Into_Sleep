@@ -1,15 +1,31 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelTwo
+﻿
+namespace ConsoleApp12.Items.Armours.LevelTwo
 {
-    public class WillPower: Armour
+    public class WillPower: IArmour, IObtainable, ISanity
     {
-        public WillPower() : base(0, 10, 0)
+        public string GetName()
         {
-            Name = "Will Power";
-            Sanity = 50;
-            Description = $"Gives you {Sanity} extra sanity";
+            return "Will Power";
+        }
+
+        public string GetDescription()
+        {
+            return $"Gives you {GetSanity()} extra sanity";
         }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 10;
+        }
+        
+        public double GetSanity()
+        {
+            return 50;
+        }
+
+
+        
+        public double GetPrice()
         {
             return 800;
         }

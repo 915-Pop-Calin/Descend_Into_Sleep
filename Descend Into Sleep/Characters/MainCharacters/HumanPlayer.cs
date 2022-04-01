@@ -6,13 +6,14 @@ using ConsoleApp12.Ability.HumanAbilities.NeutralAbilities;
 using ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
     public class HumanPlayer: Character
     {
         private double ExperiencePoints;
-        private readonly List<Item> Inventory;
+        private readonly List<IItem> Inventory;
         private Dictionary<int, KeyValuePair<Ability.Ability, int>> AbilitiesToLearn;
         private double Gold;
         private bool Cheater;
@@ -25,14 +26,14 @@ namespace ConsoleApp12.Characters.MainCharacters
         private double ManaGrowth;
         private double KillCount;
 
-        public HumanPlayer(string name, string difficulty, Weapon weapon, Armour armour) : 
+        public HumanPlayer(string name, string difficulty, IWeapon weapon, IArmour armour) : 
             base(name, 10, 0, weapon, armour, 20)
         {
             Difficulty = difficulty;
             SetDifficulty();
             SetInitialAbilities();
             ExperiencePoints = 0;
-            Inventory = new List<Item>()
+            Inventory = new List<IItem>()
             {
                 null, null, null, null, null, null, null, null
             };
@@ -48,8 +49,8 @@ namespace ConsoleApp12.Characters.MainCharacters
         public HumanPlayer(String name, int humanLevel, double experiencePoints, double innateAttack,
             double innateDefense, double innateCriticalChance, double innateArmourPenetration,
             double manaRegenerationRate, double mana, double health, double maximumHealth,
-            double totalMana, List<Item> inventory, double gold, string school, double sanity,
-            double maxSanity, double killCount, string difficulty, Weapon weapon, Armour armour, 
+            double totalMana, List<IItem> inventory, double gold, string school, double sanity,
+            double maxSanity, double killCount, string difficulty, IWeapon weapon, IArmour armour, 
             List<PastSelf> pastSelves): base(name, innateAttack, innateDefense, weapon, armour, maximumHealth)
         {
             School = school;
@@ -71,10 +72,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             PastSelves = pastSelves;
             Cheater = false;
             JumpToGivenLevel(humanLevel, School);
-            ArmourPenetration = InnateArmourPenetration + Weapon.GetArmorPenetration();
-            Attack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
-            Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
-            CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
+            Armour = AllItems.NoArmour;
+            Weapon = AllItems.NoWeapon;
+            UseArmour(armour, 0);
+            UseWeapon(weapon, 0);
         }
 
         private void SetDifficulty()
@@ -138,12 +139,12 @@ namespace ConsoleApp12.Characters.MainCharacters
         }
 
         // one use, might as well just return the IDs for safety purposes
-        public List<Item> GetInventory()
+        public List<IItem> GetInventory()
         {
             return Inventory;
         }
 
-        public void PickUp(Item item)
+        public void PickUp(IItem item)
         {
             int firstNonEmpty = FindEmptyPositionInInventory();
             if (firstNonEmpty == -1)
@@ -178,15 +179,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             if (Weapon.GetName() == "No Weapon")
                 throw new InvalidItemDropException("weapon");
             Inventory[firstEmpty] = Weapon;
-            
-            var attackDamage = Weapon.GetAttackValue();
-            var defenseValue = Weapon.GetDefenseValue();
-            var healthValue = Weapon.GetHealth();
-            var armourPenetration = Weapon.GetArmorPenetration();
-            var criticalChance = Weapon.GetCriticalChance();
-            IncreaseStatsAtWeaponChange(-attackDamage, -defenseValue, -healthValue, -armourPenetration, -criticalChance);
-            
-            Weapon = AllItems.NoWeapon;
+            UseWeapon(AllItems.NoWeapon, firstEmpty);
         }
 
         public void MoveArmourToInventory()
@@ -196,18 +189,10 @@ namespace ConsoleApp12.Characters.MainCharacters
                 throw new FullInventoryException();
             if (Armour.GetName() == "No Armour")
                 throw new InvalidItemDropException("armour");
-            Inventory[firstEmpty] = Armour;
-
-            var attackDamage = Armour.GetAttackValue();
-            var defenseValue = Armour.GetDefenseValue();
-            var healthValue = Armour.GetHealth();
-            var sanityValue = Armour.GetSanity();
-            IncreaseStatsAtArmourChange(-attackDamage, -defenseValue, -healthValue, -sanityValue);
-            
-            Armour = AllItems.NoArmour;
+            UseArmour(AllItems.NoArmour, firstEmpty);
         }
 
-        private string UseWeapon(Weapon weapon, int itemIndex)
+        private string UseWeapon(IWeapon weapon, int itemIndex)
         {
             var toStr = $"You have equipped {weapon.GetName()}!\n";
             var oldWeapon = ChangeWeapon(weapon);
@@ -215,49 +200,35 @@ namespace ConsoleApp12.Characters.MainCharacters
                 Inventory[itemIndex] = oldWeapon;
             else
                 Inventory[itemIndex] = null;
-            var oldAttack = oldWeapon.GetAttackValue();
-            var oldDefense = oldWeapon.GetDefenseValue();
-            var oldArmourPenetration = oldWeapon.GetArmorPenetration();
-            var oldCriticalChance = oldWeapon.GetCriticalChance();
-            var oldHealth = oldWeapon.GetHealth();
-
-            var newAttack = weapon.GetAttackValue();
-            var newDefense = weapon.GetDefenseValue();
-            var newArmourPenetration = weapon.GetArmorPenetration();
-            var newCriticalChance = weapon.GetCriticalChance();
-            var newHealth = weapon.GetHealth();
+            var oldStats = ItemHelper.GetItemStats(oldWeapon);
+            var newStats = ItemHelper.GetItemStats(weapon);
+            var attackDifference = newStats.Attack - oldStats.Attack;
+            var defenseDifference = newStats.Defense - oldStats.Defense;
+            var armourPenetrationDifference = newStats.ArmourPenetration - oldStats.ArmourPenetration;
+            var criticalChanceDifference = newStats.ArmourPenetration - oldStats.ArmourPenetration;
+            var healthDifference = newStats.Health - oldStats.Health;
+            var sanityDifference = newStats.Sanity - oldStats.Sanity;
             
-            var attackDifference = newAttack - oldAttack;
-            var defenseDifference = newDefense - oldDefense;
-            var armourPenetrationDifference = newArmourPenetration - oldArmourPenetration;
-            var criticalChanceDifference = newCriticalChance - oldCriticalChance;
-            var healthDifference = newHealth - oldHealth;
-            IncreaseStatsAtWeaponChange(attackDifference, defenseDifference, healthDifference, armourPenetrationDifference, criticalChanceDifference);
+            ChangeStats(attackDifference, defenseDifference, healthDifference, armourPenetrationDifference,
+                    criticalChanceDifference, sanityDifference);
             return toStr;
         }
 
-        private void IncreaseStatsAtWeaponChange(double attackValue, double defenseValue, double healthValue, double armourPenetration,
-            double criticalChance)
+        private void ChangeStats(double attack, double defense, double health, double armourPenetration,
+            double criticalChance, double sanity)
         {
-            IncreaseAttackValue(attackValue);
-            IncreaseDefenseValue(defenseValue);
-            var supposedHealth = Math.Max(1, MaximumHealth + healthValue);
+            IncreaseAttackValue(attack);
+            IncreaseDefenseValue(defense);
+            var supposedHealth = Math.Max(1, MaximumHealth + health);
             SetInnateMaximumHealth(supposedHealth);
             IncreaseArmourPenetration(armourPenetration);
             IncreaseCriticalChance(criticalChance);
-        }
-
-        private void IncreaseStatsAtArmourChange(double attackValue, double defenseValue, double healthValue, double sanityValue)
-        {
-            IncreaseAttackValue(attackValue);
-            IncreaseDefenseValue(defenseValue);
-            var supposedHealth = Math.Max(1, MaximumHealth + healthValue);
-            SetInnateMaximumHealth(supposedHealth);
-            var supposedSanity = Math.Max(1, MaxSanity + sanityValue);
+            var supposedSanity = Math.Max(1, MaxSanity + sanity);
             SetMaximumSanity(supposedSanity);
         }
         
-        private string UseArmour(Armour armour, int itemIndex)
+        
+        private string UseArmour(IArmour armour, int itemIndex)
         {
             var toStr = $"You have equipped {armour.GetName()}!\n";
             var oldArmour = ChangeArmour(armour);
@@ -266,26 +237,21 @@ namespace ConsoleApp12.Characters.MainCharacters
             else
                 Inventory[itemIndex] = null;
 
-            var oldAttack = oldArmour.GetAttackValue();
-            var oldDefense = oldArmour.GetDefenseValue();
-            var oldHealth = oldArmour.GetHealth();
-            var oldSanity = oldArmour.GetSanity();
+            var oldStats = ItemHelper.GetItemStats(oldArmour);
+            var newStats = ItemHelper.GetItemStats(armour);
+            var attackDifference = newStats.Attack - oldStats.Attack;
+            var defenseDifference = newStats.Defense - oldStats.Defense;
+            var armourPenetrationDifference = newStats.ArmourPenetration - oldStats.ArmourPenetration;
+            var criticalChanceDifference = newStats.ArmourPenetration - oldStats.ArmourPenetration;
+            var healthDifference = newStats.Health - oldStats.Health;
+            var sanityDifference = newStats.Sanity - oldStats.Sanity;
             
-            var newAttack = armour.GetAttackValue();
-            var newDefense = armour.GetDefenseValue();
-            var newHealth = armour.GetHealth();
-            var newSanity = armour.GetSanity();
-            
-            var attackDifference = newAttack - oldAttack;
-            var defenseDifference = newDefense - oldDefense;
-            var healthDifference = newHealth - oldHealth;
-            var sanityDifference = newSanity - oldSanity;
-
-            IncreaseStatsAtArmourChange(attackDifference, defenseDifference, healthDifference, sanityDifference);
+            ChangeStats(attackDifference, defenseDifference, healthDifference, armourPenetrationDifference,
+                criticalChanceDifference, sanityDifference);
             return toStr;
         }
 
-        private string UsePotion(Potion potion, int itemIndex)
+        private string UsePotion(IPotion potion, int itemIndex)
         {
             var toStr = $"You have consumed a {potion.GetName()}!\n";
             Inventory[itemIndex] = null;
@@ -301,11 +267,11 @@ namespace ConsoleApp12.Characters.MainCharacters
             var item = Inventory[position];
             if (item == null)
                 throw new NullItemException();
-            if (item is Weapon weapon)
+            if (item is IWeapon weapon)
                 return UseWeapon(weapon, position);
-            if (item is Armour armour)
+            if (item is IArmour armour)
                 return UseArmour(armour, position);
-            if (item is Potion potion)
+            if (item is IPotion potion)
                 return UsePotion(potion, position);
             throw new InvalidItemTypeException();
         }
@@ -388,12 +354,12 @@ namespace ConsoleApp12.Characters.MainCharacters
                 Console.WriteLine(toStr);
         }
 
-        public void AddLifeStealToWeapon(double lifeStealAdded)
-        {
-            var currentLifeSteal = Weapon.GetLifeSteal();
-            currentLifeSteal += lifeStealAdded;
-            Weapon.SetLifeSteal(currentLifeSteal);
-        }
+        // public void AddLifeStealToWeapon(double lifeStealAdded)
+        // {
+        //     var currentLifeSteal = Weapon.GetLifeSteal();
+        //     currentLifeSteal += lifeStealAdded;
+        //     Weapon.SetLifeSteal(currentLifeSteal);
+        // }
         
         public string ShowInventory()
         {
@@ -403,7 +369,7 @@ namespace ConsoleApp12.Characters.MainCharacters
             foreach (var item in Inventory)
             {
                 if (item != null)
-                    toStr += item.ToString();
+                    toStr += ItemHelper.ItemToString(item);
             }
             return toStr;
         }
@@ -437,7 +403,7 @@ namespace ConsoleApp12.Characters.MainCharacters
         }
 
         
-        public void BuyItem(Item item)
+        public void BuyItem(IObtainable item)
         {
             var cost = item.GetPrice();
             if (Gold < cost)
@@ -450,7 +416,10 @@ namespace ConsoleApp12.Characters.MainCharacters
         {
             if (Inventory[position] == null)
                 throw new NullItemException();
-            Gold += Inventory[position].GetPrice();
+            if (Inventory[position] is IObtainable obtainable)
+                Gold += obtainable.GetPrice();
+            else
+                Gold += 0;
             var itemName = Inventory[position].GetName();
             Inventory[position] = null;
             return $"You have sold {itemName}!\n";
@@ -665,7 +634,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 $"{Math.Round(TotalMana, 2)} MANA, {Math.Round(Defense, 2)} DEFENSE, " +
                 $"{Math.Round(Attack, 2)} ATTACK, {Math.Round(Sanity, 2)}/{Math.Round(MaxSanity, 2)} SANITY, " +
                 $"{CriticalChance * 100}% CRITICAL CHANCE, {ArmourPenetration * 100}% ARMOUR PENETRATION\n" +
-                $"{Gold} GOLD, {Level} LEVEL\n{Weapon}{Armour}school:{School}\nattack growth rate: {AttackGrowth}, " +
+                $"{Gold} GOLD, {Level} LEVEL\n{ItemHelper.ItemToString(Weapon)}{ItemHelper.ItemToString(Armour)}school:{School}\nattack growth rate: {AttackGrowth}, " +
                 $"defense growth rate: {DefenseGrowth}\nhealth growth rate: {HealthGrowth}, mana growth rate: {ManaGrowth}\n";
             return toStr;
         }

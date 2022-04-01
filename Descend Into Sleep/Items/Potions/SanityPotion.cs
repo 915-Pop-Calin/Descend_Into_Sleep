@@ -4,18 +4,27 @@ using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class SanityPotion: Potion
+    public class SanityPotion: IPotion, IObtainable
     {
         private double SanityRestoringValue;
         
-        public SanityPotion(): base()
+        public SanityPotion()
         {
-            Name = "Sanity Potion";
             SanityRestoringValue = 30;
-            Description = $"You restore {SanityRestoringValue} of your sanity.\n";
         }
 
-        public override string UseItem(HumanPlayer humanPlayer)
+        public string GetName()
+        {
+            return "Sanity Potion";
+        }
+
+        public string GetDescription()
+        {
+            return $"You restore {SanityRestoringValue} of your sanity.\n";
+        }
+
+        
+        public string UseItem(HumanPlayer humanPlayer)
         {
             humanPlayer.RestoreSanity(SanityRestoringValue);
             var toStr = $"{humanPlayer.GetName()}'s sanity was increased by {SanityRestoringValue}!\n";
@@ -23,7 +32,7 @@ namespace ConsoleApp12.Items.Potions
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 100;
         }

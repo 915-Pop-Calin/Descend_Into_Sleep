@@ -1,14 +1,25 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelOne
+﻿
+namespace ConsoleApp12.Items.Armours.LevelOne
 {
-    public class Cloth: Armour
+    public class Cloth: IArmour, IObtainable
     {
-        public Cloth() : base(0, 10, 0)
+        public string GetName()
         {
-            Name = "Cloth";
-            Description = "Strong armour made out of cloth";
+            return "Cloth";
+        }
+
+        public string GetDescription()
+        {
+            return "Strong armour made out of cloth";
         }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 10;
+        }
+        
+        
+        public double GetPrice()
         {
             return 100;
         }

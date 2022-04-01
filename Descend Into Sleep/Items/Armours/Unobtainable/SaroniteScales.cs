@@ -2,22 +2,27 @@
 
 namespace ConsoleApp12.Items.Armours.Unobtainable
 {
-    public class SaroniteScales: Armour
+    public class SaroniteScales: IArmour, IReflector, IHealth
     {
-        public SaroniteScales() : base(0, 100, 100)
+        private bool Broken;
+        private double HealthPoints;
+        private double DefenseValue;
+        private string Name;
+        
+        public SaroniteScales()
         {
             HealthPoints = 100;
             Name = "Saronite Scales";
             Broken = false;
-            SetReflector();
+            DefenseValue = 100;
         }
 
-        public override string TakeHit(double attackValue)
+        public string TakeHit(double attackValue)
         {
             HealthPoints -= attackValue;
             if (HealthPoints <= 0)
             {
-                SetDefenseValue(0);
+                DefenseValue = 0;
                 Name = "Broken Saronite Scales";
                 Broken = true;
             }
@@ -26,10 +31,30 @@ namespace ConsoleApp12.Items.Armours.Unobtainable
             toStr += $"{Name} are left with {Math.Round(HealthPoints, 2)} health!\n";
             return toStr;
         }
-        
-        public override double GetPrice()
+
+        public bool IsBroken()
         {
-            return -1;
+            return Broken;
+        }
+        
+        public double GetDefenseValue()
+        {
+            return DefenseValue;
+        }
+
+        public double GetHealth()
+        {
+            return HealthPoints;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public string GetDescription()
+        {
+            return "Scales of Saron";
         }
     }
 }

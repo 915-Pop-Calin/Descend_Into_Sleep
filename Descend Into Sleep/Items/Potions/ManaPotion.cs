@@ -4,19 +4,28 @@ using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class ManaPotion: Potion
+    public class ManaPotion: IPotion, IObtainable
     {
 
         private double RestoredValue;
         
-        public ManaPotion(): base()
+        public ManaPotion()
         {
-            Name = "Mana Potion";
             RestoredValue = 10;
-            Description = $"You restore {RestoredValue} mana\n";
         }
 
-        public override string UseItem(HumanPlayer humanPlayer)
+        public string GetName()
+        {
+            return "Mana Potion";
+        }
+
+        public string GetDescription()
+        {
+            return $"You restore {RestoredValue} mana\n";
+        }
+
+        
+        public string UseItem(HumanPlayer humanPlayer)
         {
             humanPlayer.GainMana(RestoredValue);
             var toStr = $"{humanPlayer.GetName()} has restored {RestoredValue} of their mana!\n";
@@ -24,7 +33,7 @@ namespace ConsoleApp12.Items.Potions
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 20;
         }

@@ -1,14 +1,29 @@
-﻿namespace ConsoleApp12.Items.Armours.LeverFour
+﻿
+namespace ConsoleApp12.Items.Armours.LeverFour
 {
-    public class Scales: Armour
+    public class Scales: IArmour, IObtainable, IHealth
     {
-        public Scales() : base(0, 20, 100)
+        public string GetName()
         {
-            Name = "Scales";
-            Description = "Scales of C'Thulhu. Does not serve as a great armour";
-        }        
+            return "Scales";
+        }
+
+        public string GetDescription()
+        {
+            return "Scales of C'Thulhu. Does not serve as a great armour";
+        }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 20;
+        }
+
+        public double GetHealth()
+        {
+            return 100;
+        }
+
+        public double GetPrice()
         {
             return 1000;
         }

@@ -11,7 +11,7 @@ namespace ConsoleApp12.Characters.SideCharacters
         private readonly double MinimumPercentageReduced;
         private readonly double MaximumPercentageReduced;
         
-        public VoidSideEnemy(string name, double attackValue, double defenseValue, Weapon weapon, Armour armour,
+        public VoidSideEnemy(string name, double attackValue, double defenseValue, IWeapon weapon, IArmour armour,
             double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) : 
             base(name, attackValue, defenseValue, weapon, armour, healthValue, actions, chanceOfSuccessfulAct, level)
         {

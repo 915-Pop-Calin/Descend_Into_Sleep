@@ -3,16 +3,24 @@ using ConsoleApp12.Characters;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class TankBuster: Weapon
+    public class TankBuster: IWeapon, IActive, IObtainable
     {
-        public TankBuster() : base(4, 0, 0)
+        public double GetAttackValue()
         {
-            SetActive();
-            Description = "Each attack strikes twice";
-            Name = "Tank Buster";
+            return 4;
+        }
+        
+        public string GetName()
+        {
+            return "Tank Buster";
         }
 
-        public override string Active(double damageDealt, Character caster, Character opponent)
+        public string GetDescription()
+        {
+            return "Each attack strikes twice";
+        }
+
+        public string Active(double damageDealt, Character caster, Character opponent)
         {
             caster.DealDirectDamage(opponent, damageDealt);
             var toStr = $"{caster.GetName()} did a double hit and dealt {Math.Round(damageDealt, 2)} damage!\n";
@@ -20,7 +28,7 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 1500;
         }

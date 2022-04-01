@@ -1,15 +1,32 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelFive
+﻿
+namespace ConsoleApp12.Items.Armours.LevelFive
 {
-    public class NinjaYoroi: Armour
+    public class NinjaYoroi: IArmour, IObtainable, IDodge
     {
-        public NinjaYoroi() : base(0, 0, 0)
+        public string GetName()
         {
-            Name = "Ninja Yoroi";
-            Dodge = 0.5;
-            Description = $"Armour with no defense points but gives {100 * Dodge}% dodge chance";
+            return "Ninja Yoroi";
         }
 
-        public override double GetPrice()
+        public string GetDescription()
+        {
+            return $"Armour with no defense points but gives {100 * GetDodge()}% dodge chance";
+        }
+        
+        public double GetDefenseValue()
+        {
+            return 0;
+        }
+        
+        
+        public double GetDodge()
+        {
+            return 0.5;;
+        }
+        
+        
+        
+        public double GetPrice()
         {
             return 5000;
         }

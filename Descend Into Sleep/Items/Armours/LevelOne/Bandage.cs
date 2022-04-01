@@ -1,14 +1,24 @@
-﻿namespace ConsoleApp12.Items.Armours.LevelOne
+﻿
+namespace ConsoleApp12.Items.Armours.LevelOne
 {
-    public class Bandage: Armour
+    public class Bandage: IArmour, IObtainable
     {
-        public Bandage() : base(0, 3, 0)
+        public string GetName()
         {
-            Name = "Worn Bandage";
-            Description = "Bandaid solution for beginners";
+            return "Worn Bandage";
+        }
+
+        public string GetDescription()
+        {
+            return "Bandaid solution for beginners";
         }
         
-        public override double GetPrice()
+        public double GetDefenseValue()
+        {
+            return 3;
+        }
+        
+        public double GetPrice()
         {
             return 50;
         }

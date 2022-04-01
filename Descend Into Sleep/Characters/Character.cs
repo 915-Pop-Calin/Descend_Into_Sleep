@@ -14,8 +14,8 @@ namespace ConsoleApp12.Characters
         protected double InnateDefense;
         protected double InnateCriticalChance;
         protected double InnateArmourPenetration;
-        protected Weapon Weapon;
-        protected Armour Armour;
+        protected IWeapon Weapon;
+        protected IArmour Armour;
         protected double ArmourPenetration;
         protected double Attack;
         protected double Defense;
@@ -39,20 +39,14 @@ namespace ConsoleApp12.Characters
         protected double ChanceOfSuccessfulAct;
         private bool CanLifeSteal;
 
-        protected Character(string name, double innateAttack, double innateDefense, Weapon weapon, Armour armour,
+        protected Character(string name, double innateAttack, double innateDefense, IWeapon weapon, IArmour armour,
             double health, List<string> actions = null, double chanceOfSuccessfulAct = -1,  int level = 0, string description = null)
         {
             Name = name;
             InnateAttack = innateAttack;
             InnateDefense = innateDefense;
             InnateCriticalChance = 0.15;
-            Weapon = weapon;
-            Armour = armour;
             InnateArmourPenetration = 0;
-            ArmourPenetration = Weapon.GetArmorPenetration();
-            Attack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
-            Defense = InnateDefense + Weapon.GetDefenseValue() + Armour.GetDefenseValue();
-            CriticalChance = InnateCriticalChance + Weapon.GetCriticalChance();
             Health = health;
             MaximumHealth = Health;
             Description = description;
@@ -74,6 +68,40 @@ namespace ConsoleApp12.Characters
             ChanceOfSuccessfulAct = chanceOfSuccessfulAct;
             CanLifeSteal = true;
             Level = level;
+            Weapon = AllItems.NoWeapon;
+            Armour = AllItems.NoArmour;
+            UseStatStick(weapon);
+            UseStatStick(armour);
+        }
+        
+        private void ChangeStats(double attack, double defense, double health, double armourPenetration,
+            double criticalChance, double sanity)
+        {
+            IncreaseAttackValue(attack);
+            IncreaseDefenseValue(defense);
+            var supposedHealth = Math.Max(1, MaximumHealth + health);
+            SetInnateMaximumHealth(supposedHealth);
+            IncreaseArmourPenetration(armourPenetration);
+            IncreaseCriticalChance(criticalChance);
+            var supposedSanity = Math.Max(1, MaxSanity + sanity);
+            SetMaximumSanity(supposedSanity);
+        }
+        
+        private void UseStatStick(IItem weapon)
+        {
+            var newStats = ItemHelper.GetItemStats(weapon);
+            var attackDifference = newStats.Attack;
+            var defenseDifference = newStats.Defense;
+            var armourPenetrationDifference = newStats.ArmourPenetration;
+            var criticalChanceDifference = newStats.ArmourPenetration;
+            var healthDifference = newStats.Health;
+            var sanityDifference = newStats.Sanity;
+            if (weapon is IWeapon iWeapon)
+                Weapon = iWeapon;
+            if (weapon is IArmour iArmour)
+                Armour = iArmour;
+            ChangeStats(attackDifference, defenseDifference, healthDifference, armourPenetrationDifference,
+                criticalChanceDifference, sanityDifference);
         }
         
         public int GetLevel()
@@ -170,12 +198,12 @@ namespace ConsoleApp12.Characters
             return Health;
         }
 
-        public Armour GetArmour()
+        public IArmour GetArmour()
         {
             return Armour;
         }
 
-        public Weapon GetWeapon()
+        public IWeapon GetWeapon()
         {
             return Weapon;
         }
@@ -255,7 +283,7 @@ namespace ConsoleApp12.Characters
 
         private string LifeSteal(double damageDealt)
         {
-            var lifeStealValue = Weapon.GetLifeSteal();
+            var lifeStealValue = ItemHelper.GetItemStats(Weapon).LifeSteal;
             var lifeStolen = lifeStealValue * damageDealt;
             Heal(lifeStolen);
             var toStr = $"{Name} has healed for {Math.Round(lifeStolen, 2)}!\n";
@@ -267,7 +295,9 @@ namespace ConsoleApp12.Characters
         {
             var opponentArmour = opponent.GetArmour();
             var opponentWeapon = opponent.GetWeapon();
-            var dodgeChance = opponentArmour.GetDodge();
+            double dodgeChance = 0;
+            if (opponentArmour is IDodge dodge)
+                dodgeChance = dodge.GetDodge();               
             var dodged = RandomHelper.IsSuccessfulTry(dodgeChance);
             if (dodged)
             {
@@ -277,10 +307,10 @@ namespace ConsoleApp12.Characters
             var criticalStruck = RandomHelper.IsSuccessfulTry(CriticalChance);
             double dealtDamage;
 
-            if (opponentWeapon.IsReflector() && !opponentWeapon.IsBroken())
-                return opponentWeapon.TakeHit(Attack);
-            if (opponentArmour.IsReflector() && !opponentArmour.IsReflector())
-                return opponentArmour.TakeHit(Attack);
+            if (opponentWeapon is IReflector reflectorWeapon && !reflectorWeapon.IsBroken())
+                return reflectorWeapon.TakeHit(Attack);
+            if (opponentArmour is IReflector reflectorArmour && !reflectorArmour.IsBroken())
+                return reflectorArmour.TakeHit(Attack);
             
             string toStr;
             if (criticalStruck)
@@ -310,16 +340,16 @@ namespace ConsoleApp12.Characters
             int turnCounter, double dealtDamage = 0)
         {
             var toStr = "";
-            if (Weapon.HasActive() && dealtDamage != 0)
-                toStr += Weapon.Active(dealtDamage, this, opponent);
-            if (CanLifeSteal && Weapon.GetLifeSteal() != 0 && dealtDamage != 0)
+            if (Weapon is IActive activeWeapon && dealtDamage != 0)
+                toStr += activeWeapon.Active(dealtDamage, this, opponent);
+            if (Weapon is IPassive passiveWeapon && dealtDamage != 0)
+                toStr += passiveWeapon.Passive(this, opponent, listOfTurns, turnCounter);
+            if (CanLifeSteal && ItemHelper.GetItemStats(Weapon).LifeSteal != 0 && dealtDamage != 0)
                 toStr += LifeSteal(dealtDamage);
-            if (Armour.HasActive() && dealtDamage != 0)
-                toStr += Armour.Active(dealtDamage, this, opponent);
-            if (Weapon.HasPassive())
-                toStr += Weapon.Passive(this, opponent, listOfTurns, turnCounter);
-            if (Armour.HasPassive())
-                toStr += Armour.Passive(this, opponent, listOfTurns, turnCounter);
+            if (Armour is IActive activeArmour && dealtDamage != 0)
+                toStr += activeArmour.Active(dealtDamage, this, opponent);
+            if (Armour is IPassive passiveArmour && dealtDamage != 0)
+                toStr += passiveArmour.Passive(this, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
@@ -336,14 +366,14 @@ namespace ConsoleApp12.Characters
             return takenDamage;
         }
 
-        protected Weapon ChangeWeapon(Weapon newWeapon)
+        protected IWeapon ChangeWeapon(IWeapon newWeapon)
         {
             var oldWeapon = Weapon;
             Weapon = newWeapon;
             return oldWeapon;
         }
 
-        protected Armour ChangeArmour(Armour newArmour)
+        protected IArmour ChangeArmour(IArmour newArmour)
         {
             var oldArmour = Armour;
             Armour = newArmour;
@@ -466,7 +496,7 @@ namespace ConsoleApp12.Characters
             RespectiveAbilities.Clear();
         }
 
-        public void DirectEquipWeapon(Weapon newWeapon)
+        public void DirectEquipWeapon(IWeapon newWeapon)
         {
             Weapon = newWeapon;
         }
@@ -534,7 +564,8 @@ namespace ConsoleApp12.Characters
                     OrderOfActions.Dequeue();
 
                     int actsLeft = OrderOfActions.Count, totalActs = Actions.Count;
-                    var unbuffedAttack = InnateAttack + Weapon.GetAttackValue() + Armour.GetAttackValue();
+                    var unbuffedAttack =
+                        InnateAttack + Weapon.GetAttackValue() + ItemHelper.GetItemStats(Armour).Attack;
                     var lostAttack = FormulaHelper.GetAttackValueDifference(actsLeft, totalActs, unbuffedAttack);
                     toStr += $"{Name} has lost {Math.Round(lostAttack, 2)} of its Attack!\n";
                     InnateAttack -= lostAttack;
@@ -566,7 +597,7 @@ namespace ConsoleApp12.Characters
         public override string ToString()
         {
             return $"{Name}: {Health} HEALTH, {Defense} DEFENSE, {Attack} ATTACK" +
-                   $"\n{Description}\n{Weapon}{Armour}";
+                   $"\n{Description}\n{ItemHelper.ItemToString(Weapon)}{ItemHelper.ItemToString(Armour)}";
             // + $"{GetStatus()}";
         }
     }

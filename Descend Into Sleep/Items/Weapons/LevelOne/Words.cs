@@ -1,16 +1,28 @@
-﻿namespace ConsoleApp12.Items.Weapons.LevelOne
+﻿using ConsoleApp12.Utils;
+
+namespace ConsoleApp12.Items.Weapons.LevelOne
 {
-    public class Words: Weapon
+    public class Words: IWeapon, IObtainable
     {
-        public Words() : base(0, 0, 0)
+        public double GetAttackValue()
         {
-            Name = "Words";
-            Description = "It is said that words cannot hurt you";
-        }        
-        
-        public override double GetPrice()
+            return 0;
+        }
+
+        public string GetName()
+        {
+            return "Words";
+        }
+
+        public string GetDescription()
+        {
+            return "It is said that words cannot hurt you";
+        }
+
+        public double GetPrice()
         {
             return 50;
         }
+        
     }
 }

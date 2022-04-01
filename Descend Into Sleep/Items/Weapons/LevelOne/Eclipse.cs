@@ -1,17 +1,37 @@
-﻿namespace ConsoleApp12.Items.Weapons.LevelOne
+﻿using ConsoleApp12.Utils;
+
+namespace ConsoleApp12.Items.Weapons.LevelOne
 {
-    public class Eclipse: Weapon
+    public class Eclipse: IWeapon, IObtainable, ILifeSteal, IDefense
     {
-        public Eclipse() : base(5, -2, 0)
+
+        public double GetAttackValue()
         {
-            SetLifeSteal(0.15);
-            Name = "Eclipse";
-            Description = "Strong life stealer at the cost of your defense";
+            return 5;
         }
-        
-        public override double GetPrice()
+
+        public double GetDefenseValue()
+        {
+            return -3;
+        }
+
+        public string GetName()
+        {
+            return "Eclipse";
+        }
+
+        public string GetDescription()
+        {
+            return "Strong life stealer at the cost of your defense";
+        }
+        public double GetPrice()
         {
             return 400;
+        }
+
+        public double GetLifeSteal()
+        {
+            return 0.15;
         }
     }
 }

@@ -4,18 +4,27 @@ using ConsoleApp12.Characters.MainCharacters;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class GrainOfSalt: Potion
+    public class GrainOfSalt: IPotion, IObtainable
     {
         private double HealingPerLevel;
         
-        public GrainOfSalt() : base()
+        public GrainOfSalt()
         {
-            Name = "Grain Of Salt";
             HealingPerLevel = 1.5;
-            Description = $"You heal for {HealingPerLevel} * Level.\n";
         }
 
-        public override string UseItem(HumanPlayer humanPlayer)
+        public string GetName()
+        {
+            return "Grain Of Salt";
+        }
+
+        public string GetDescription()
+        {
+            return $"You heal for {HealingPerLevel} * Level.\n";
+        }
+
+        
+        public string UseItem(HumanPlayer humanPlayer)
         {
             var humanPlayerLevel = humanPlayer.GetLevel();
             var healingDone = HealingPerLevel * humanPlayerLevel;
@@ -25,7 +34,7 @@ namespace ConsoleApp12.Items.Potions
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 50;
         }

@@ -5,17 +5,24 @@ using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Items.Weapons.LevelTwo
 {
-    public class TwoHandedMace: Weapon
+    public class TwoHandedMace: IWeapon, IPassive, IObtainable
     {
-
-        public TwoHandedMace() : base(45, 0, 0)
+        public double GetAttackValue()
         {
-            Name = "Two Handed Mace";
-            Description = "Strong attack weapon, but stuns you for one turn";
-            SetPassive();
+            return 45;
+        }
+        
+        public string GetName()
+        {
+            return "Two Handed Mace";
         }
 
-        public override string Passive(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public string GetDescription()
+        {
+            return "Strong attack weapon, but stuns you for one turn";
+        }
+        
+        public string Passive(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
         {
             String toStr;
             try
@@ -46,14 +53,14 @@ namespace ConsoleApp12.Items.Weapons.LevelTwo
             return toStr;
         }
 
-        public string Decast(Character caster, Character opponent)
+        private string Decast(Character caster, Character opponent)
         {
             caster.Unstun();
             var toStr = $"{caster.GetName()} can attack now!\n";
             return toStr;
         }
         
-        public override double GetPrice()
+        public double GetPrice()
         {
             return 750;
         }

@@ -3,22 +3,27 @@ using ConsoleApp12.Ability.TemAbilities;
 
 namespace ConsoleApp12.Items.Weapons.Unobtainable
 {
-    public class SaroniteTentacles: Weapon
+    public class SaroniteTentacles: IWeapon, IReflector, IHealth
     {
-        public SaroniteTentacles() : base(20, 0, 100)
+        private bool Broken;
+        private double HealthPoints;
+        private double AttackValue;
+        private string Name;
+        
+        public SaroniteTentacles()
         {
             HealthPoints = 100;
-            Broken = false;
-            SetReflector();
+            AttackValue = 20;
             Name = "Saronite Tentacles";
+            Broken = false;
         }
 
-        public override string TakeHit(double attackValue)
+        public string TakeHit(double attackValue)
         {
             HealthPoints -= attackValue;
             if (HealthPoints <= 0)
             {
-                SetAttackValue(0);
+                AttackValue = 0;
                 Name = "Broken Saronite Tentacles";
                 Broken = true;
             }
@@ -27,10 +32,30 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
             toStr += $"{Name} are left with {HealthPoints} health!\n";
             return toStr;
         }
-        
-        public override double GetPrice()
+
+        public bool IsBroken()
         {
-            return -1;
+            return Broken;
+        }
+        
+        public double GetAttackValue()
+        {
+            return AttackValue;
+        }
+
+        public double GetHealth()
+        {
+            return HealthPoints;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public string GetDescription()
+        {
+            return "Tentacles of Saron";
         }
     }
 }
