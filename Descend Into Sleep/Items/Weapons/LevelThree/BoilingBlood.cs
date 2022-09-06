@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Items.ItemTypes;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class BoilingBlood: IWeapon, IPassive, IObtainable, ILifeSteal
+    public class BoilingBlood : IWeapon, IPassive, IObtainable, ILifeSteal
     {
-        private readonly double DamagePerTurn;
-        
-        public BoilingBlood()
-        {
-            DamagePerTurn = 40;
-        }
+        public static readonly BoilingBlood BOILING_BLOOD = new BoilingBlood();
+        private const double DAMAGE_PER_TURN = 40;
 
         public double GetAttackValue()
         {
@@ -25,25 +22,34 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
 
         public string GetDescription()
         {
-            return $"Very strong life stealer, but you take {DamagePerTurn} true damage every turn";
+            return $"Very strong life stealer, but you take {DAMAGE_PER_TURN} true damage every turn";
         }
-        
+
         public double GetLifeSteal()
         {
             return 1.5;
         }
-        
-        public string Passive(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public string Passive(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            caster.DealDirectDamage(caster,DamagePerTurn);
-            var toStr = $"Boiling Blood has dealt {DamagePerTurn} true damage to {caster.GetName()}!\n";
+            caster.DealDirectDamage(caster, DAMAGE_PER_TURN);
+            var toStr = $"Boiling Blood has dealt {DAMAGE_PER_TURN} true damage to {caster.GetName()}!\n";
             toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 1500;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 4;
+        }
+
+        private BoilingBlood()
+        {
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 {
-    public class Empower: Ability
+    public class Empower : Ability
     {
         public Empower() : base("Empower")
         {
@@ -19,20 +19,20 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             Description = $"You heal {ScalingPerLevel * Level} * missingHealth health\n";
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
-            var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
-            var amountHealed = missingHealth * ScalingPerLevel * Level;
+            string toStr = GetCastingString(caster);
+            double missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
+            double amountHealed = missingHealth * ScalingPerLevel * Level;
             toStr += $"{caster.GetName()} has healed for {Math.Round(amountHealed, 2)}!\n";
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints())} health!\n";
             caster.Heal(amountHealed);
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }

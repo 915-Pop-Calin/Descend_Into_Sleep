@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.PastSelfAbilities
 {
-    public class Judge: Ability
+    public class Judge : Ability
     {
         private readonly double PercentageHealthLost;
 
-        public Judge(int StrengthLevel) : base("Judge")
+        public Judge(int strengthLevel) : base("Judge")
         {
-            switch (StrengthLevel)
+            switch (strengthLevel)
             {
                 case 1:
                     PercentageHealthLost = 0.25;
@@ -28,19 +28,19 @@ namespace ConsoleApp12.Ability.PastSelfAbilities
             }
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var healthPoints = opponent.GetMaximumHealthPoints();
-            var damageTaken = PercentageHealthLost * healthPoints;
+            double healthPoints = opponent.GetMaximumHealthPoints();
+            double damageTaken = PercentageHealthLost * healthPoints;
             opponent.TakeMitigatedDamage(damageTaken);
             return $"{caster.GetName()} judges {opponent.GetName()} for all its actions!\n{opponent.GetName()} takes" +
                    $" {PercentageHealthLost * 100}% of its maximum health!\n{opponent.GetName()} is left" +
                    $" with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }

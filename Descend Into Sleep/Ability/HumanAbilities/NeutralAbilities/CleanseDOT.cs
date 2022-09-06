@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using ConsoleApp12.Characters;
+﻿using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 {
-    public class CleanseDOT: Ability
+    public class CleanseDOT : Ability
     {
         public CleanseDOT() : base("Cleanse DOT")
         {
@@ -17,18 +16,18 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             Description = "You clear all the DOT effects which are currently affecting you\n";
         }
-        
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
+            string toStr = GetCastingString(caster);
             caster.ClearDotEffects();
             toStr += $"{caster.GetName()} cleared all their dot effects!\n";
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }

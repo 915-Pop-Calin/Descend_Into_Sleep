@@ -1,34 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.IcarusAbilities
 {
-    public class Burn: Ability
+    public class Burn : Ability
     {
-        private readonly int NumberOfTurns;
-        private readonly double TurnScaling;
+        private const int NUMBER_OF_TURNS = 5;
+        private const double TURN_SCALING = 1;
 
         public Burn() : base("Burn")
         {
-            NumberOfTurns = 5;
-            TurnScaling = 1;
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var damagePerTurn = NumberOfTurns * TurnScaling;
-            var dotEffect = new DotEffect(NumberOfTurns, damagePerTurn);
+            double damagePerTurn = NUMBER_OF_TURNS * TURN_SCALING;
+            DotEffect dotEffect = new DotEffect(NUMBER_OF_TURNS, damagePerTurn);
             opponent.AddDotEffect(dotEffect);
-            var toStr = $"{caster.GetName()} burns everything around it!\n";
-            toStr += $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage every turn for {NumberOfTurns} turns!\n";
+            string toStr = $"{caster.GetName()} burns everything around it!\n";
+            toStr +=
+                $"{opponent.GetName()} will take {Math.Round(damagePerTurn, 2)} damage every turn for {NUMBER_OF_TURNS} turns!\n";
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }

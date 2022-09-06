@@ -5,11 +5,10 @@ using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.CombatSystem
 {
-    public class ComputerCombat: Combat
+    public class ComputerCombat : Combat
     {
         public ComputerCombat(Character computerPlayer) : base(computerPlayer)
         {
-            
         }
 
         public override void CombatTurn(Character secondCharacter)
@@ -20,7 +19,7 @@ namespace ConsoleApp12.CombatSystem
             var abilityNumber = RandomHelper.GenerateRandomInInterval(0, numberOfAbilities);
             if (numberOfAbilities == 0)
                 willAttack = true;
-            
+
             if (willAttack)
             {
                 var toStrHit = Player.Hit(secondCharacter, ListOfTurns, TurnCounter);
@@ -28,7 +27,7 @@ namespace ConsoleApp12.CombatSystem
                 TurnCounter++;
                 return;
             }
-            
+
             var abilityKeys = Player.GetRespectiveAbilities().Keys.ToList();
             var chosenAbilityKey = abilityKeys[abilityNumber];
             var chosenAbility = Player.GetRespectiveAbilities()[chosenAbilityKey].GetName();

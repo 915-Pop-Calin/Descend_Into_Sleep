@@ -8,13 +8,13 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class Tem: Character
     {
-        private Tem() : base("Tem", 1, 75, AllItems.Eclipse, AllItems.Cloth, 
+        private Tem() : base("Tem", 1, 75, Eclipse.ECLIPSE, Cloth.CLOTH, 
             100, new List<string> {"pet", "hug", "fund college"}, 0.6, 1, "Comes from Temmie Village")
         {
             AddAbility(new DoNothing());
             AddAbility(new HealTem());
         }
 
-        public static readonly Tem MainBoss = new Tem();
+        public static readonly Tem TEM = new Tem();
     }
 }

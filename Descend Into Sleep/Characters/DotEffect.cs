@@ -3,7 +3,7 @@
     public class DotEffect
     {
         public int NumberOfTurns;
-        public double DamagePerTurn;
+        public readonly double DamagePerTurn;
         
         public DotEffect(int numberOfTurns, double damagePerTurn)
         {

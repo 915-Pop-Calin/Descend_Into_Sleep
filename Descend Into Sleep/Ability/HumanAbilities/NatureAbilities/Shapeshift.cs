@@ -1,53 +1,45 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Numerics;
-using System.Security.Authentication;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
 {
-    public class Shapeshift: Ability
+    public class Shapeshift : Ability
     {
+        private readonly Queue<List<double>> StatsGainedQueue;
+        private const double ARMOUR_SCALING_PER_LEVEL = 75;
+        private const double HEALTH_SCALING_PER_LEVEL = 75;
+        private const double ATTACK_SCALING_PER_LEVEL = 15;
+        private const int TURN_COOLDOWN = 7;
 
-        private Queue<List<double>> StatsGainedQueue;
-        private readonly double ArmourScalingPerLevel;
-        private readonly double HealthScalingPerLevel;
-        private readonly double AttackScalingPerLevel;
-        private readonly int TurnCooldown;
-        
         public Shapeshift() : base("Shapeshift")
         {
             StatsGainedQueue = new Queue<List<double>>();
             ManaCost = 50;
             TurnsUntilDecast = 3;
-            ArmourScalingPerLevel = 75;
-            HealthScalingPerLevel = 30;
-            AttackScalingPerLevel = 15;
-            TurnCooldown = 7;
-            Description = $"You shapeshift and gain {ArmourScalingPerLevel * Level} armour, " +
-                          $"{HealthScalingPerLevel * Level} health and {AttackScalingPerLevel * Level} attack " +
+            Description = $"You shapeshift and gain {ARMOUR_SCALING_PER_LEVEL * Level} armour, " +
+                          $"{HEALTH_SCALING_PER_LEVEL * Level} health and {ATTACK_SCALING_PER_LEVEL * Level} attack " +
                           $"for {TurnsUntilDecast} Turns\n";
         }
 
         public override void ResetDescription()
         {
-            Description = $"You shapeshift and gain {ArmourScalingPerLevel * Level} armour, " +
-                          $"{HealthScalingPerLevel * Level} health and {AttackScalingPerLevel * Level} attack " +
+            Description = $"You shapeshift and gain {ARMOUR_SCALING_PER_LEVEL * Level} armour, " +
+                          $"{HEALTH_SCALING_PER_LEVEL * Level} health and {ATTACK_SCALING_PER_LEVEL * Level} attack " +
                           $"for {TurnsUntilDecast} Turns\n";
         }
-        
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
             if (!Available)
                 throw new CooldownException(Name);
-            var toStr = GetCastingString(caster);
-            var armourGained = ArmourScalingPerLevel * Level;
-            var healthGained = HealthScalingPerLevel * Level;
-            var attackGained = AttackScalingPerLevel * Level;
-            var statsGained = new List<double>();
+            string toStr = GetCastingString(caster);
+            double armourGained = ARMOUR_SCALING_PER_LEVEL * Level;
+            double healthGained = HEALTH_SCALING_PER_LEVEL * Level;
+            double attackGained = ATTACK_SCALING_PER_LEVEL * Level;
+            List<double> statsGained = new List<double>();
             statsGained.Add(armourGained);
             statsGained.Add(healthGained);
             statsGained.Add(attackGained);
@@ -55,46 +47,38 @@ namespace ConsoleApp12.Ability.HumanAbilities.NatureAbilities
             caster.IncreaseAttackValue(attackGained);
             caster.GainHealthPoints(healthGained);
             caster.IncreaseDefenseValue(armourGained);
-            toStr += $"{caster.GetName()}'s health was increased by {healthGained}, their attack value was increased by ";
+            toStr +=
+                $"{caster.GetName()}'s health was increased by {healthGained}, their attack value was increased by ";
             toStr += $"{attackGained} and their defense was increased by {armourGained}!\n";
             toStr +=
                 $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints(), 2)} health, {Math.Round(caster.GetAttackValue(), 2)} " +
                 $" attack and {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             Available = false;
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
-
-            Func<Character, Character, string> secondDecastFunction = delegate(Character caster, Character opponent){
-                return SecondDecast(caster, opponent);
-            };
-            if (listOfTurns.ContainsKey(turnCounter + TurnCooldown))
-                listOfTurns[turnCounter + TurnCooldown].Add(secondDecastFunction);
-            else {
-                listOfTurns[turnCounter + TurnCooldown] = new List<Func<Character, Character, string>>();
-                listOfTurns[turnCounter + TurnCooldown].Add(secondDecastFunction);
-            }
+            listOfTurns.Add(turnCounter + TURN_COOLDOWN, (c1, c2) => SecondDecast(c1, c2));
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             if (StatsGainedQueue.Count == 0)
                 throw new EmptyQueueException("Stats Gained");
-            var casterName = caster.GetName();
-            var statsGained = StatsGainedQueue.Dequeue();
-            var armourGained = statsGained[0];
-            var healthGained = statsGained[1];
-            var attackGained = statsGained[2];
+            string casterName = caster.GetName();
+            List<double> statsGained = StatsGainedQueue.Dequeue();
+            double armourGained = statsGained[0];
+            double healthGained = statsGained[1];
+            double attackGained = statsGained[2];
             caster.LoseHealthPoints(healthGained);
             caster.IncreaseAttackValue(-attackGained);
             caster.IncreaseDefenseValue(-armourGained);
-            var toStr = $"{casterName}'s shapeshift has ended!\n Their stats were brought back to normal!\n";
+            string toStr = $"{casterName}'s shapeshift has ended!\n Their stats were brought back to normal!\n";
             toStr +=
                 $"{caster.GetName()} now has {Math.Round(caster.GetHealthPoints(), 2)} health, {Math.Round(caster.GetAttackValue(), 2)} " +
                 $" attack and {Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
 
-        public string SecondDecast(Character character, Character opponent)
+        private string SecondDecast(Character character, Character opponent)
         {
             Available = true;
             var toStr = $"{Name} is now available!\n";

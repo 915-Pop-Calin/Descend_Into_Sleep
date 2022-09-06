@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Utils;
@@ -9,8 +8,8 @@ namespace ConsoleApp12.SaveFile
 {
     public class SaveFile
     {
-        private int Number;
-        private string Name;
+        private readonly int Number;
+        private readonly string Name;
         private string CorruptionMessage;
         private HumanPlayer Player;
         private int GameLevel;
@@ -32,7 +31,7 @@ namespace ConsoleApp12.SaveFile
             Time = DateTime.UnixEpoch;
             try
             {
-                var loadedInfo = HumanTxtSave.Load(Name, Number);
+                var loadedInfo = HumanPlayerSerializer.Load(Name, Number);
                 Player = loadedInfo.Item1;
                 GameLevel = loadedInfo.Item2;
                 Enemies = loadedInfo.Item3;
@@ -55,7 +54,7 @@ namespace ConsoleApp12.SaveFile
                 CorruptionMessage = emptyFileException.Message;
             }
         }
-        
+
         public Tuple<HumanPlayer, int, List<int>, DateTime> LoadInfo()
         {
             CheckCorruptionMessage();
@@ -63,7 +62,7 @@ namespace ConsoleApp12.SaveFile
                 throw new CorruptedSaveFileException(CorruptionMessage);
             return new Tuple<HumanPlayer, int, List<int>, DateTime>(Player, GameLevel, Enemies, Time);
         }
-        
+
         public void SaveInfo(HumanPlayer humanPlayer, int gameLevel, List<int> enemies)
         {
             DateTime currentTime = DateTime.Now;
@@ -71,29 +70,28 @@ namespace ConsoleApp12.SaveFile
             GameLevel = gameLevel;
             Time = currentTime;
             CorruptionMessage = null;
-            HumanTxtSave.Save(humanPlayer, gameLevel, enemies, currentTime, Name);
+            HumanPlayerSerializer.Save(humanPlayer, gameLevel, enemies, currentTime, Name);
         }
-        
+
         public override string ToString()
         {
             if (CorruptionMessage != null)
                 return $"Save File {Number}:\nFile is corrupted:{CorruptionMessage}\n";
             var header = $"Save File {Number}";
-            return $"{header}:\n{Player}Game Level: {GameLevel}\nSave Date: {Time}\n"; 
+            return $"{header}:\n{Player}Game Level: {GameLevel}\nSave Date: {Time}\n";
         }
 
         public bool IsEmpty()
         {
             return CorruptionMessage != null;
         }
-        
-        
-        public static List<SaveFile> saveFiles = new List<SaveFile>()
+
+
+        public static readonly List<SaveFile> SAVE_FILES = new List<SaveFile>()
         {
             new SaveFile(0), new SaveFile(1), new SaveFile(2), new SaveFile(3),
             new SaveFile(4), new SaveFile(5), new SaveFile(6), new SaveFile(7),
             new SaveFile(8), new SaveFile(9)
         };
-
     }
 }

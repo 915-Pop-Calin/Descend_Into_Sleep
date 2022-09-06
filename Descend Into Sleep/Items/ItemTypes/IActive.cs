@@ -1,6 +1,6 @@
 ﻿using ConsoleApp12.Characters;
 
-namespace ConsoleApp12.Items
+namespace ConsoleApp12.Items.ItemTypes
 {
     public interface IActive
     {

@@ -4,11 +4,10 @@ using ConsoleApp12.Characters.SideCharacters;
 
 namespace ConsoleApp12.CombatSystem
 {
-    public class SideEnemyCombat: Combat
+    public class SideEnemyCombat : Combat
     {
-        public SideEnemyCombat(SideEnemy sideEnemyPlayer): base(sideEnemyPlayer)
+        public SideEnemyCombat(SideEnemy sideEnemyPlayer) : base(sideEnemyPlayer)
         {
-            ;
         }
 
         public override void CombatTurn(Character secondCharacter)

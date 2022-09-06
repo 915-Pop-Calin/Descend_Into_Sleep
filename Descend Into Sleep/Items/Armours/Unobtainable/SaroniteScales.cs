@@ -1,21 +1,16 @@
 ﻿using System;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Armours.Unobtainable
 {
-    public class SaroniteScales: IArmour, IReflector, IHealth
+    public class SaroniteScales : IArmour, IReflector, IHealth
     {
+        public static readonly SaroniteScales SARONITE_SCALES = new SaroniteScales();
+
         private bool Broken;
         private double HealthPoints;
         private double DefenseValue;
         private string Name;
-        
-        public SaroniteScales()
-        {
-            HealthPoints = 100;
-            Name = "Saronite Scales";
-            Broken = false;
-            DefenseValue = 100;
-        }
 
         public string TakeHit(double attackValue)
         {
@@ -36,7 +31,7 @@ namespace ConsoleApp12.Items.Armours.Unobtainable
         {
             return Broken;
         }
-        
+
         public double GetDefenseValue()
         {
             return DefenseValue;
@@ -55,6 +50,14 @@ namespace ConsoleApp12.Items.Armours.Unobtainable
         public string GetDescription()
         {
             return "Scales of Saron";
+        }
+
+        private SaroniteScales()
+        {
+            HealthPoints = 100;
+            Name = "Saronite Scales";
+            Broken = false;
+            DefenseValue = 100;
         }
     }
 }

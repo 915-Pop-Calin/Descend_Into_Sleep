@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items;
+using ConsoleApp12.Items.Armours.Unobtainable;
+using ConsoleApp12.Items.ItemTypes;
+using ConsoleApp12.Items.Weapons.Unobtainable;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters
@@ -26,7 +29,7 @@ namespace ConsoleApp12.Characters
         protected int Level;
         protected readonly Dictionary<string, Ability.Ability> RespectiveAbilities;
         private int Stunned;
-        private List<DotEffect> DotEffects;
+        private readonly List<DotEffect> DotEffects;
         protected double MaxSanity;
         protected double Sanity;
         private bool StunResistant;
@@ -40,7 +43,8 @@ namespace ConsoleApp12.Characters
         private bool CanLifeSteal;
 
         protected Character(string name, double innateAttack, double innateDefense, IWeapon weapon, IArmour armour,
-            double health, List<string> actions = null, double chanceOfSuccessfulAct = -1,  int level = 0, string description = null)
+            double health, List<string> actions = null, double chanceOfSuccessfulAct = -1, int level = 0,
+            string description = null)
         {
             Name = name;
             InnateAttack = innateAttack;
@@ -68,12 +72,12 @@ namespace ConsoleApp12.Characters
             ChanceOfSuccessfulAct = chanceOfSuccessfulAct;
             CanLifeSteal = true;
             Level = level;
-            Weapon = AllItems.NoWeapon;
-            Armour = AllItems.NoArmour;
+            Weapon = NoWeapon.NO_WEAPON;
+            Armour = NoArmour.NO_ARMOUR;
             UseStatStick(weapon);
             UseStatStick(armour);
         }
-        
+
         private void ChangeStats(double attack, double defense, double health, double armourPenetration,
             double criticalChance, double sanity)
         {
@@ -86,7 +90,7 @@ namespace ConsoleApp12.Characters
             var supposedSanity = Math.Max(1, MaxSanity + sanity);
             SetMaximumSanity(supposedSanity);
         }
-        
+
         private void UseStatStick(IItem weapon)
         {
             var newStats = ItemHelper.GetItemStats(weapon);
@@ -103,16 +107,17 @@ namespace ConsoleApp12.Characters
             ChangeStats(attackDifference, defenseDifference, healthDifference, armourPenetrationDifference,
                 criticalChanceDifference, sanityDifference);
         }
-        
+
         public int GetLevel()
         {
             return Level;
         }
+
         public string GetName()
         {
             return Name;
         }
-        
+
         public void SetAttackValue(double newAttackValue)
         {
             Attack = newAttackValue;
@@ -172,12 +177,12 @@ namespace ConsoleApp12.Characters
         {
             Attack += attackValue;
         }
-        
+
         public void IncreaseDefenseValue(double defenseValue)
         {
             Defense += defenseValue;
         }
-        
+
         protected void IncreaseCriticalChance(double criticalChanceValue)
         {
             CriticalChance += criticalChanceValue;
@@ -187,12 +192,12 @@ namespace ConsoleApp12.Characters
         {
             ArmourPenetration += armourPenetrationValue;
         }
-        
+
         public double GetArmourPenetration()
         {
             return ArmourPenetration;
         }
-        
+
         public double GetHealthPoints()
         {
             return Health;
@@ -212,7 +217,7 @@ namespace ConsoleApp12.Characters
         {
             return Attack;
         }
-        
+
         public double GetDefenseValue()
         {
             return Defense;
@@ -222,7 +227,7 @@ namespace ConsoleApp12.Characters
         {
             return MaximumHealth;
         }
-        
+
         public void ReduceHealthPoints(double damageTaken)
         {
             Health -= damageTaken;
@@ -232,7 +237,7 @@ namespace ConsoleApp12.Characters
         {
             Mana = Math.Min(Mana + manaGained, TotalMana);
         }
-        
+
         private double GetMultiplier(Character opponent)
         {
             double defensePoints = opponent.GetDefenseValue();
@@ -246,6 +251,7 @@ namespace ConsoleApp12.Characters
             {
                 multiplier = 2 - 100 / (100 - defensePoints);
             }
+
             return multiplier;
         }
 
@@ -290,20 +296,20 @@ namespace ConsoleApp12.Characters
             toStr += $"{Name} has {Math.Round(Health, 2)} health now!\n";
             return toStr;
         }
-        
-        public virtual string Hit(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public virtual string Hit(Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
             var opponentArmour = opponent.GetArmour();
             var opponentWeapon = opponent.GetWeapon();
             double dodgeChance = 0;
             if (opponentArmour is IDodge dodge)
-                dodgeChance = dodge.GetDodge();               
+                dodgeChance = dodge.GetDodge();
             var dodged = RandomHelper.IsSuccessfulTry(dodgeChance);
             if (dodged)
             {
                 return $"{opponent.GetName()} has dodged your attack!\n";
             }
-            
+
             var criticalStruck = RandomHelper.IsSuccessfulTry(CriticalChance);
             double dealtDamage;
 
@@ -311,23 +317,23 @@ namespace ConsoleApp12.Characters
                 return reflectorWeapon.TakeHit(Attack);
             if (opponentArmour is IReflector reflectorArmour && !reflectorArmour.IsBroken())
                 return reflectorArmour.TakeHit(Attack);
-            
+
             string toStr;
             if (criticalStruck)
             {
-                        dealtDamage = CriticalHit(opponent);
-                        var enemyHealthPoints = opponent.GetHealthPoints();
-                        toStr = $"CRITICAL HIT! {Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
-                        toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
+                dealtDamage = CriticalHit(opponent);
+                var enemyHealthPoints = opponent.GetHealthPoints();
+                toStr = $"CRITICAL HIT! {Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
+                toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
             }
             else
             {
-                        dealtDamage = NormalHit(opponent);
-                        var enemyHealthPoints = opponent.GetHealthPoints();
-                        toStr = $"{Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
-                        toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
+                dealtDamage = NormalHit(opponent);
+                var enemyHealthPoints = opponent.GetHealthPoints();
+                toStr = $"{Math.Round(dealtDamage, 2)} damage done to {opponent.GetName()}!\n";
+                toStr += $"{opponent.GetName()} is left with {Math.Round(enemyHealthPoints, 2)} health!\n";
             }
-            
+
             var regeneratedMana = ManaRegenerationRate * TotalMana;
             GainMana(regeneratedMana);
             toStr += $"{Name} has regenerated {regeneratedMana} of its mana!\n";
@@ -336,7 +342,7 @@ namespace ConsoleApp12.Characters
             return toStr;
         }
 
-        public string ItemEffects(Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, 
+        public string ItemEffects(Character opponent, ListOfTurns listOfTurns,
             int turnCounter, double dealtDamage = 0)
         {
             var toStr = "";
@@ -384,7 +390,7 @@ namespace ConsoleApp12.Characters
         {
             Health = Math.Min(Health + amountHealed, MaximumHealth);
         }
-        
+
         protected void AddAbility(Ability.Ability ability)
         {
             var abilityName = ability.GetName();
@@ -395,9 +401,9 @@ namespace ConsoleApp12.Characters
         {
             return RespectiveAbilities[name].GetDescription();
         }
-        
+
         public virtual string Cast(string abilityName, Character opponent,
-            Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+            ListOfTurns listOfTurns, int turnCounter)
         {
             // return RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
             var toStr = RespectiveAbilities[abilityName].Cast(this, opponent, listOfTurns, turnCounter);
@@ -416,7 +422,7 @@ namespace ConsoleApp12.Characters
         {
             return Stunned != 0;
         }
-        
+
         public void Unstun()
         {
             Stunned--;
@@ -456,7 +462,7 @@ namespace ConsoleApp12.Characters
         {
             return Sanity;
         }
-        
+
         protected void SetMaximumSanity(double newMaximumSanity)
         {
             // new maximum sanity < 0 => exception
@@ -470,12 +476,12 @@ namespace ConsoleApp12.Characters
         {
             return MaxSanity;
         }
-        
+
         public void RestoreSanity(double sanityValue)
         {
             Sanity = Math.Min(Sanity + sanityValue, MaxSanity);
         }
-        
+
         public void ClearDotEffects()
         {
             DotEffects.Clear();
@@ -485,7 +491,7 @@ namespace ConsoleApp12.Characters
         {
             CanLifeSteal = status;
         }
-        
+
         public void SetStunResistant(bool truthValue)
         {
             StunResistant = truthValue;
@@ -510,7 +516,7 @@ namespace ConsoleApp12.Characters
         {
             return Mana;
         }
-        
+
         public string GetDescription()
         {
             return Description;
@@ -520,18 +526,19 @@ namespace ConsoleApp12.Characters
         {
             return TotalMana;
         }
-        
+
         public double GetManaRegenerationRate()
         {
             return ManaRegenerationRate;
         }
-        
+
         public void Spare()
         {
             if (!IsSpareable())
             {
                 throw new ImpossibleSpareException(Name);
             }
+
             Spared = true;
         }
 
@@ -544,7 +551,7 @@ namespace ConsoleApp12.Characters
         {
             return OrderOfActions.Count == 0 && Actions.Count != 0;
         }
-        
+
         public List<string> GetActions()
         {
             return Actions;
@@ -576,6 +583,7 @@ namespace ConsoleApp12.Characters
             {
                 toStr += "It does not seem to be effective!\n";
             }
+
             return toStr;
         }
 
@@ -593,12 +601,11 @@ namespace ConsoleApp12.Characters
         {
             return 0.8;
         }
-        
+
         public override string ToString()
         {
             return $"{Name}: {Health} HEALTH, {Defense} DEFENSE, {Attack} ATTACK" +
                    $"\n{Description}\n{ItemHelper.ItemToString(Weapon)}{ItemHelper.ItemToString(Armour)}";
-            // + $"{GetStatus()}";
         }
     }
 }

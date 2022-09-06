@@ -1,5 +1,4 @@
-﻿using ConsoleApp12.Items;
-using Microsoft.VisualBasic.CompilerServices;
+﻿using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Utils
 {
@@ -7,7 +6,7 @@ namespace ConsoleApp12.Utils
     {
         public static StatHelper GetItemStats(IItem item)
         {
-            double 
+            double
                 attack = 0,
                 health = 0,
                 armourPenetration = 0,

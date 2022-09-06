@@ -1,15 +1,18 @@
 ﻿using System;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class TankBuster: IWeapon, IActive, IObtainable
+    public class TankBuster : IWeapon, IActive, IObtainable
     {
+        public static readonly TankBuster TANK_BUSTER = new TankBuster();
+
         public double GetAttackValue()
         {
             return 4;
         }
-        
+
         public string GetName()
         {
             return "Tank Buster";
@@ -27,10 +30,19 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             toStr += $"{opponent.GetName()} is left with {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 1500;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 4;
+        }
+
+        private TankBuster()
+        {
         }
     }
 }

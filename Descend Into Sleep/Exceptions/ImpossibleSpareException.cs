@@ -2,10 +2,10 @@
 
 namespace ConsoleApp12.Exceptions
 {
-    public class ImpossibleSpareException: Exception
+    public class ImpossibleSpareException : Exception
     {
-        public ImpossibleSpareException(String name) : base($"{name} cannot be spared yet!\n"){
-            
+        public ImpossibleSpareException(String name) : base($"{name} cannot be spared yet!\n")
+        {
         }
     }
 }

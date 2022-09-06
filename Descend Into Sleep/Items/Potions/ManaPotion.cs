@@ -1,18 +1,13 @@
 ﻿using System;
 using ConsoleApp12.Characters;
-using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class ManaPotion: IPotion, IObtainable
+    public class ManaPotion : IPotion, IObtainable
     {
-
-        private double RestoredValue;
-        
-        public ManaPotion()
-        {
-            RestoredValue = 10;
-        }
+        public static readonly ManaPotion MANA_POTION = new ManaPotion();
+        private const double RESTORED_VALUE = 10;
 
         public string GetName()
         {
@@ -21,21 +16,29 @@ namespace ConsoleApp12.Items.Potions
 
         public string GetDescription()
         {
-            return $"You restore {RestoredValue} mana\n";
+            return $"You restore {RESTORED_VALUE} mana\n";
         }
 
-        
-        public string UseItem(HumanPlayer humanPlayer)
+        public string UseItem(Character character)
         {
-            humanPlayer.GainMana(RestoredValue);
-            var toStr = $"{humanPlayer.GetName()} has restored {RestoredValue} of their mana!\n";
-            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetMana(), 2)} mana!\n";
+            character.GainMana(RESTORED_VALUE);
+            var toStr = $"{character.GetName()} has restored {RESTORED_VALUE} of their mana!\n";
+            toStr += $"{character.GetName()} now has {Math.Round(character.GetMana(), 2)} mana!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 20;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 1;
+        }
+
+        private ManaPotion()
+        {
         }
     }
 }

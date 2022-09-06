@@ -2,35 +2,34 @@
 using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
-    public class UndyingWill: Ability
+    public class UndyingWill : Ability
     {
-        private Queue<double> AttackValuesQueue;
-        private readonly double PercentageIncreased;
-        
+        private readonly Queue<double> AttackValuesQueue;
+        private const double PERCENTAGE_INCREASED = 2;
+
         public UndyingWill() : base("Undying Will")
         {
             ManaCost = 75;
             TurnsUntilDecast = 3;
             AttackValuesQueue = new Queue<double>();
-            PercentageIncreased = 2;
-            Description = $"Your attack damage is increased by {PercentageIncreased} * AttackValue, " +
+            Description = $"Your attack damage is increased by {PERCENTAGE_INCREASED} * AttackValue, " +
                           $"but you die after {TurnsUntilDecast} Turns\n";
         }
 
         public override void ResetDescription()
         {
-            Description = $"Your attack damage is increased by {PercentageIncreased} * AttackValue, " +
+            Description = $"Your attack damage is increased by {PERCENTAGE_INCREASED} * AttackValue, " +
                           $"but you die after {TurnsUntilDecast} Turns\n";
         }
-        
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
-            var attackValue = caster.GetAttackValue();
-            var increasedAttackValue = PercentageIncreased * attackValue;
+            string toStr = GetCastingString(caster);
+            double increasedAttackValue = PERCENTAGE_INCREASED * caster.GetAttackValue();;
             AttackValuesQueue.Enqueue(increasedAttackValue);
             caster.IncreaseAttackValue(increasedAttackValue);
             toStr += $"{caster.GetName()}'s attack value was increased with {Math.Round(increasedAttackValue, 2)}. " +
@@ -40,18 +39,19 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             if (opponent.GetHealthPoints() > 0)
             {
                 caster.ReduceHealthPoints(10000);
                 return $"{caster.GetName()}'s health was reduced by 10000!\n";
             }
+
             if (AttackValuesQueue.Count == 0)
-                    throw new EmptyQueueException("Attack Values");
-            var increasedAttackValue = AttackValuesQueue.Dequeue();
+                throw new EmptyQueueException("Attack Values");
+            double increasedAttackValue = AttackValuesQueue.Dequeue();
             caster.IncreaseAttackValue(-increasedAttackValue);
             return $"{caster.GetName()}'s attack value was brought back to normal!\n";
-            }
+        }
     }
 }

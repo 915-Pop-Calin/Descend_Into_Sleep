@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using ConsoleApp12.Characters;
+﻿using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
 {
-    public class CCImmunity: Ability
+    public class CCImmunity : Ability
     {
-        public CCImmunity(): base("CC Immunity")
+        public CCImmunity() : base("CC Immunity")
         {
             ManaCost = 20;
             TurnsUntilDecast = 5;
@@ -17,20 +16,20 @@ namespace ConsoleApp12.Ability.HumanAbilities.NeutralAbilities
         {
             Description = $"You become immune to CC for {TurnsUntilDecast} Turns\n";
         }
-        
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
+            string toStr = GetCastingString(caster);
             caster.SetStunResistant(true);
             toStr += $"{caster.GetName()} is immune to CC for {TurnsUntilDecast} turns!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             caster.SetStunResistant(false);
-            var toStr = $"{caster.GetName()} is no longer immune to CC!\n";
+            string toStr = $"{caster.GetName()} is no longer immune to CC!\n";
             return toStr;
         }
     }

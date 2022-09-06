@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters;
+using ConsoleApp12.Exceptions;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.CombatSystem
 {
     public class Fight
     {
-        private HumanPlayer HumanPlayer;
-        private Character ComputerPlayer;
+        private readonly HumanPlayer HumanPlayer;
+        private readonly Character ComputerPlayer;
         private int Turn;
         private bool CombatDone;
         private int TurnCounter;
-        private HumanCombat HumanCombat;
-        private Combat ComputerCombat;
+        private readonly HumanCombat HumanCombat;
+        private readonly Combat ComputerCombat;
         private readonly int GoldDivider;
         private readonly int ExperienceDivider;
-        
+
         public Fight(HumanPlayer humanPlayer, Character computerPlayer)
         {
             HumanPlayer = humanPlayer;
@@ -52,11 +53,12 @@ namespace ConsoleApp12.CombatSystem
             int goldToGain = RandomHelper.GenerateRandomInInterval(minimumGoldToGain, maximumGoldToGain);
             goldToGain /= GoldDivider;
 
-            int minimumExperienceToGain = (TurnCounter + 1) * gameLevel + 200 * gameLevel;                                                                                                              
+            int minimumExperienceToGain = (TurnCounter + 1) * gameLevel + 200 * gameLevel;
             int maximumExperienceToGain = 2 * (TurnCounter + 1) * gameLevel + 200 * gameLevel;
-            int experienceToGain = RandomHelper.GenerateRandomInInterval(minimumExperienceToGain, maximumExperienceToGain);
+            int experienceToGain =
+                RandomHelper.GenerateRandomInInterval(minimumExperienceToGain, maximumExperienceToGain);
             experienceToGain /= ExperienceDivider;
-            
+
             var keyValuePair = new KeyValuePair<int, int>(goldToGain, experienceToGain);
             return keyValuePair;
         }
@@ -65,7 +67,7 @@ namespace ConsoleApp12.CombatSystem
         {
             return ComputerPlayer.GetHealthPoints() <= 0 || ComputerPlayer.IsSpared();
         }
-        
+
         private void PlayerTurn()
         {
             if (!HumanCombat.DotCheck(ComputerPlayer) || !HumanCombat.CheckUndos(ComputerPlayer))
@@ -73,7 +75,7 @@ namespace ConsoleApp12.CombatSystem
                 ComputerWin();
                 return;
             }
-            
+
             if (!HumanCombat.CheckStun())
             {
                 if (!CombatDone)
@@ -85,6 +87,7 @@ namespace ConsoleApp12.CombatSystem
                     }
                 }
             }
+
             Turn = 1;
             TurnCounter++;
         }
@@ -108,6 +111,7 @@ namespace ConsoleApp12.CombatSystem
             HumanCombat.FightEnd(ComputerPlayer);
             throw new GameOverException();
         }
+
         private void ComputerTurn()
         {
             if (HumanPlayer.GetHealthPoints() <= 0)
@@ -115,13 +119,13 @@ namespace ConsoleApp12.CombatSystem
                 ComputerWin();
                 return;
             }
-            
+
             if (!ComputerCombat.DotCheck(HumanPlayer) || !ComputerCombat.CheckUndos(HumanPlayer))
             {
                 HumanWin();
                 return;
             }
-            
+
             if (!ComputerCombat.CheckStun() && !CombatDone)
             {
                 ComputerCombat.CombatTurn(HumanPlayer);
@@ -132,7 +136,6 @@ namespace ConsoleApp12.CombatSystem
             }
 
             Turn = 0;
-
         }
 
         public void Brawl()

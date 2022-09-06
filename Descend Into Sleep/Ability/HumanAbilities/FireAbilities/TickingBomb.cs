@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 {
@@ -22,7 +23,7 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
                           $"true damage in {TurnsUntilDecast} Turns\n";
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
             var toStr = GetCastingString(caster);
             toStr += $"A bomb placed upon {opponent.GetName()} will explode in {TurnsUntilDecast} turns!\n";
@@ -30,12 +31,12 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            var attackValue = caster.GetAttackValue();
-            var totalDamageDealt = attackValue * ScalingPerLevel * Level;
+            double attackValue = caster.GetAttackValue();
+            double totalDamageDealt = attackValue * ScalingPerLevel * Level;
             opponent.ReduceHealthPoints(totalDamageDealt);
-            var toStr = $"The bomb has exploded!\n{opponent.GetName()} has taken {Math.Round(totalDamageDealt, 2)} damage!\n";
+            string toStr = $"The bomb has exploded!\n{opponent.GetName()} has taken {Math.Round(totalDamageDealt, 2)} damage!\n";
             toStr += $"{opponent.GetName()} now has {Math.Round(opponent.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }

@@ -1,17 +1,19 @@
 ﻿using System;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Items.ItemTypes;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Weapons.LevelThree
 {
-    public class Xalatath: IWeapon, IActive, IObtainable, ILifeSteal
+    public class Xalatath : IWeapon, IActive, IObtainable, ILifeSteal
     {
+        public static readonly Xalatath XALATATH = new Xalatath();
 
         public double GetAttackValue()
         {
             return 10;
         }
-        
+
         public string GetName()
         {
             return "Xalatath";
@@ -21,13 +23,13 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
         {
             return "Strong life stealer which lifesteals sanity as well";
         }
-        
+
 
         public double GetLifeSteal()
         {
             return 0.75;
         }
-        
+
         public string Active(double damageDealt, Character caster, Character opponent)
         {
             var minimumSanityRestored = Convert.ToInt32(Math.Floor(damageDealt / 2));
@@ -38,10 +40,19 @@ namespace ConsoleApp12.Items.Weapons.LevelThree
             toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetSanity(), 2)} sanity!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 1800;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 4;
+        }
+
+        private Xalatath()
+        {
         }
     }
 }

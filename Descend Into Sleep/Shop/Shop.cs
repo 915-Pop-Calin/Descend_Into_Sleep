@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Items.Armours.LevelFive;
 using ConsoleApp12.Items.Armours.LevelOne;
-using ConsoleApp12.Items.Armours.LevelSix;
 using ConsoleApp12.Items.Armours.LevelThree;
 using ConsoleApp12.Items.Armours.LevelTwo;
 using ConsoleApp12.Items.Armours.LeverFour;
 using ConsoleApp12.Items.Armours.Unobtainable;
+using ConsoleApp12.Items.ItemTypes;
 using ConsoleApp12.Items.Potions;
 using ConsoleApp12.Items.Weapons.LevelFive;
 using ConsoleApp12.Items.Weapons.LevelFour;
@@ -19,138 +17,97 @@ using ConsoleApp12.Items.Weapons.LevelSix;
 using ConsoleApp12.Items.Weapons.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelTwo;
 using ConsoleApp12.Items.Weapons.Unobtainable;
-using ConsoleApp12.Levels;
 using ConsoleApp12.Utils;
 using ConsoleApp12.Utils.keysWork;
 
-namespace ConsoleApp12.Items
+namespace ConsoleApp12.Shop
 {
-    public class AllItems
+    public static class Shop
     {
-        public static readonly NoArmour NoArmour = new NoArmour();
-        public static readonly NoWeapon NoWeapon = new NoWeapon();
-        public static readonly HealthPotion HealthPotion = new HealthPotion();
-        public static readonly ManaPotion ManaPotion = new ManaPotion();
-        public static readonly GrainOfSalt GrainOfSalt = new GrainOfSalt();
-        public static readonly ManaElixir ManaElixir = new ManaElixir();
-        public static readonly SanityPotion SanityPotion = new SanityPotion();
-        public static readonly DefensePotion DefensePotion = new DefensePotion();
-        public static readonly OffensePotion OffensePotion = new OffensePotion();
-        public static readonly Bandage Bandage = new Bandage();
-        public static readonly Cloth Cloth = new Cloth();
-        public static readonly TemArmour TemArmour = new TemArmour();
-        public static readonly Eclipse Eclipse = new Eclipse();
-        public static readonly ToyKnife ToyKnife = new ToyKnife();
-        public static readonly Words Words = new Words();
-        public static readonly SteelPlateau SteelPlateau = new SteelPlateau();
-        public static readonly DoubleEdgedSword DoubleEdgedSword = new DoubleEdgedSword();
-        public static readonly TacosWhisper TacosWhisper = new TacosWhisper();
-        public static readonly TitansFindings TitansFindings = new TitansFindings();
-        public static readonly TwoHandedMace TwoHandedMace = new TwoHandedMace();
-        public static readonly BootsOfDodge BootsOfDodge = new BootsOfDodge();
-        public static readonly LastStand LastStand = new LastStand();
-        public static readonly BoilingBlood BoilingBlood = new BoilingBlood();
-        public static readonly LanguageHacker LanguageHacker = new LanguageHacker();
-        public static readonly TankBuster TankBuster = new TankBuster();
-        public static readonly Xalatath Xalatath = new Xalatath();
-        public static readonly FireDeflector FireDeflector = new FireDeflector();
-        public static readonly Scales Scales = new Scales();
-        public static readonly TidalArmour TidalArmour = new TidalArmour();
-        public static readonly GiantSlayer GiantSlayer = new GiantSlayer();
-        public static readonly IcarusesTouch IcarusesTouch = new IcarusesTouch();
-        public static readonly EyeOfSauron EyeOfSauron = new EyeOfSauron();
-        public static readonly NinjaYoroi NinjaYoroi = new NinjaYoroi();
-        public static readonly InfinityEdge InfinityEdge = new InfinityEdge();
-        public static readonly RadusBiceps RadusBiceps = new RadusBiceps();
-        public static readonly Dreams Dreams = new Dreams();
-        public static readonly TheRing TheRing = new TheRing();
-        public static readonly SaroniteScales SaroniteScales = new SaroniteScales();
-        public static readonly OrbOfTheTitans OrbOfTheTitans = new OrbOfTheTitans();
-        public static readonly SaroniteTentacles SaroniteTentacles = new SaroniteTentacles();
-        public static readonly WillPower WillPower = new WillPower();
-
-        public static readonly Dictionary<int, IItem> Items = new Dictionary<int, IItem>
+        public static readonly Dictionary<int, IItem> ITEMS = new Dictionary<int, IItem>
         {
-            {1, NoArmour}, {2, NoWeapon}, {3, HealthPotion}, {4, ManaPotion}, {5, GrainOfSalt}, {6, ManaElixir},
-            {7, SanityPotion}, {8, DefensePotion}, {9, OffensePotion}, {10, Bandage}, {11, Cloth}, {12, TemArmour},
-            {13, Eclipse}, {14, ToyKnife}, {15, Words}, {16, SteelPlateau}, {17, DoubleEdgedSword}, {18, TacosWhisper},
-            {19, TitansFindings}, {20, TwoHandedMace}, {21, BootsOfDodge}, {22, LastStand}, {23, BoilingBlood}, 
-            {24, LanguageHacker}, {25, TankBuster}, {26, Xalatath}, {27, FireDeflector}, {28, Scales}, {29, TidalArmour},
-            {30, GiantSlayer}, {31, IcarusesTouch}, {32, EyeOfSauron}, {33, NinjaYoroi}, {34, InfinityEdge},
-            {35, RadusBiceps}, {36, Dreams}, {37, TheRing}, {38, SaroniteScales}, {39, OrbOfTheTitans}, {40, SaroniteTentacles},
-            {41, WillPower}
+            {1, NoArmour.NO_ARMOUR},
+            {2, NoWeapon.NO_WEAPON},
+            {3, HealthPotion.HEALTH_POTION},
+            {4, ManaPotion.MANA_POTION},
+            {5, GrainOfSalt.GRAIN_OF_SALT},
+            {6, ManaElixir.MANA_ELIXIR},
+            {7, SanityPotion.SANITY_POTION},
+            {8, DefensePotion.DEFENSE_POTION},
+            {9, OffensePotion.OFFENSE_POTION},
+            {10, Bandage.BANDAGE},
+            {11, Cloth.CLOTH},
+            {12, TemArmour.TEM_ARMOUR},
+            {13, Eclipse.ECLIPSE},
+            {14, ToyKnife.TOY_KNIFE},
+            {15, Words.WORDS},
+            {16, SteelPlateau.STEEL_PLATEAU},
+            {17, DoubleEdgedSword.DOUBLE_EDGED_SWORD},
+            {18, TacosWhisper.TACOS_WHISPER},
+            {19, TitansFindings.TITANS_FINDINGS},
+            {20, TwoHandedMace.TWO_HANDED_MACE},
+            {21, BootsOfDodge.BOOTS_OF_DODGE},
+            {22, LastStand.LAST_STAND},
+            {23, BoilingBlood.BOILING_BLOOD},
+            {24, LanguageHacker.LANGUAGE_HACKER},
+            {25, TankBuster.TANK_BUSTER},
+            {26, Xalatath.XALATATH},
+            {27, FireDeflector.FIRE_DEFLECTOR},
+            {28, Scales.SCALES},
+            {29, TidalArmour.TIDAL_ARMOUR},
+            {30, GiantSlayer.GIANT_SLAYER},
+            {31, IcarusesTouch.ICARUSES_TOUCH},
+            {32, EyeOfSauron.EYE_OF_SAURON},
+            {33, NinjaYoroi.NINJA_YOROI},
+            {34, InfinityEdge.INFINITY_EDGE},
+            {35, RadusBiceps.RADUS_BICEPS},
+            {36, Dreams.DREAMS},
+            {37, TheRing.THE_RING},
+            {38, SaroniteScales.SARONITE_SCALES},
+            {39, OrbOfTheTitans.ORB_OF_THE_TITANS},
+            {40, SaroniteTentacles.SARONITE_TENTACLES},
+            {41, WillPower.WILL_POWER}
         };
 
-        private static readonly Dictionary<int, List<IObtainable>> Weapons = new Dictionary<int, List<IObtainable>>
-        {
-            {2, new List<IObtainable> {Eclipse, ToyKnife, Words}},
-            {3, new List<IObtainable> {DoubleEdgedSword, TacosWhisper, TitansFindings, TwoHandedMace}},
-            {4, new List<IObtainable> {BoilingBlood, LanguageHacker, TankBuster, Xalatath}},
-            {5, new List<IObtainable> {GiantSlayer, IcarusesTouch}},
-            {6, new List<IObtainable> {InfinityEdge, RadusBiceps}},
-            {7, new List<IObtainable> {Dreams, TheRing}}
-        };
-
-        private static readonly Dictionary<int, List<IObtainable>> Armours = new Dictionary<int, List<IObtainable>>
-        {
-            {2, new List<IObtainable>{Bandage, Cloth, TemArmour}},
-            {3, new List<IObtainable>{SteelPlateau, WillPower}},
-            {4, new List<IObtainable>{BootsOfDodge, LastStand}},
-            {5, new List<IObtainable>{FireDeflector, Scales, TidalArmour}},
-            {6, new List<IObtainable>{EyeOfSauron, NinjaYoroi}},
-            {7, new List<IObtainable>{}}
-        };
-
-        private static readonly List<IObtainable> Potions = new List<IObtainable>
-        {
-            DefensePotion, GrainOfSalt, HealthPotion, ManaElixir, ManaPotion, OffensePotion, SanityPotion
-        };
-        
         public static int FindIdForItem(IItem item)
         {
-            foreach (var element in Items)
+            foreach (KeyValuePair<int, IItem> element in ITEMS)
             {
                 if (element.Value == item)
                     return element.Key;
-                
             }
+
             return -1;
         }
 
-        private static void PrintCurrentOptions(string type, int level = -1)
+        private static void PrintCurrentOptions(string type, int level = 1)
         {
-            switch (type)
+            Func<IItem, bool> filterCriteria = GetFilterCriteriaForItem(type, level);
+            foreach (KeyValuePair<int, IItem> itemWithId in ITEMS)
             {
-                case "weapons":
-                    foreach (var weapon in Weapons[level])
-                        Console.WriteLine($"{ItemHelper.ItemToString(weapon)}gold: {weapon.GetPrice()}\n");
-                    break;
-                case "armours":
-                    foreach (var armour in Armours[level])
-                        Console.WriteLine($"{ItemHelper.ItemToString(armour)}gold: {armour.GetPrice()}\n");
-                    break;
-                case "potions":
-                    foreach (var potion in Potions)
-                        Console.WriteLine($"{ItemHelper.ItemToString(potion)}gold: {potion.GetPrice()}\n");
-                    break;
+                if (filterCriteria(itemWithId.Value))
+                {
+                    IObtainable item = itemWithId.Value as IObtainable;
+                    Console.WriteLine($"{ItemHelper.ItemToString(item)}gold: {item.GetPrice()}\n");
+                }
             }
         }
 
         public static void BuyItem(HumanPlayer player, int level)
         {
-            var options = new string[] {"weapons", "armours", "potions", "back"};
-            var choice = ConsoleHelper.MultipleChoice(15, "Choose the type of the item you want to buy", options);
+            string[] options = new string[] {"weapons", "armours", "potions", "back"};
+            int choice = ConsoleHelper.MultipleChoice(15, "Choose the type of the item you want to buy", options);
             if (choice == 3)
                 return;
 
-            var type = options[choice];
-            var chosenLevel = -1;
+            string type = options[choice];
+            int chosenLevel = -1;
             if (type == "potions")
                 PrintCurrentOptions(type);
             else
             {
-                var possibleLevels = new string[level];
-                for (var i = 2; i < level + 1; i++)
+                string[] possibleLevels = new string[level];
+                for (int i = 2; i < level + 1; i++)
                     possibleLevels[i - 2] = $"level {i}";
                 possibleLevels[level - 1] = "back";
 
@@ -158,17 +115,17 @@ namespace ConsoleApp12.Items
                     possibleLevels);
                 if (chosenLevel == level - 1)
                     return;
-                
+
                 chosenLevel += 2;
                 PrintCurrentOptions(type, chosenLevel);
-                
             }
+
             Console.WriteLine($"{player.GetGold()} gold available\n");
-            
+
             Console.WriteLine("The item you want to buy is:");
-            var readString = Console.ReadLine();
-            var splitString = readString!.Split("*");
-            
+            string readString = Console.ReadLine();
+            string[] splitString = readString!.Split("*");
+
             if (splitString.Length != 1 && splitString.Length != 2)
                 throw new InvalidBuyingStatementException(readString);
 
@@ -185,9 +142,9 @@ namespace ConsoleApp12.Items
                 if (!int.TryParse(splitString[1].Trim(), out numberOfBuys))
                     throw new InvalidInputTypeException(typeof(int), typeof(string));
             }
-            
-            var item = FindItem(type, chosenItem, chosenLevel);
-            for (var i = 0; i < numberOfBuys; i++)
+
+            IObtainable item = FindItem(type, chosenItem, chosenLevel);
+            for (int i = 0; i < numberOfBuys; i++)
             {
                 player.BuyItem(item);
                 Console.WriteLine($"You have bought {item.GetName()}!\n");
@@ -196,36 +153,55 @@ namespace ConsoleApp12.Items
 
         public static void SellItem(HumanPlayer player)
         {
-            var itemsString = player.GetInventoryItems();
-            var option = ConsoleHelper.MultipleChoice(15, "The item you want to sell is:", itemsString);
+            string[] itemsString = player.GetInventoryItems();
+            int option = ConsoleHelper.MultipleChoice(15, "The item you want to sell is:", itemsString);
             if (option == 8)
                 return;
-            var toStr = player.SellItem(option);
+            string toStr = player.SellItem(option);
             Console.WriteLine(toStr);
             Console.WriteLine($"You have now {player.GetGold()} gold!\n");
         }
-        
-        private static IObtainable FindItem(string type, string name, int level = -1)
+
+        private static IObtainable FindItem(string type, string name, int level = 1)
         {
-            switch (type)
+            Func<IItem, bool> filterCriteria = GetFilterCriteriaForItem(type, level);
+            foreach (KeyValuePair<int, IItem> itemWithId in ITEMS)
             {
-                case "potions":
-                    foreach (var potion in Potions)
-                        if (potion.GetName().ToLower().Equals(name.Trim().ToLower()))
-                            return potion;
-                    throw new InvalidBuyException(name);
-                case "weapons":
-                    foreach (var weapon in Weapons[level])
-                        if (weapon.GetName().ToLower().Equals(name.Trim().ToLower()))
-                            return weapon;
-                    throw new InvalidBuyException(name);
-                case "armours":
-                    foreach (var armour in Armours[level])
-                        if (armour.GetName().ToLower().Equals(name.Trim().ToLower()))
-                            return armour;
-                    throw new InvalidBuyException(name);
+                IItem item = itemWithId.Value;
+                if (item.GetName().ToLower().Equals(name.Trim().ToLower())
+                    && filterCriteria(item))
+                {
+                    return item as IObtainable;
+                }
             }
-            return null;
+
+            throw new InvalidBuyException(name);
+        }
+
+        private static Func<IItem, bool> GetFilterCriteriaForItem(string type, int level)
+        {
+            switch (type.ToLower().Trim())
+            {
+                case "weapons":
+                    return (IItem item) =>
+                        item is IWeapon &&
+                        item is IObtainable obtainable &&
+                        obtainable.AvailabilityLevel().Equals(level);
+                case "armours":
+                    return (IItem item) =>
+                        item is IArmour &&
+                        item is IObtainable obtainable &&
+                        obtainable.AvailabilityLevel().Equals(level);
+
+                case "potions":
+                    return (IItem item) =>
+                        item is IPotion &&
+                        item is IObtainable obtainable &&
+                        obtainable.AvailabilityLevel().Equals(level);
+                default:
+                    return (IItem item) =>
+                        false;
+            }
         }
     }
 }

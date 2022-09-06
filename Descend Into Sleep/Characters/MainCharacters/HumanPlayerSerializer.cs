@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Text.Json;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Items;
-using ConsoleApp12.Items.Armours.LevelFive;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
-    public static class HumanTxtSave
+    public static class HumanPlayerSerializer
     {
-        
-
-        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel, List<int> enemies, DateTime currentTime)
+        private static string GetTextString(HumanPlayer humanPlayer, int gameLevel, List<int> enemies,
+            DateTime currentTime)
         {
             var toStr = humanPlayer.GetName() + "\n";
             toStr += humanPlayer.GetLevel() + "\n";
@@ -35,9 +28,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             {
                 var id = -1;
                 if (item != null)
-                    id = AllItems.FindIdForItem(item);
+                    id = Shop.Shop.FindIdForItem(item);
                 toStr += id + "\n";
             }
+
             toStr += humanPlayer.GetGold() + "\n";
             if (humanPlayer.GetSchool() == null)
                 toStr += "\n";
@@ -47,8 +41,8 @@ namespace ConsoleApp12.Characters.MainCharacters
             toStr += humanPlayer.GetMaximumSanity() + "\n";
             toStr += humanPlayer.GetKillCount() + "\n";
             toStr += humanPlayer.GetDifficulty() + "\n";
-            toStr += AllItems.FindIdForItem(humanPlayer.GetWeapon()) + "\n";
-            toStr += AllItems.FindIdForItem(humanPlayer.GetArmour()) + "\n";
+            toStr += Shop.Shop.FindIdForItem(humanPlayer.GetWeapon()) + "\n";
+            toStr += Shop.Shop.FindIdForItem(humanPlayer.GetArmour()) + "\n";
             toStr += currentTime.ToString("dd/MM/yyyy HH:mm:ss") + "\n";
             toStr += gameLevel + "\n";
             for (int i = 0; i < enemies.Count; i++)
@@ -59,27 +53,30 @@ namespace ConsoleApp12.Characters.MainCharacters
                 else
                     toStr += "\n";
             }
+
             toStr += humanPlayer.GetPastSelves().Count + "\n";
             foreach (var pastSelf in humanPlayer.GetPastSelves())
             {
                 toStr += pastSelf.GetName() + "\n";
                 toStr += pastSelf.GetInnateAttack() + "\n";
                 toStr += pastSelf.GetInnateDefense() + "\n";
-                toStr += AllItems.FindIdForItem(pastSelf.GetWeapon()) + "\n";
-                toStr += AllItems.FindIdForItem(pastSelf.GetArmour()) + "\n";
+                toStr += Shop.Shop.FindIdForItem(pastSelf.GetWeapon()) + "\n";
+                toStr += Shop.Shop.FindIdForItem(pastSelf.GetArmour()) + "\n";
                 toStr += pastSelf.GetMaximumHealthPoints() + "\n";
                 toStr += pastSelf.GetDescription() + "\n";
             }
+
             return toStr;
         }
-        
-        public static void Save(HumanPlayer humanPlayer, int gameLevel, List<int> enemies, DateTime currentTime, string filename)
+
+        public static void Save(HumanPlayer humanPlayer, int gameLevel, List<int> enemies, DateTime currentTime,
+            string filename)
         {
             var textString = GetTextString(humanPlayer, gameLevel, enemies, currentTime);
             File.WriteAllText(filename, textString);
         }
 
-        public static Tuple<HumanPlayer, int,List<int>, DateTime> Load(string filename, int number)
+        public static Tuple<HumanPlayer, int, List<int>, DateTime> Load(string filename, int number)
         {
             var lines = File.ReadAllLines(filename);
 
@@ -88,14 +85,14 @@ namespace ConsoleApp12.Characters.MainCharacters
 
             if (lines.Length < 32)
                 throw new CorruptedLengthException(number, lines.Length);
-            
+
             var name = lines[0];
-            
+
             if (!int.TryParse(lines[1], out var humanLevel))
                 throw new CorruptedFormatSaveFileException(number, 2, typeof(int));
             if (humanLevel < 0 || humanLevel > 34)
                 throw new CorruptedInvalidValuesException(number, 2);
-            
+
             if (!double.TryParse(lines[2], out var experiencePoints))
                 throw new CorruptedFormatSaveFileException(number, 3, typeof(double));
             // check this to work
@@ -142,7 +139,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 throw new CorruptedInvalidValuesException(number, 12);
             if (totalMana <= 0)
                 throw new CorruptedInvalidValuesException(number, 12);
-            
+
             List<IItem> inventory = new List<IItem>();
             for (int i = 0; i < 8; i++)
             {
@@ -153,14 +150,14 @@ namespace ConsoleApp12.Characters.MainCharacters
                     inventory.Add(null);
                 else
                 {
-                    if (!AllItems.Items.ContainsKey(currentItem))
+                    if (!Shop.Shop.ITEMS.ContainsKey(currentItem))
                         throw new CorruptedInvalidValuesException(number, currentLine + 1);
-                    inventory.Add(AllItems.Items[currentItem]);
+                    inventory.Add(Shop.Shop.ITEMS[currentItem]);
                 }
             }
-            
 
-            if (!double.TryParse(lines[20], out var gold))
+
+            if (!double.TryParse(lines[20], out double gold))
                 throw new CorruptedFormatSaveFileException(number, 21, typeof(double));
             if (gold < 0)
                 throw new CorruptedInvalidValuesException(number, 21);
@@ -189,29 +186,29 @@ namespace ConsoleApp12.Characters.MainCharacters
             string difficulty = lines[25];
             if (difficulty != "easy" && difficulty != "medium" && difficulty != "hard" && difficulty != "impossible")
                 throw new CorruptedInvalidValuesException(number, 26);
-            
+
             if (!int.TryParse(lines[26], out var weaponId))
                 throw new CorruptedFormatSaveFileException(number, 27, typeof(int));
-            
-            if (!AllItems.Items.ContainsKey(weaponId))
-                            throw new CorruptedInvalidValuesException(number, 27);
-                        
-            IItem weapItem = AllItems.Items[weaponId];
+
+            if (!Shop.Shop.ITEMS.ContainsKey(weaponId))
+                throw new CorruptedInvalidValuesException(number, 27);
+
+            IItem weapItem = Shop.Shop.ITEMS[weaponId];
             if (weapItem is not IWeapon weap)
                 throw new CorruptedInvalidValuesException(number, 27);
 
-            
+
             if (!int.TryParse(lines[27], out var armourId))
                 throw new CorruptedFormatSaveFileException(number, 28, typeof(int));
-            
-            if (!AllItems.Items.ContainsKey(armourId))
+
+            if (!Shop.Shop.ITEMS.ContainsKey(armourId))
                 throw new CorruptedInvalidValuesException(number, 28);
 
-            IItem armItem = AllItems.Items[armourId];
+            IItem armItem = Shop.Shop.ITEMS[armourId];
             if (armItem is not IArmour arm)
                 throw new CorruptedInvalidValuesException(number, 28);
 
-            
+
             if (!DateTime.TryParseExact(lines[28], "dd/MM/yyyy HH:mm:ss", new CultureInfo("en-US"), DateTimeStyles.None,
                 out var dateTime))
                 throw new CorruptedFormatSaveFileException(number, 29, typeof(DateTime));
@@ -237,10 +234,10 @@ namespace ConsoleApp12.Characters.MainCharacters
             {
                 throw new CorruptedInvalidValuesException(number, 32);
             }
-            
+
             if (lines.Length < 32 + 6 * pastSelvesCount)
                 throw new CorruptedLengthException(number, lines.Length);
-            
+
             var pastSelves = new List<PastSelf>();
             for (int i = 0; i < pastSelvesCount; i++)
             {
@@ -249,33 +246,33 @@ namespace ConsoleApp12.Characters.MainCharacters
                     throw new CorruptedFormatSaveFileException(number, 34 + 7 * i, typeof(double));
                 if (currentAttack < 0)
                     throw new CorruptedInvalidValuesException(number, 34 + 7 * i);
-                
+
                 if (!double.TryParse(lines[34 + 7 * i], out var currentDefense))
                     throw new CorruptedFormatSaveFileException(number, 35 + 7 * i, typeof(double));
 
                 if (!int.TryParse(lines[35 + 7 * i], out var currentWeapon))
                     throw new CorruptedFormatSaveFileException(number, 36 + 7 * i, typeof(int));
-                if (!AllItems.Items.ContainsKey(currentWeapon))
+                if (!Shop.Shop.ITEMS.ContainsKey(currentWeapon))
                     throw new CorruptedInvalidValuesException(number, 36 + 7 * i);
-                var weaponItem = AllItems.Items[currentWeapon];
+                var weaponItem = Shop.Shop.ITEMS[currentWeapon];
                 if (weaponItem is not IWeapon pastSelfWeapon)
                     throw new CorruptedInvalidValuesException(number, 36 + 7 * i);
-                
+
                 if (!int.TryParse(lines[36 + 7 * i], out var currentArmour))
                     throw new CorruptedFormatSaveFileException(number, 37 + 7 * i, typeof(int));
-                if (!AllItems.Items.ContainsKey(currentArmour))
+                if (!Shop.Shop.ITEMS.ContainsKey(currentArmour))
                     throw new CorruptedInvalidValuesException(number, 37 + 7 * i);
-                var armourItem = AllItems.Items[currentArmour];
+                var armourItem = Shop.Shop.ITEMS[currentArmour];
                 if (armourItem is not IArmour pastSelfArmour)
                     throw new CorruptedInvalidValuesException(number, 37 + 7 * i);
-                
+
                 if (!double.TryParse(lines[37 + 7 * i], out var currentHealth))
                     throw new CorruptedFormatSaveFileException(number, 38 + 7 * i, typeof(double));
                 if (currentHealth < 0)
                     throw new CorruptedInvalidValuesException(number, 38 + 7 * i);
-                
+
                 var currentDescription = lines[38 + 7 * i];
-                
+
                 var pastSelf = new PastSelf(currentName, currentAttack, currentDefense, pastSelfWeapon, pastSelfArmour,
                     currentHealth, currentDescription, i + 1);
                 pastSelves.Add(pastSelf);
@@ -285,8 +282,7 @@ namespace ConsoleApp12.Characters.MainCharacters
                 innateDefense, innateCriticalChance, innateArmourPenetration, manaRegenerationRate,
                 mana, health, maximumHealth, totalMana, inventory, gold, school, sanity, maximumSanity,
                 killCount, difficulty, weap, arm, pastSelves);
-            return new Tuple<HumanPlayer, int, List<int>,DateTime>(humanPlayer, gameLevel, enemies, dateTime);
+            return new Tuple<HumanPlayer, int, List<int>, DateTime>(humanPlayer, gameLevel, enemies, dateTime);
         }
-        
     }
 }

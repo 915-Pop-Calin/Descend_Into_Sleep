@@ -2,11 +2,10 @@
 
 namespace ConsoleApp12.Exceptions
 {
-    public class PacifistEndingException: Exception
+    public class PacifistEndingException : Exception
     {
         public PacifistEndingException() : base()
         {
-            
         }
     }
 }

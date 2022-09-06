@@ -1,17 +1,13 @@
 ﻿using System;
 using ConsoleApp12.Characters;
-using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class GrainOfSalt: IPotion, IObtainable
+    public class GrainOfSalt : IPotion, IObtainable
     {
-        private double HealingPerLevel;
-        
-        public GrainOfSalt()
-        {
-            HealingPerLevel = 1.5;
-        }
+        public static readonly GrainOfSalt GRAIN_OF_SALT = new GrainOfSalt();
+        private const double HEALING_PER_LEVEL = 1.5;
 
         public string GetName()
         {
@@ -20,23 +16,32 @@ namespace ConsoleApp12.Items.Potions
 
         public string GetDescription()
         {
-            return $"You heal for {HealingPerLevel} * Level.\n";
+            return $"You heal for {HEALING_PER_LEVEL} * Level.\n";
         }
 
-        
-        public string UseItem(HumanPlayer humanPlayer)
+
+        public string UseItem(Character character)
         {
-            var humanPlayerLevel = humanPlayer.GetLevel();
-            var healingDone = HealingPerLevel * humanPlayerLevel;
-            humanPlayer.Heal(healingDone);
-            var toStr = $"{humanPlayer.GetName()} has healed for {healingDone} health points!\n";
-            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetHealthPoints(), 2)} health points!\n";
+            var humanPlayerLevel = character.GetLevel();
+            var healingDone = HEALING_PER_LEVEL * humanPlayerLevel;
+            character.Heal(healingDone);
+            var toStr = $"{character.GetName()} has healed for {healingDone} health points!\n";
+            toStr += $"{character.GetName()} now has {Math.Round(character.GetHealthPoints(), 2)} health points!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 50;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 1;
+        }
+
+        private GrainOfSalt()
+        {
         }
     }
 }

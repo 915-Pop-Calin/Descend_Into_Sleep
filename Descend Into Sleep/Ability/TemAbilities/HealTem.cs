@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using ConsoleApp12.Characters;
+﻿using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.TemAbilities
 {
-    public class HealTem: Ability
+    public class HealTem : Ability
     {
-        private readonly double HealthHealed;
-           
+        private const double HEALTH_HEALED = 1;
+
         public HealTem() : base("Heal Tem")
         {
-            HealthHealed = 1;
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            caster.Heal(HealthHealed);
-            var toStr = $"{caster.GetName()} heals for {HealthHealed}!\n";
+            caster.Heal(HEALTH_HEALED);
+            string toStr = $"{caster.GetName()} heals for {HEALTH_HEALED}!\n";
             toStr += $"{caster.GetName()} now has {caster.GetHealthPoints()} health!\n";
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
-        }   
+            throw new NonexistentDecastException(Name);
+        }
     }
 }

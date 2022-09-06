@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
-    public class Hysteria: Ability
+    public class Hysteria : Ability
     {
-        private Queue<double> IncreasedDamageQueue;
-        
+        private readonly Queue<double> IncreasedDamageQueue;
+
         public Hysteria() : base("Hysteria")
         {
             ManaCost = 25;
@@ -23,31 +24,32 @@ namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
             Description = $"You gain (0.3 + percentageMissingHealth) ** {Level} attack for" +
                           $" {TurnsUntilDecast} Turns\n";
         }
-        
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
-            var missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
-            var totalHealth = caster.GetMaximumHealthPoints();
-            var percentageMissing = 0.3 + missingHealth / totalHealth;
-            var damageIncrease = Math.Pow(percentageMissing, Level);
-            var attackIncrease = caster.GetAttackValue() * damageIncrease;
+            string toStr = GetCastingString(caster);
+            double missingHealth = caster.GetMaximumHealthPoints() - caster.GetHealthPoints();
+            double percentageMissing = 0.3 + missingHealth /
+                caster.GetMaximumHealthPoints();
+            double damageIncrease = Math.Pow(percentageMissing, Level);
+            double attackIncrease = caster.GetAttackValue() * damageIncrease;
             IncreasedDamageQueue.Enqueue(attackIncrease);
             caster.IncreaseAttackValue(attackIncrease);
-            toStr += $"Due to {caster.GetName()} missing {Math.Round(missingHealth, 2)} of its health, their attack is increased by " +
-                     $"{Math.Round(attackIncrease, 2)} for {TurnsUntilDecast} turns!\n";
+            toStr +=
+                $"Due to {caster.GetName()} missing {Math.Round(missingHealth, 2)} of its health, their attack is increased by " +
+                $"{Math.Round(attackIncrease, 2)} for {TurnsUntilDecast} turns!\n";
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             if (IncreasedDamageQueue.Count == 0)
                 throw new EmptyQueueException("Increased Damage");
-            var attackIncrease = IncreasedDamageQueue.Dequeue();
+            double attackIncrease = IncreasedDamageQueue.Dequeue();
             caster.IncreaseAttackValue(-attackIncrease);
-            var toStr = $"{caster.GetName()}'s attack value was brought back to normal!\n";
+            string toStr = $"{caster.GetName()}'s attack value was brought back to normal!\n";
             toStr += $"{caster.GetName()} now has {Math.Round(caster.GetAttackValue(), 2)} attack!\n";
             return toStr;
         }

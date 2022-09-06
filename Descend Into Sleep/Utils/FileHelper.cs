@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using ConsoleApp12.Exceptions;
 
 namespace ConsoleApp12.Utils
 {
@@ -42,10 +43,9 @@ namespace ConsoleApp12.Utils
                 return "Linux";
             return "None";
         }
-        
+
         public static void CheckSaveDirectory()
         {
-            
             var appDataPath = GetPathToFile();
             var gameName = "Descend Into Sleep";
             var gameFilePath = appDataPath + gameName;

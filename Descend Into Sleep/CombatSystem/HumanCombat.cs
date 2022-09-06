@@ -8,28 +8,28 @@ using ConsoleApp12.Utils.keysWork;
 
 namespace ConsoleApp12.CombatSystem
 {
-    public class HumanCombat: Combat
+    public class HumanCombat : Combat
     {
         private bool InvalidInput;
-        public HumanCombat(HumanPlayer humanPlayer): base(humanPlayer)
+
+        public HumanCombat(HumanPlayer humanPlayer) : base(humanPlayer)
         {
-            ;
         }
-        
+
         private String[] GetActions()
         {
             var abilities = Player.GetRespectiveAbilities();
             var length = abilities.Count;
             var abilitiesString = new String[length + 1];
             var currentPosition = 0;
-            
+
             foreach (var ability in Player.GetRespectiveAbilities())
             {
                 abilitiesString[currentPosition] = ability.Key;
                 currentPosition += 1;
             }
 
-            abilitiesString[length] = "back"; 
+            abilitiesString[length] = "back";
             return abilitiesString;
         }
 
@@ -43,7 +43,7 @@ namespace ConsoleApp12.CombatSystem
             var chosenAbilityDescription = Player.GetAbilityDescriptionByName(actions[choice]);
             Console.WriteLine(chosenAbilityDescription);
         }
-        
+
         private bool Ability(Character secondCharacter)
         {
             var actions = GetActions();
@@ -79,7 +79,7 @@ namespace ConsoleApp12.CombatSystem
             {
                 Console.WriteLine(insufficientManaException.Message);
             }
-            catch (InexistentDecastException inexistentDecastException)
+            catch (NonexistentDecastException inexistentDecastException)
             {
                 Console.WriteLine(inexistentDecastException.Message);
             }
@@ -91,6 +91,7 @@ namespace ConsoleApp12.CombatSystem
             {
                 Console.WriteLine(emptyQueueException.Message);
             }
+
             return false;
         }
 
@@ -101,7 +102,7 @@ namespace ConsoleApp12.CombatSystem
             String[] allActions = new String[actionsLength + 1];
             actionsList.CopyTo(allActions);
             allActions[actionsLength] = "back";
-            var choice = ConsoleHelper.MultipleChoice(20, "",allActions);
+            var choice = ConsoleHelper.MultipleChoice(20, "", allActions);
             if (choice == actionsLength)
                 return false;
             var actionChoice = allActions[choice];
@@ -120,7 +121,8 @@ namespace ConsoleApp12.CombatSystem
             while (InvalidInput)
             {
                 const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "check abilities", "abilities", "check stats", "equip item", "act", "spare");
+                var choice = ConsoleHelper.MultipleChoice(20, question, "attack", "check abilities", "abilities",
+                    "check stats", "equip item", "act", "spare");
                 // var choice = Utils.keysWork.Utils.MultipleChoice(20, question, "attack", "actions", "check stats", "equip item");
                 switch (choice)
                 {
@@ -142,12 +144,14 @@ namespace ConsoleApp12.CombatSystem
                         {
                             Console.WriteLine(noAbilitiesException.Message);
                         }
+
                         break;
                     case 3:
                         if (secondCharacter.IsSpareable())
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
                         }
+
                         Console.WriteLine(secondCharacter);
                         Console.ResetColor();
                         break;
@@ -179,6 +183,7 @@ namespace ConsoleApp12.CombatSystem
                         {
                             Console.WriteLine(inventoryOutOfBoundsException.Message);
                         }
+
                         break;
                     case 5:
                         InvalidInput = !Act(secondCharacter);
@@ -194,6 +199,7 @@ namespace ConsoleApp12.CombatSystem
                         {
                             Console.WriteLine(impossibleSpareException.Message);
                         }
+
                         break;
                 }
             }

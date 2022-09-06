@@ -1,18 +1,13 @@
 ﻿using System;
 using ConsoleApp12.Characters;
-using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class HealthPotion: IPotion, IObtainable
+    public class HealthPotion : IPotion, IObtainable
     {
-
-        private double HealingValue;
-        
-        public HealthPotion() : base()
-        {
-            HealingValue = 10;
-        }
+        public static readonly HealthPotion HEALTH_POTION = new HealthPotion();
+        private const double HEALING_VALUE = 10;
 
         public string GetName()
         {
@@ -21,21 +16,30 @@ namespace ConsoleApp12.Items.Potions
 
         public string GetDescription()
         {
-            return $"You heal for {HealingValue} health points.\n";
+            return $"You heal for {HEALING_VALUE} health points.\n";
         }
 
-        
-        public string UseItem(HumanPlayer humanPlayer)
+
+        public string UseItem(Character character)
         {
-            humanPlayer.Heal(HealingValue);
-            var toStr = $"{humanPlayer.GetName()} has healed for {HealingValue} health points!\n";
-            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetHealthPoints(), 2)} health points!\n";
+            character.Heal(HEALING_VALUE);
+            var toStr = $"{character.GetName()} has healed for {HEALING_VALUE} health points!\n";
+            toStr += $"{character.GetName()} now has {Math.Round(character.GetHealthPoints(), 2)} health points!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 10;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 1;
+        }
+
+        private HealthPotion()
+        {
         }
     }
 }

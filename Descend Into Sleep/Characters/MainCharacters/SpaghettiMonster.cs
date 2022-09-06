@@ -8,13 +8,13 @@ namespace ConsoleApp12.Characters.MainCharacters
 {
     public class SpaghettiMonster: Character
     {
-        private SpaghettiMonster(): base("Spaghetti Monster", 10, 300, AllItems.Words, AllItems.TemArmour, 100, 
+        private SpaghettiMonster(): base("Spaghetti Monster", 10, 300, Words.WORDS, TemArmour.TEM_ARMOUR, 100, 
             new List<string>{"taste", "decode", "rewrite"},0.5, 2, "Represents the Developer")
         {
             AddAbility(new Entangle());
             AddAbility(new DefensiveStance());
         }
 
-        public static readonly SpaghettiMonster MainBoss = new SpaghettiMonster();
+        public static readonly SpaghettiMonster SPAGHETTI_MONSTER = new SpaghettiMonster();
     }
 }

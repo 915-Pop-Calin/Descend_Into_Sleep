@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp12.Ability.YoggSaronAbilities;
-using ConsoleApp12.Items;
 using ConsoleApp12.Items.Armours.LevelThree;
 using ConsoleApp12.Items.Weapons.LevelThree;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.MainCharacters
 {
-    public class YoggSaron: Character
+    public class YoggSaron : Character
     {
         private int DiscourageCounter;
-        
-        private YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, AllItems.BoilingBlood, AllItems.BootsOfDodge,
-            int.MaxValue, new List<string>{"beg for mercy", "pray", "worship"}, 0, 3, "The God Of Death")
+
+        private YoggSaron() : base("YoggSaron", int.MaxValue, int.MaxValue, BoilingBlood.BOILING_BLOOD,
+            BootsOfDodge.BOOTS_OF_DODGE,
+            int.MaxValue, new List<string> {"beg for mercy", "pray", "worship"}, 0, 3, "The God Of Death")
         {
             DiscourageCounter = 3;
         }
@@ -70,6 +70,6 @@ namespace ConsoleApp12.Characters.MainCharacters
             return 0;
         }
 
-        public static readonly YoggSaron MainBoss = new YoggSaron();
+        public static readonly YoggSaron YOGG_SARON = new YoggSaron();
     }
 }

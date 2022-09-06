@@ -1,38 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConsoleApp12.Items;
+using ConsoleApp12.Items.ItemTypes;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Characters.SideCharacters
 {
-    public abstract class FireSideEnemy: SideEnemy
+    public abstract class FireSideEnemy : SideEnemy
     {
-        private readonly double MinimumDOTPercentage;
-        private readonly double MaximumDOTPercentage;
-        private readonly int NumberOfTurns;
+        private const double MINIMUM_DOT_PERCENTAGE = 0.25;
+        private const double MAXIMUM_DOT_PERCENTAGE = 0.5;
+        private const int NUMBER_OF_TURNS = 5;
 
-        public FireSideEnemy(string name, double attackValue, double defenseValue, IWeapon weapon,
-            IArmour armour, double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) : 
+        protected FireSideEnemy(string name, double attackValue, double defenseValue, IWeapon weapon,
+            IArmour armour, double healthValue, List<string> actions, double chanceOfSuccessfulAct, int level) :
             base(name, attackValue, defenseValue, weapon, armour, healthValue, actions, chanceOfSuccessfulAct, level)
         {
-            MinimumDOTPercentage = 0.25;
-            MaximumDOTPercentage = 0.5;
-            NumberOfTurns = 5;
         }
 
         public override string Hit(Character opponent,
-            Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+            ListOfTurns listOfTurns, int turnCounter)
         {
-            var minimumDOTDealtReal = MinimumDOTPercentage * Attack;
-            var maximumDOTDealtReal = MaximumDOTPercentage * Attack;
+            var minimumDOTDealtReal = MINIMUM_DOT_PERCENTAGE * Attack;
+            var maximumDOTDealtReal = MAXIMUM_DOT_PERCENTAGE * Attack;
             var minimumDOTDealtInt = Convert.ToInt32(minimumDOTDealtReal);
             var maximumDOTDealtInt = Convert.ToInt32(maximumDOTDealtReal);
             var DOTDealt = RandomHelper.GenerateRandomInInterval(minimumDOTDealtInt, maximumDOTDealtInt);
-            var DOTEffect = new DotEffect(NumberOfTurns, DOTDealt);
+            var DOTEffect = new DotEffect(NUMBER_OF_TURNS, DOTDealt);
             opponent.AddDotEffect(DOTEffect);
-            var toStr = $"{opponent.GetName()} will take {DOTDealt} damage per turn for the next {NumberOfTurns} turns!\n";
+            var toStr =
+                $"{opponent.GetName()} will take {DOTDealt} damage per turn for the next {NUMBER_OF_TURNS} turns!\n";
             return toStr;
         }
-
     }
 }

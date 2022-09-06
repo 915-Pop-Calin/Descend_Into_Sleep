@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
 using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.YoggSaronAbilities
 {
-    public class Madness: Ability
+    public class Madness : Ability
     {
-        private readonly int MinimumSanityReduced;
-        private readonly int MaximumSanityReduced;
-        
+        private const int MINIMUM_SANITY_REDUCED = 1;
+        private const int MAXIMUM_SANITY_REDUCED = 21;
+
         public Madness() : base("Madness")
         {
-            MinimumSanityReduced = 1;
-            MaximumSanityReduced = 21;
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var sanityReduced = RandomHelper.GenerateRandomInInterval(MinimumSanityReduced, MaximumSanityReduced);
+            int sanityReduced = RandomHelper.GenerateRandomInInterval(MINIMUM_SANITY_REDUCED, MAXIMUM_SANITY_REDUCED);
             opponent.ReduceSanity(sanityReduced);
-            var toStr = $"{opponent.GetName()}'s sanity was reduced by {sanityReduced}!\n";
+            string toStr = $"{opponent.GetName()}'s sanity was reduced by {sanityReduced}!\n";
             toStr += $"{opponent.GetName()} has {Math.Round(opponent.GetSanity(), 2)} left!\n";
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }

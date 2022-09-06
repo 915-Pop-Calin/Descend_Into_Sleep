@@ -6,8 +6,6 @@ using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Characters.SideCharacters;
 using ConsoleApp12.CombatSystem;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Game;
-using ConsoleApp12.Items;
 using ConsoleApp12.Utils;
 using ConsoleApp12.Utils.keysWork;
 
@@ -15,22 +13,21 @@ namespace ConsoleApp12.Levels
 {
     public class Level
     {
-        protected readonly int Number;
+        private readonly int Number;
         protected readonly Queue<Character> MainEnemies;
         private readonly Dictionary<Type, int> SideEnemies;
         protected readonly HumanPlayer Player;
-        private readonly Cheats Cheats;
         private bool Passed;
         private bool InCombat;
         private readonly List<SaveFile.SaveFile> ListOfSaveFiles;
 
-        protected Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies, Queue<Character> mainEnemies)
+        protected Level(int levelNumber, HumanPlayer humanPlayer, Dictionary<Type, int> sideEnemies,
+            Queue<Character> mainEnemies)
         {
             Number = levelNumber;
             MainEnemies = mainEnemies;
             SideEnemies = sideEnemies;
             Player = humanPlayer;
-            Cheats = new Cheats(Player);
             Passed = false;
             InCombat = false;
 
@@ -38,27 +35,27 @@ namespace ConsoleApp12.Levels
             FileHelper.CheckSaveDirectory();
             for (int i = 0; i <= 9; i++)
                 FileHelper.CheckSaveFile(i);
-            ListOfSaveFiles = SaveFile.SaveFile.saveFiles;
-
+            ListOfSaveFiles = SaveFile.SaveFile.SAVE_FILES;
         }
-        
+
         private void Explore()
         {
             var found = false;
-                while (!found)
-                {
-                    Console.WriteLine("Exploring...\n");
-                    found = RandomHelper.IsSuccessfulTry(0.25);
-                    Thread.Sleep(1000);
-                }
+            while (!found)
+            {
+                Console.WriteLine("Exploring...\n");
+                found = RandomHelper.IsSuccessfulTry(0.25);
+                Thread.Sleep(1000);
+            }
 
-                var foundEnemy = FindEnemy();
-                if (foundEnemy == null)
-                {
-                    Console.WriteLine("But nobody came.");
-                    return;
-                }
-                SideBossFight(foundEnemy);
+            var foundEnemy = FindEnemy();
+            if (foundEnemy == null)
+            {
+                Console.WriteLine("But nobody came.");
+                return;
+            }
+
+            SideBossFight(foundEnemy);
         }
 
         private List<int> GetNumberOfEnemies()
@@ -68,9 +65,10 @@ namespace ConsoleApp12.Levels
             {
                 enemies.Add(tuple.Value);
             }
+
             return enemies;
         }
-        
+
         private SideEnemy FindEnemy()
         {
             List<int> intervals = new List<int>();
@@ -84,7 +82,7 @@ namespace ConsoleApp12.Levels
 
             if (current == 0)
                 return null;
-            
+
             int choice = RandomHelper.GenerateRandomInInterval(0, current);
 
             int currentPosition = 0;
@@ -92,6 +90,7 @@ namespace ConsoleApp12.Levels
             {
                 currentPosition++;
             }
+
             currentPosition--;
             int currentIndex = 0;
             foreach (var key in keys)
@@ -104,9 +103,10 @@ namespace ConsoleApp12.Levels
 
                 currentIndex++;
             }
+
             return null;
         }
-        
+
         private void Save()
         {
             if (Player.IsCheater())
@@ -114,14 +114,15 @@ namespace ConsoleApp12.Levels
                 Console.WriteLine("Game cannot be saved because you cheated!\n");
                 return;
             }
+
             FileHelper.CheckSaveDirectory();
             for (int i = 0; i <= 9; i++)
                 FileHelper.CheckSaveFile(i);
-            
+
             PrintAllSaveFiles();
             Console.WriteLine("Choose the number of the Save File to Save On:\n");
             var readLine = Console.ReadLine();
-            
+
             var isParseable = int.TryParse(readLine!.Trim(), out var saveNumber);
             if (!isParseable)
                 throw new InvalidInputTypeException(typeof(int), readLine.GetType());
@@ -141,8 +142,6 @@ namespace ConsoleApp12.Levels
 
             var conclusion = $"You have saved to Save File {saveNumber}";
             Console.WriteLine(conclusion);
-            
-
         }
 
         private void SeeInventory()
@@ -150,7 +149,7 @@ namespace ConsoleApp12.Levels
             var inventory = Player.ShowInventory();
             Console.WriteLine(inventory);
         }
-        
+
         private void EquipItem()
         {
             var itemsString = Player.GetInventoryItems();
@@ -181,8 +180,9 @@ namespace ConsoleApp12.Levels
 
         private void DropCurrentItem()
         {
-            const string question = "What do you want to drop?";
-            int choice = ConsoleHelper.MultipleChoice(50, question, "drop current weapon", "drop current armour", "back");
+            const string QUESTION = "What do you want to drop?";
+            int choice =
+                ConsoleHelper.MultipleChoice(50, QUESTION, "drop current weapon", "drop current armour", "back");
             switch (choice)
             {
                 case 0:
@@ -195,7 +195,7 @@ namespace ConsoleApp12.Levels
                     break;
             }
         }
-        
+
         private void SeeAbilities()
         {
             Console.WriteLine(Player.GetAbilitiesDescription());
@@ -203,12 +203,12 @@ namespace ConsoleApp12.Levels
 
         private void BuyItem()
         {
-            AllItems.BuyItem(Player, Number);
+            Shop.Shop.BuyItem(Player, Number);
         }
 
         private void SellItem()
         {
-            AllItems.SellItem(Player);
+            Shop.Shop.SellItem(Player);
         }
 
         private void Exit()
@@ -217,12 +217,10 @@ namespace ConsoleApp12.Levels
             if (choice == 0)
                 throw new GameOverException();
         }
-        
-        // returns 2 if we want to proceed, 0 if we want to exit
+
         private bool GameOptions()
         {
-            const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20,question, "proceed", "explore", "save", "exit", "back");
+            int choice = ConsoleHelper.MultipleChoice(20, "", "proceed", "explore", "save", "exit", "back");
             switch (choice)
             {
                 case 0:
@@ -239,13 +237,14 @@ namespace ConsoleApp12.Levels
                 case 4:
                     break;
             }
+
             return false;
         }
 
         private void PlayerOptions()
         {
-            const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20,question, "see inventory", "equip item", "drop item", "check stats", "drop current item",
+            int choice = ConsoleHelper.MultipleChoice(20, "", "see inventory", "equip item", "drop item",
+                "check stats", "drop current item",
                 "see abilities", "back");
             switch (choice)
             {
@@ -274,8 +273,7 @@ namespace ConsoleApp12.Levels
 
         private void ShopOptions()
         {
-            const string question = "";
-            int choice = ConsoleHelper.MultipleChoice(20, question, "buy", "sell", "back");
+            int choice = ConsoleHelper.MultipleChoice(20, "", "buy", "sell", "back");
             switch (choice)
             {
                 case 0:
@@ -289,21 +287,13 @@ namespace ConsoleApp12.Levels
             }
         }
 
-        private void Cheat(string chosenCheat)
-        {
-            var toStr = Cheats.ListOfCheats[chosenCheat]();
-            Player.SetCheater();
-            Console.WriteLine(toStr);
-        }
-
         private void OutOfCombat()
         {
             string decision = null;
             while (decision != "Proceed")
             {
-
-                const string question = "";
-                var choice = ConsoleHelper.MultipleChoice(20, question, "game options", "player options", "shop options");
+                var choice =
+                    ConsoleHelper.MultipleChoice(20, "", "game options", "player options", "shop options");
                 try
                 {
                     switch (choice)
@@ -395,8 +385,9 @@ namespace ConsoleApp12.Levels
                 var mainEnemy = MainEnemies.Dequeue();
                 var toStr = $"WILD {mainEnemy.GetName()} APPEARED!\n";
                 Console.WriteLine(toStr);
-                Combat(mainEnemy); 
+                Combat(mainEnemy);
             }
+
             Passed = true;
         }
 
@@ -425,7 +416,7 @@ namespace ConsoleApp12.Levels
                 position++;
             }
         }
-        
+
         public void PlayOut()
         {
             while (!Passed)
@@ -449,7 +440,5 @@ namespace ConsoleApp12.Levels
                 Console.WriteLine(saveFile);
             }
         }
-        
-        
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability
 {
@@ -55,25 +56,15 @@ namespace ConsoleApp12.Ability
             return Name;
         }
         
-        public abstract string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns,
+        public abstract string Cast(Character caster, Character opponent, ListOfTurns listOfTurns,
             int turnCounter);
 
-        public abstract string Decast(Character caster, Character opponent);
+        protected abstract string Decast(Character caster, Character opponent);
 
         protected void AddToDecastingQueue(Character caster, Character opponent,
-            Dictionary<int, List<Func<Character, Character, string>>> listOfTurns,
-            int turnCounter)
+            ListOfTurns listOfTurns, int turnCounter)
         {
-            Func<Character, Character, string> decastFunction = delegate(Character caster, Character opponent){ 
-                return Decast(caster, opponent); 
-            };
-        
-            if (listOfTurns.ContainsKey(turnCounter + TurnsUntilDecast))
-                listOfTurns[turnCounter + TurnsUntilDecast].Add(decastFunction);
-            else {
-                listOfTurns[turnCounter + TurnsUntilDecast] = new List<Func<Character, Character, string>>();
-                listOfTurns[turnCounter + TurnsUntilDecast].Add(decastFunction);
-            }
+            listOfTurns.Add(turnCounter + TurnsUntilDecast, (c1, c2) => Decast(c1, c2));
         }
 
         protected string GetCastingString(Character caster)

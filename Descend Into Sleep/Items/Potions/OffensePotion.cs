@@ -1,19 +1,14 @@
 ﻿using System;
 using ConsoleApp12.Characters;
-using ConsoleApp12.Characters.MainCharacters;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Potions
 {
-    public class OffensePotion: IPotion, IObtainable
+    public class OffensePotion : IPotion, IObtainable
     {
-        private double AttackGained;
-        private double DefenseLost;
-        
-        public OffensePotion()
-        {
-            AttackGained = 20;
-            DefenseLost = 20;
-        }
+        public static readonly OffensePotion OFFENSE_POTION = new OffensePotion();
+        private const double ATTACK_GAINED = 20;
+        private const double DEFENSE_LOST = 20;
 
         public string GetName()
         {
@@ -22,28 +17,37 @@ namespace ConsoleApp12.Items.Potions
 
         public string GetDescription()
         {
-            return $"You gain {AttackGained} attack, but you lose {DefenseLost} defense permanently\n";
+            return $"You gain {ATTACK_GAINED} attack, but you lose {DEFENSE_LOST} defense permanently\n";
         }
 
-        
-        public string UseItem(HumanPlayer humanPlayer)
+
+        public string UseItem(Character character)
         {
-            var originalDefense = humanPlayer.GetInnateDefense();
-            var originalAttack = humanPlayer.GetInnateAttack();
-            var newDefense = originalDefense - DefenseLost;
-            var newAttack = originalAttack + AttackGained;
-            humanPlayer.SetInnateAttack(newAttack);
-            humanPlayer.SetInnateDefense(newDefense);
-            var toStr = $"{humanPlayer.GetName()}'s attack was increased by {AttackGained}, but their defense was " +
-                        $"decreased by {DefenseLost}!\n";
-            toStr += $"{humanPlayer.GetName()} now has {Math.Round(humanPlayer.GetAttackValue(), 2)} attack and" +
-                     $" {Math.Round(humanPlayer.GetDefenseValue(), 2)} defense!\n";
+            var originalDefense = character.GetInnateDefense();
+            var originalAttack = character.GetInnateAttack();
+            var newDefense = originalDefense - DEFENSE_LOST;
+            var newAttack = originalAttack + ATTACK_GAINED;
+            character.SetInnateAttack(newAttack);
+            character.SetInnateDefense(newDefense);
+            var toStr = $"{character.GetName()}'s attack was increased by {ATTACK_GAINED}, but their defense was " +
+                        $"decreased by {DEFENSE_LOST}!\n";
+            toStr += $"{character.GetName()} now has {Math.Round(character.GetAttackValue(), 2)} attack and" +
+                     $" {Math.Round(character.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 100;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 1;
+        }
+
+        private OffensePotion()
+        {
         }
     }
 }

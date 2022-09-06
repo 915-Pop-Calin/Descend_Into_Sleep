@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Items.ItemTypes;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Items.Armours.LevelTwo
 {
-    public class SteelPlateau: IArmour, IPassive, IObtainable
+    public class SteelPlateau : IArmour, IPassive, IObtainable
     {
-        private readonly double DamagePerTurn;
-        public SteelPlateau()
-        {
-            DamagePerTurn = 5;
-        }
+        public static readonly SteelPlateau STEEL_PLATEAU = new SteelPlateau();
+        private const double DAMAGE_PER_TURN = 5;
 
         public string GetName()
         {
@@ -19,25 +17,34 @@ namespace ConsoleApp12.Items.Armours.LevelTwo
 
         public string GetDescription()
         {
-            return $"Very strong armour which deals {DamagePerTurn} true damage to you every Turn";
+            return $"Very strong armour which deals {DAMAGE_PER_TURN} true damage to you every Turn";
         }
-        
+
         public double GetDefenseValue()
         {
             return 200;
         }
-        
-        public string Passive(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+
+        public string Passive(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
             caster.DealDirectDamage(caster, 5);
-            var toStr = $"Steel Plateau has dealt {DamagePerTurn} True Damage to {caster.GetName()}!\n";
+            var toStr = $"Steel Plateau has dealt {DAMAGE_PER_TURN} True Damage to {caster.GetName()}!\n";
             toStr += $"{caster.GetName()} is left with {Math.Round(caster.GetHealthPoints(), 2)} health!\n";
             return toStr;
         }
-        
+
         public double GetPrice()
         {
             return 800;
+        }
+
+        public int AvailabilityLevel()
+        {
+            return 3;
+        }
+
+        private SteelPlateau()
+        {
         }
     }
 }

@@ -1,22 +1,15 @@
 ﻿using System;
-using ConsoleApp12.Ability.TemAbilities;
+using ConsoleApp12.Items.ItemTypes;
 
 namespace ConsoleApp12.Items.Weapons.Unobtainable
 {
-    public class SaroniteTentacles: IWeapon, IReflector, IHealth
+    public class SaroniteTentacles : IWeapon, IReflector, IHealth
     {
+        public static readonly SaroniteTentacles SARONITE_TENTACLES = new SaroniteTentacles();
         private bool Broken;
         private double HealthPoints;
         private double AttackValue;
         private string Name;
-        
-        public SaroniteTentacles()
-        {
-            HealthPoints = 100;
-            AttackValue = 20;
-            Name = "Saronite Tentacles";
-            Broken = false;
-        }
 
         public string TakeHit(double attackValue)
         {
@@ -37,7 +30,7 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
         {
             return Broken;
         }
-        
+
         public double GetAttackValue()
         {
             return AttackValue;
@@ -55,7 +48,15 @@ namespace ConsoleApp12.Items.Weapons.Unobtainable
 
         public string GetDescription()
         {
-            return "Tentacles of Saron";
+            return "Tentacles of Sauron";
+        }
+
+        private SaroniteTentacles()
+        {
+            HealthPoints = 100;
+            AttackValue = 20;
+            Name = "Saronite Tentacles";
+            Broken = false;
         }
     }
 }

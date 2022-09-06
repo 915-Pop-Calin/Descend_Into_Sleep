@@ -1,71 +1,58 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ConsoleApp12.Ability.HumanAbilities.NeutralAbilities;
-using ConsoleApp12.Characters;
-using ConsoleApp12.Characters.MainCharacters;
+﻿using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Items;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.SelfHarmAbilities
 {
-    public class ChaosEnsues: Ability
+    public class ChaosEnsues : Ability
     {
-        private readonly double SetHealthPoints;
-        private readonly int TurnCooldown;
+        private const double SET_HEALTH_POINTS = 0.5;
+        private const int TURN_COOLDOWN = 7;
 
         public ChaosEnsues() : base("Chaos Ensues")
         {
             ManaCost = 50;
             TurnsUntilDecast = 3;
-            SetHealthPoints = 0.5;
-            TurnCooldown = 7;
-            Description = $"You are unable to life steal and your health is set to {SetHealthPoints}, but your opponent is stunned" +
-                          $" for {TurnsUntilDecast} Turns\n";
+            Description =
+                $"You are unable to life steal and your health is set to {SET_HEALTH_POINTS}, but your opponent is stunned" +
+                $" for {TurnsUntilDecast} Turns\n";
         }
 
         public override void ResetDescription()
         {
-            Description = $"You are unable to life steal and your health is set to {SetHealthPoints}, but your opponent is stunned" +
-                          $" for {TurnsUntilDecast} Turns\n";
+            Description =
+                $"You are unable to life steal and your health is set to {SET_HEALTH_POINTS}, but your opponent is stunned" +
+                $" for {TurnsUntilDecast} Turns\n";
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
             if (!Available)
                 throw new CooldownException(Name);
-            var toStr = GetCastingString(caster);
+            string toStr = GetCastingString(caster);
             caster.SetLifeStealStatus(false);
-            caster.SetHealthPoints(SetHealthPoints);
+            caster.SetHealthPoints(SET_HEALTH_POINTS);
             opponent.Stun();
             Available = false;
-            toStr += $"{opponent.GetName()} is now stunned!\nYou can no longer life steal!\nYour health is set to 0.5!\n";
+            toStr +=
+                $"{opponent.GetName()} is now stunned!\nYou can no longer life steal!\nYour health is set to 0.5!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
-            Func<Character, Character, string> secondDecastFunction = delegate(Character caster, Character opponent){
-                return SecondDecast(caster, opponent);
-            };
-            if (listOfTurns.ContainsKey(turnCounter + TurnCooldown))
-                listOfTurns[turnCounter + TurnCooldown].Add(secondDecastFunction);
-            else {
-                listOfTurns[turnCounter + TurnCooldown] = new List<Func<Character, Character, string>>();
-                listOfTurns[turnCounter + TurnCooldown].Add(secondDecastFunction);
-            }
-
+            listOfTurns.Add(turnCounter + TURN_COOLDOWN, (c1, c2) => SecondDecast(c1, c2));
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             caster.SetLifeStealStatus(true);
             opponent.Unstun();
-            var toStr = $"{caster.GetName()} can now life steal!\n{opponent.GetName()} is no longer stunned!\n";
+            string toStr = $"{caster.GetName()} can now life steal!\n{opponent.GetName()} is no longer stunned!\n";
             return toStr;
         }
 
         private string SecondDecast(Character caster, Character opponent)
         {
             Available = true;
-            var toStr = $"{Name} is now available!\n";
+            string toStr = $"{Name} is now available!\n";
             return toStr;
         }
     }

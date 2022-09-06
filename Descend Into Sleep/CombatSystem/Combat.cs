@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleApp12.Characters;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.CombatSystem
 {
     public abstract class Combat
     {
-        protected Dictionary<int, List<Func<Character, Character, string>>> ListOfTurns;
+        protected readonly ListOfTurns ListOfTurns;
         protected int TurnCounter;
         protected Character Player;
 
         protected Combat(Character player)
         {
             Player = player;
-            ListOfTurns = new Dictionary<int, List<Func<Character, Character, string>>>();
+            ListOfTurns = new ListOfTurns();
             TurnCounter = 0;
         }
 
@@ -26,22 +27,20 @@ namespace ConsoleApp12.CombatSystem
                 TurnCounter++;
                 return true;
             }
+
             return false;
         }
 
         public bool CheckUndos(Character secondCharacter)
         {
-            if (ListOfTurns.ContainsKey(TurnCounter))
+            var listOfActions = ListOfTurns.Get(TurnCounter);
+            foreach (var action in listOfActions)
             {
-                var listOfActions = ListOfTurns[TurnCounter];
-                foreach (var action in listOfActions)
-                {
-                    var toStr = action(Player, secondCharacter);
-                    Console.WriteLine(toStr);
-                }
-
-                ListOfTurns.Remove(TurnCounter);
+                var toStr = action(Player, secondCharacter);
+                Console.WriteLine(toStr);
             }
+
+            ListOfTurns.Remove(TurnCounter);
             if (Player.GetHealthPoints() <= 0)
                 return false;
             return true;
@@ -52,18 +51,14 @@ namespace ConsoleApp12.CombatSystem
             var dotEffects = Player.GetDotEffects();
             if (dotEffects.Count != 0)
                 Player.ClearDotEffects();
-            if (ListOfTurns.Count != 0)
+            var remainingActions = ListOfTurns.GetAll();
+            foreach (var action in remainingActions)
             {
-                foreach (var key in ListOfTurns.Keys)
-                {
-                    foreach (var action in ListOfTurns[key])
-                    {
-                        var toStr = action(Player, secondCharacter);
-                        Console.WriteLine(toStr);
-                    }
-                }
-                ListOfTurns.Clear();
+                var toStr = action(Player, secondCharacter);
+                Console.WriteLine(toStr);
             }
+
+            ListOfTurns.Clear();
         }
 
         public bool DotCheck(Character secondCharacter)
@@ -76,14 +71,17 @@ namespace ConsoleApp12.CombatSystem
                 while (index < dotEffects.Count)
                 {
                     Player.ReduceHealthPoints(dotEffects[index].DamagePerTurn);
-                    toStr += $"{Player.GetName()} has taken {Math.Round(dotEffects[index].DamagePerTurn, 2)} damage over time!\n";
+                    toStr +=
+                        $"{Player.GetName()} has taken {Math.Round(dotEffects[index].DamagePerTurn, 2)} damage over time!\n";
                     var leftTurns = dotEffects[index].NumberOfTurns;
                     Player.DecreaseDotEffect(index);
                     if (leftTurns != 1)
                         index++;
                 }
+
                 toStr += $"{Player.GetName()} is left with {Math.Round(Player.GetHealthPoints(), 2)} health points!\n";
             }
+
             Console.WriteLine(toStr);
             if (Player.GetHealthPoints() <= 0)
                 return false;
@@ -91,6 +89,5 @@ namespace ConsoleApp12.CombatSystem
         }
 
         public abstract void CombatTurn(Character secondCharacter);
-
     }
 }

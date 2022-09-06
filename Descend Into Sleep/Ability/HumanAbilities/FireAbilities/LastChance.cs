@@ -1,59 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using ConsoleApp12.Characters;
 using ConsoleApp12.Characters.MainCharacters;
 using ConsoleApp12.Exceptions;
-using ConsoleApp12.Items;
+using ConsoleApp12.Items.ItemTypes;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
 {
-    public class LastChance: Ability
+    public class LastChance : Ability
     {
-        private Queue<IWeapon> WeaponQueue;
-        private readonly double DefenseLost;
+        private readonly Queue<IWeapon> WeaponQueue;
+        private const double DEFENSE_LOST = 200;
 
         public LastChance() : base("Last Chance")
         {
             ManaCost = 15;
             WeaponQueue = new Queue<IWeapon>();
-            DefenseLost = 200;
             ScalingPerLevel = 1.5;
             TurnsUntilDecast = 2;
             Description = $"Your Life Steal is increased by {ScalingPerLevel * Level}, but your" +
-                          $" defense is decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
+                          $" defense is decreased by {DEFENSE_LOST} for {TurnsUntilDecast} Turns\n";
         }
 
         public override void ResetDescription()
         {
             Description = $"Your Life Steal is increased by {ScalingPerLevel * Level}, but your" +
-                          $" defense is decreased by {DefenseLost} for {TurnsUntilDecast} Turns\n";
+                          $" defense is decreased by {DEFENSE_LOST} for {TurnsUntilDecast} Turns\n";
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var toStr = GetCastingString(caster);
-            caster.IncreaseDefenseValue(-DefenseLost);
-            var addedLifesteal = ScalingPerLevel * Level;
+            string toStr = GetCastingString(caster);
+            caster.IncreaseDefenseValue(-DEFENSE_LOST);
+            double addedLifesteal = ScalingPerLevel * Level;
             if (caster is HumanPlayer humanPlayer)
             {
                 // humanPlayer.AddLifeStealToWeapon(addedLifesteal);
                 // TODO: change this ability bitte!
-                var currentWeapon = humanPlayer.GetWeapon();
+                IWeapon currentWeapon = humanPlayer.GetWeapon();
                 WeaponQueue.Enqueue(currentWeapon);
             }
             else
                 throw new SchoolException("Mage");
-            
-            toStr += $"{caster.GetName()}'s life steal was increased by {Math.Round(addedLifesteal, 2)} and defense value " +
-                     $"was reduced by {DefenseLost}!\n";
+
+            toStr +=
+                $"{caster.GetName()}'s life steal was increased by {Math.Round(addedLifesteal, 2)} and defense value " +
+                $"was reduced by {DEFENSE_LOST}!\n";
             // toStr += $"{caster.GetName()} now has {Math.Round(caster.GetWeapon().GetLifeSteal(), 2)} life steal and " +
-                     // $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
+            // $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             AddToDecastingQueue(caster, opponent, listOfTurns, turnCounter);
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
             var addedLifesteal = ScalingPerLevel * Level;
             if (WeaponQueue.Count == 0)
@@ -61,11 +61,11 @@ namespace ConsoleApp12.Ability.HumanAbilities.FireAbilities
             var changedWeapon = WeaponQueue.Dequeue();
             // var currentLifesteal = changedWeapon.GetLifeSteal();
             // changedWeapon.SetLifeSteal(currentLifesteal - addedLifesteal);
-            caster.IncreaseDefenseValue(DefenseLost);
-            
+            caster.IncreaseDefenseValue(DEFENSE_LOST);
+
             var toStr = $"{caster.GetName()}'s defense and life steal were brought back to normal!\n";
             // toStr += $"{caster.GetName()} now has {Math.Round(caster.GetWeapon().GetLifeSteal(), 2)} lifesteal and " +
-                     // $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
+            // $"{Math.Round(caster.GetDefenseValue(), 2)} defense!\n";
             return toStr;
         }
     }

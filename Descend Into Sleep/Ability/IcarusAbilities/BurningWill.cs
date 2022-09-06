@@ -1,37 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using ConsoleApp12.Characters;
+﻿using ConsoleApp12.Characters;
 using ConsoleApp12.Exceptions;
+using ConsoleApp12.Utils;
 
 namespace ConsoleApp12.Ability.IcarusAbilities
 {
-    public class BurningWill: Ability
+    public class BurningWill : Ability
     {
-        private readonly double DamagePerTurn;
-        private readonly int NumberOfTurns;
+        private const double DAMAGE_PER_TURN = 7;
+        private const int NUMBER_OF_TURNS = 3;
 
         public BurningWill() : base("Burning Will")
         {
-            DamagePerTurn = 7;
-            NumberOfTurns = 3;
         }
 
-        public override string Cast(Character caster, Character opponent, Dictionary<int, List<Func<Character, Character, string>>> listOfTurns, int turnCounter)
+        public override string Cast(Character caster, Character opponent, ListOfTurns listOfTurns, int turnCounter)
         {
-            var firstDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
-            var secondDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
-            var thirdDOTEffect = new DotEffect(NumberOfTurns, DamagePerTurn);
+            DotEffect firstDOTEffect = new DotEffect(NUMBER_OF_TURNS, DAMAGE_PER_TURN);
+            DotEffect secondDOTEffect = new DotEffect(NUMBER_OF_TURNS, DAMAGE_PER_TURN);
+            DotEffect thirdDOTEffect = new DotEffect(NUMBER_OF_TURNS, DAMAGE_PER_TURN);
             opponent.AddDotEffect(firstDOTEffect);
             opponent.AddDotEffect(secondDOTEffect);
             opponent.AddDotEffect(thirdDOTEffect);
-            var toStr = $"{caster.GetName()} sets everything ablaze!\n";
-            toStr += $"{opponent.GetName()} will take {DamagePerTurn} every turn for {NumberOfTurns} turns THRICE!\n";
+            string toStr = $"{caster.GetName()} sets everything ablaze!\n";
+            toStr +=
+                $"{opponent.GetName()} will take {DAMAGE_PER_TURN} every turn for {NUMBER_OF_TURNS} turns THRICE!\n";
             return toStr;
         }
 
-        public override string Decast(Character caster, Character opponent)
+        protected override string Decast(Character caster, Character opponent)
         {
-            throw new InexistentDecastException(Name);
+            throw new NonexistentDecastException(Name);
         }
     }
 }
